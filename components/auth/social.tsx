@@ -1,21 +1,20 @@
 "use client";
 
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { useSearchParams } from "next/navigation";
 
 export const Social = () => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const callbackUrl = searchParams.get("callbackUrl");
 
-  const onClick = (provider: "google" | "github") => {
-    signIn(provider , {
-      callbackUrl:callbackUrl || DEFAULT_LOGIN_REDIRECT
-    })
+  const onClick = (provider: "google") => {
+    signIn(provider, {
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
   };
 
   return (
@@ -23,18 +22,11 @@ export const Social = () => {
       <Button
         variant={"outline"}
         size={"lg"}
-        className="w-full"
+        className="w-full flex items-center justify-center gap-3 h-[56px]"
         onClick={() => onClick("google")}
       >
-        <FcGoogle className="w-5 h-5" />
-      </Button>
-      <Button
-        variant={"outline"}
-        size={"lg"}
-        className="w-full"
-        onClick={() => onClick("github")}
-      >
-        <FaGithub className="w-5 h-5" />
+        <FcGoogle className="w-8 h-8" />
+        <p className="text-md">Sign Up With Google</p>
       </Button>
     </div>
   );

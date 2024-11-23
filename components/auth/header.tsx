@@ -7,14 +7,15 @@ const font = Poppins({
 });
 
 interface HeaderProps {
+  title:string
   label: string;
 }
 
-export const Header = ({ label }: HeaderProps) => {
+export const Header = ({ label , title }: HeaderProps) => {
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-3">
-      <h1 className={cn("text-3xl font-semibold", font.className)}>Auth</h1>
-      <p className="text-muted-foreground text-base">{label}</p>
+    <div className="w-full flex flex-col items-start justify-start gap-3">
+      <h1 className={cn("text-3xl font-medium", font.className)}>{title}</h1>
+      <p className="text-slate-800 text-base">{label}</p>
     </div>
   );
 };

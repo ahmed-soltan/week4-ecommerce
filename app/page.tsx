@@ -1,37 +1,27 @@
-import { LoginButton } from "@/components/auth/login-button";
+"use client";
+
+import { signOut } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Poppins } from "next/font/google";
 
-const font = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
+import { useCurrentUser } from "@/hooks/use-current-user";
 
-export default function Home() {
+const Home = () => {
+  const user = useCurrentUser();
+
+  const onClick = () => {
+    signOut();
+  };
+
   return (
-    <main
-      className="flex flex-col items-center justify-center h-full
-     bg-gradient-to-b from-sky-400 to-blue-800"
-    >
-      <div className="space-y-6">
-        <h1
-          className={cn(
-            font.className,
-            "text-6xl font-semibold text-white drop-shadow-sm text-center"
-          )}
-        >
-          Auth
-        </h1>
-        <p className="text-lg text-white">Simple Authentication Service</p>
-        <div>
-          <LoginButton>
-            <Button variant={"secondary"} size={"lg"}>
-              Sign In
-            </Button>
-          </LoginButton>
-        </div>
-      </div>
-    </main>
+    <div>
+      <h1>Settings Page</h1>
+      <p>{user?.name}</p>
+      <Button type="submit" onClick={onClick}>
+        Sign Out
+      </Button>
+    </div>
   );
-}
+};
+
+export default Home;

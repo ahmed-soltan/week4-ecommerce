@@ -38,24 +38,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      //allow OAuth to sign in without email verification
       if (account?.provider !== "credentials") return true;
 
       const existingUser = await getUserById(user.id!);
       if (!existingUser) return false;
 
-      // TODO: check 2FA
-      if (existingUser.isTwoFactorEnabled) {
-        const existingTwoFactorConfirmations =
-          await db.twoFactorConfirmation.findUnique({
-            where: { userId: existingUser.id },
-          });
-
-        if (!existingTwoFactorConfirmations) return false;
-        await db.twoFactorConfirmation.delete({
-          where: { id: existingTwoFactorConfirmations.id },
-        });
-      }
 
       return true;
     },
