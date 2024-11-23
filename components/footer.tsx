@@ -1,6 +1,7 @@
 import React from "react";
-import { AiOutlineSend } from "react-icons/ai";
 import Image from "next/image";
+import Link from "next/link";
+import { AiOutlineSend } from "react-icons/ai";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { RxTwitterLogo } from "react-icons/rx";
 import { RiLinkedinLine } from "react-icons/ri";
@@ -14,7 +15,9 @@ const Footer = () => {
     <div className="border-b bg-black">
       <div className="p-5  flex items-center justify-between w-full max-w-[1550px] mx-auto min-h-[400px] flex-wrap gap-5">
         <div className="flex flex-col items-start gap-5 text-white">
-          <h1 className="text-2xl font-bold">Exclusive</h1>
+          <h1 className="text-2xl font-bold">
+            <Link href={"/"}>Exclusive</Link>
+          </h1>
           <h2 className="text-xl font-semibold">Subscribe</h2>
           <p className="text-sm">Get 10% off your first Order</p>
           <Button className="bg-transparent" variant={"outline"}>

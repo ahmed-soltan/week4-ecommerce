@@ -73,3 +73,8 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.blur-bg{
+  background: #0000000A;
+  backdrop-filter: blur(150px)
+}

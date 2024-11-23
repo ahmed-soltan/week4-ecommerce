@@ -13,22 +13,24 @@ enum UserRole {
 }
 
 model User {
-  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
-  name                  String?
-  email                 String?                @unique
-  emailVerified         DateTime?
-  password              String?
-  image                 String?
-  role                  UserRole               @default(USER)
-  accounts              Account[]
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?    @unique
+  password      String?
+  image         String?
+
+  accounts      Account[]
+  Review        Review[]
+  Cart          Cart[]
+  Wishlist      Wishlist[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Account {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String   @db.ObjectId
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
@@ -48,3 +50,85 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  image String
+
+  products Products[]
+}
+
+model Products {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name        String
+  price       Float
+  description String
+  brand       String
+  inStock     Boolean
+  sizes       String[]
+  discount    Float?
+
+  categoryId String @db.ObjectId
+  category Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  images   Image[]
+  reviews  Review[]
+  Cart      Cart[]
+  Wishlist  Wishlist[]
+}
+
+model Review {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  productId String @db.ObjectId
+
+  rating  Int
+  comment String
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, userId])
+}
+
+model Cart {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  productId String @db.ObjectId
+  quantity  Int
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Wishlist {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  productId String @db.ObjectId
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+type Image {
+  color     String
+  image     String
+  colorCode String
+}

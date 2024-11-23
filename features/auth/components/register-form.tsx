@@ -16,12 +16,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import FormError from "../form-error";
-import FormSuccess from "../form-success";
 
 import { RegisterSchema } from "@/schemas";
 
 import { register } from "@/actions/register";
+import FormSuccess from "@/components/form-success";
+import FormError from "@/components/form-error";
 
 type StateType = {
   error: string | undefined;
