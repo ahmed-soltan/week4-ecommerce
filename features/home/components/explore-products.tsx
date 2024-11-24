@@ -2,11 +2,10 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import CarouselProducts from "./carousel-products";
+import { useFetchProducts } from "@/hooks/use-fetch-products";
 
-import { useFetchDiscountProducts } from "@/hooks/use-fetch-discount-products";
-
-const DiscountProducts = () => {
-  const { discountProducts, isLoading } = useFetchDiscountProducts();
+const ExploreProducts = () => {
+  const { products, isLoading } = useFetchProducts();
 
   if (isLoading) {
     return (
@@ -20,11 +19,11 @@ const DiscountProducts = () => {
 
   return (
     <CarouselProducts
-      products={discountProducts}
-      headingTitle="Flash Sales"
-      topHeaderTitle="Today's"
+      products={products}
+      topHeaderTitle="Our Products"
+      headingTitle="Explore Ou Products"
     />
   );
 };
 
-export default DiscountProducts;
+export default ExploreProducts;
