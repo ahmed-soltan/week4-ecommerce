@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
+import Image from "next/image";
+import Link from "next/link";
 
 import {
   CommandDialog,
@@ -11,8 +13,13 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 
+import { useFetchProducts } from "@/hooks/use-fetch-products";
+import { useCategories } from "@/hooks/use-categories";
+
 const SearchCommand = () => {
   const [open, setOpen] = useState(false);
+  const { products } = useFetchProducts();
+  const { categories } = useCategories();
 
   return (
     <>
@@ -29,13 +36,38 @@ const SearchCommand = () => {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="products">
-            <CommandItem>Product 1</CommandItem>
-            <CommandItem>Product 2</CommandItem>
+            {products.map((product) => (
+              <CommandItem key={product.id}>
+                <Link
+                  className="flex items-start gap-2"
+                  href={`/product/${product.id}`}
+                >
+                  <Image
+                    className="w-6 h-6 object-cover"
+                    src={product.images[0].image}
+                    alt={product.name}
+                    width={20}
+                    height={20}
+                  />
+                  <h1 className="text-sm font-medium line-clamp-1">
+                    {product.name}
+                  </h1>
+                </Link>
+              </CommandItem>
+            ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="categories">
-            <CommandItem>category 1</CommandItem>
-            <CommandItem>category 2</CommandItem>
+            {categories?.map((category) => (
+              <CommandItem key={category.id}>
+                <Link
+                  className="text-black font-medium text-md"
+                  href={`/products?categoryId=${category.id}`}
+                >
+                  {category.name}
+                </Link>
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

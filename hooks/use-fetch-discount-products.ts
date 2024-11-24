@@ -3,17 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Product } from "@/types";
 
-export const useFetchProducts = () => {
+export const useFetchDiscountProducts = () => {
   const fetchProducts = async (): Promise<Product[]> => {
-    const res = await axios.get("/api/products");
+    const res = await axios.get("/api/products?hasDiscount=true");
     return res.data;
   };
 
   const { data, isLoading } = useQuery<Product[]>({
-    queryKey: ["products"],
+    queryKey: ["discountProducts"],
     queryFn: fetchProducts,
     initialData: [],
   });
 
-  return { products: data, isLoading };
+  return { discountProducts: data, isLoading };
 };
