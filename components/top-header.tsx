@@ -5,7 +5,7 @@ import LanguageConverter from "./language-converter";
 
 const TopHeader = () => {
   return (
-    <div className="bg-black w-full px-3 md:px-10 py-3">
+    <div className="bg-black w-full px-3 md:px-10 py-3 md:py-1">
       <div className="flex items-center justify-evenly w-full">
         <div className="flex items-center text-[#FAFAFA] gap-5 text-sm">
           <p>

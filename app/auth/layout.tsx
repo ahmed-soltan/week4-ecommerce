@@ -1,5 +1,6 @@
-import { AuthSideImage } from "@/data/images";
 import Image from "next/image";
+
+import { AuthSideImage } from "@/data/images";
 
 export default function AuthLayout({
   children,

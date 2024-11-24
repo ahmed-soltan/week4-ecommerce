@@ -1,11 +1,19 @@
-"use client";
+import ContainerWrapper from "@/components/container-wrapper";
+import Banner from "@/features/home/components/banner";
+import SideCategories from "@/features/home/components/side-categories";
 
 const Home = () => {
-
   return (
-    <div className="flex flex-col items-start gap-10 py-10">
-      
-    </div>
+    <ContainerWrapper className={"pt-0"}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="hidden md:block border-r">
+          <SideCategories />
+        </div>
+        <div className="lg:col-span-4">
+          <Banner />
+        </div>
+      </div>
+    </ContainerWrapper>
   );
 };
 

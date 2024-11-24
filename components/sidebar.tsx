@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/sheet";
 import SearchCommand from "./search-command";
 import LanguageConverter from "./language-converter";
+import SideCategories from "@/features/home/components/side-categories";
+import { Separator } from "./ui/separator";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -32,7 +34,11 @@ const Sidebar = () => {
               <Link href={"/auth/register"}>Sign up</Link>
             </li>
           </ul>
-          <LanguageConverter isSidebar={true}/>
+          <Separator />
+          <h1 className="font-semibold text-lg">Shop By</h1>
+          <SideCategories />
+          <Separator />
+          <LanguageConverter isSidebar={true} />
         </div>
       </SheetContent>
     </Sheet>

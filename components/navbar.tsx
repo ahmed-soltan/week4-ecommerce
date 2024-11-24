@@ -7,24 +7,30 @@ import { FiUser, FiShoppingBag } from "react-icons/fi";
 import { FaRegStar } from "react-icons/fa";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { MdOutlineCancel } from "react-icons/md";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 import Sidebar from "./sidebar";
 import SearchCommand from "./search-command";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import { useCurrentUser } from "@/hooks/use-current-user";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { usePathname } from "next/navigation";
+
 import { cn } from "@/lib/utils";
+
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCart } from "@/hooks/use-cart";
+import { useWishlist } from "@/hooks/use-wishlist";
 
 const Navbar = () => {
   const user = useCurrentUser();
   const pathname = usePathname();
+  const { cartItemsLength } = useCart();
+  const { wishlistItemsLength } = useWishlist();
 
   return (
     <div className=" border-b">
@@ -60,80 +66,97 @@ const Navbar = () => {
           >
             <Link href={"/about"}>About</Link>
           </li>
-          <li
-            className={cn(
-              "text-black text-md",
-              pathname === "/auth/register" && "underline"
-            )}
-          >
-            <Link href={"/auth/register"}>Sign up</Link>
-          </li>
+          {!user && (
+            <li
+              className={cn(
+                "text-black text-md",
+                pathname === "/auth/register" && "underline"
+              )}
+            >
+              <Link href={"/auth/register"}>Sign up</Link>
+            </li>
+          )}
         </ul>
         <div className="hidden md:flex items-center gap-5">
           <SearchCommand />
-          <GoHeart className="w-10 h-10" />
-          <IoCartOutline className="w-10 h-10" />
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage
-                  src={user?.image || ""}
-                  alt={user?.name || "user Image"}
-                  className="bg-rose-500"
-                />
-                <AvatarFallback className="bg-rose-500 text-white">
-                  <FiUser />
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="blur-bg p-3">
-              <DropdownMenuItem>
-                <Link
-                  href={"/profile"}
-                  className="flex items-center gap-2 text-white font-normal"
+          <div className="relative">
+            <GoHeart className="w-6 h-6" />
+            <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
+              {wishlistItemsLength === 0 ? 0 : wishlistItemsLength}
+            </span>
+          </div>
+          <div className="relative">
+            <IoCartOutline className="w-6 h-6" />
+            <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
+              {cartItemsLength === 0 ? 0 : cartItemsLength}
+            </span>
+          </div>
+          {user && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage
+                    src={user?.image || ""}
+                    alt={user?.name || "user Image"}
+                    className="bg-rose-500"
+                  />
+                  <AvatarFallback className="bg-rose-500 text-white">
+                    <FiUser />
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="blur-bg p-3">
+                <DropdownMenuItem className="focus:bg-gray-400">
+                  <Link
+                    href={"/profile"}
+                    className="flex items-center gap-2 text-white font-normal"
+                  >
+                    <FiUser className="w-5 h-5" />
+                    Manage My Account
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="focus:bg-gray-400">
+                  <Link
+                    href={"/profile"}
+                    className="flex items-center gap-2 text-white font-normal"
+                  >
+                    <FiShoppingBag className="w-5 h-5" />
+                    My Orders
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="focus:bg-gray-400">
+                  <Link
+                    href={"/profile"}
+                    className="flex items-center gap-2 text-white font-normal"
+                  >
+                    <MdOutlineCancel className="w-5 h-5" />
+                    My Cancellation
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="focus:bg-gray-400">
+                  <Link
+                    href={"/profile"}
+                    className="flex items-center gap-2 text-white font-normal"
+                  >
+                    <FaRegStar className="w-5 h-5" />
+                    My Reviews
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => signOut()}
+                  className="focus:bg-gray-400"
                 >
-                  <FiUser className="w-5 h-5" />
-                  Manage My Account
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"/profile"}
-                  className="flex items-center gap-2 text-white font-normal"
-                >
-                  <FiShoppingBag className="w-5 h-5" />
-                  My Orders
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"/profile"}
-                  className="flex items-center gap-2 text-white font-normal"
-                >
-                  <MdOutlineCancel className="w-5 h-5" />
-                  My Cancellation
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"/profile"}
-                  className="flex items-center gap-2 text-white font-normal"
-                >
-                  <FaRegStar className="w-5 h-5" />
-                  My Reviews
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={"/profile"}
-                  className="flex items-center gap-2 text-white font-normal"
-                >
-                  <RiLogoutBoxLine className="w-5 h-5" />
-                  Logout
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <Link
+                    href={"/"}
+                    className="flex items-center gap-2 text-white font-normal"
+                  >
+                    <RiLogoutBoxLine className="w-5 h-5" />
+                    Logout
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </div>

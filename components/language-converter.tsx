@@ -27,7 +27,7 @@ const LanguageConverter = ({ isSidebar }: LanguageConverterProps) => {
     <Select>
       <SelectTrigger
         className={cn(
-          "max-w-[100px] ",
+          "max-w-[100px] mr-2",
           !isSidebar ? "text-white border-0" : ""
         )}
       >

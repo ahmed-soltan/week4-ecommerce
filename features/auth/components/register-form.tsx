@@ -11,17 +11,16 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import FormSuccess from "@/components/form-success";
+import FormError from "@/components/form-error";
 
 import { RegisterSchema } from "@/schemas";
 
 import { register } from "@/actions/register";
-import FormSuccess from "@/components/form-success";
-import FormError from "@/components/form-error";
 
 type StateType = {
   error: string | undefined;
@@ -59,7 +58,7 @@ export const RegisterForm = () => {
   return (
     <CardWrapper
       title="Create an account"
-      headerLabel="Create an account"
+      headerLabel="Enter your details below"
       backButtonLabel="Log in"
       backButtonUrl="/auth/login"
       showSocial
