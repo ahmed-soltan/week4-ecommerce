@@ -8,9 +8,9 @@ import { useCategories } from "@/hooks/use-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SideCategories = () => {
-  const { categories, isLoading , isFetching } = useCategories();
+  const { categories, isLoading , isFetching , isPending } = useCategories();
 
-  if (isLoading || isFetching) {
+  if (isPending) {
     return (
       <div className="flex flex-col items-start w-full gap-3">
         {Array.from({ length: 6 }).map((_, index) => (

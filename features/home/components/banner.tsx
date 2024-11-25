@@ -35,8 +35,8 @@ const Banner = () => {
           </Link>
         </Button>
       </div>
-      <div className="relative min-h-[400px] flex items-center justify-center">
-        <Image src={bannerImage} alt="banner Image" fill />
+      <div className="relative min-h-[400px] flex items-center justify-center overflow-hidden">
+        <Image src={bannerImage} alt="banner Image" fill className="hover:scale-110 transition-all"/>
       </div>
     </div>
   );

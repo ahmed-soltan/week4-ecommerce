@@ -21,7 +21,7 @@ const DiscountProductAd = () => {
   return (
     <div className="w-full min-h-[500px] grid grid-cols-1 lg:grid-cols-2 bg-black p-5 md:px-14 xl:px-20 gap-5 mt-10 text-[#FAFAFA]">
       <div className="flex flex-col items-start justify-center gap-8 pl-0 md:14 xl:pl-20">
-        <h1 className="text-lg text-emerald-400">Categories</h1>
+        <h1 className="text-lg text-[#00FF66]">Categories</h1>
         <h1
           className="text-4xl sm:text-[48px] font-semibold"
           style={{ lineHeight: "60px" }}
@@ -49,7 +49,7 @@ const DiscountProductAd = () => {
           </div>
         </div>
         <Button
-          className="text-[#FAFAFA] bg-emerald-400 text-lg w-full sm:max-w-[200px] h-14"
+          className="text-[#FAFAFA] bg-[#00FF66] hover:bg-[#00FF66] text-lg w-full sm:max-w-[200px] h-14"
           size={"lg"}
           asChild
         >
@@ -71,7 +71,7 @@ const DiscountProductAd = () => {
             src={product.images[0].image}
             alt="banner Image"
             fill
-            className="z-20"
+            className="z-20 hover:scale-110 transition-all"
           />
         </div>
       </div>

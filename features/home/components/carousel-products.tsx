@@ -48,9 +48,6 @@ const CarouselProducts = ({
             <CarouselItem
               key={product.id}
               className="w-full max-w-[270px] min-w-[200px]"
-              onClick={() => {
-                router.push(`/product/${product.id}`);
-              }}
             >
               <ProductCard product={product} />
             </CarouselItem>

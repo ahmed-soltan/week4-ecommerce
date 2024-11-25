@@ -11,10 +11,10 @@ const fetchCategories = async (): Promise<Category[]> => {
 };
 
 export const useCategories = () => {
-  const { data, isLoading , isFetching} = useQuery<Category[]>({
+  const { data, isLoading , isFetching , isPending} = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: fetchCategories,
   });
 
-  return { categories: data, isLoading , isFetching};
+  return { categories: data, isLoading , isFetching , isPending};
 };

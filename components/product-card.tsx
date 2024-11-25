@@ -1,29 +1,35 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FiEye, FiHeart } from "react-icons/fi";
-import { differenceInDays, differenceInMinutes } from "date-fns";
+import { differenceInDays } from "date-fns";
+import { LuLoader2 } from "react-icons/lu";
 
 import { Card, CardContent, CardHeader } from "./ui/card";
-import Rating from "./rating";
 import { Button } from "./ui/button";
+import Rating from "./rating";
 
 import { formatPrice } from "@/lib/format-price";
 import { Product } from "@/types";
+
+import { useCart } from "@/hooks/use-cart";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart, isPending } = useCart();
+
   const isNewProduct = (createdAt: string | Date): boolean => {
     const createdDate = new Date(createdAt);
-    if (isNaN(createdDate.getTime())) {
-      console.error("Invalid createdAt date:", createdAt);
-      return false;
-    }
-
     const daysDifference = differenceInDays(new Date(), createdDate);
     return daysDifference <= 5;
+  };
+
+  const addProductToCart = () => {
+    addToCart({ productId: product.id, quantity: 1 });
   };
 
   return (
@@ -40,13 +46,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <Button
             className="w-full text-md bg-black rounded-t-none"
             size={"lg"}
+            onClick={addProductToCart}
+            disabled={isPending}
           >
-            Add to Cart
+            {isPending && <LuLoader2 className="w-5 h-5 animate-spin" />}
+            {!isPending && "Add to Cart"}
           </Button>
         </div>
       </CardHeader>
       <CardContent className="flex flex-col items-start p-0 pb-2 gap-2">
-        <h1 className="text-black text-md line-clamp-2 font-semibold">
+        <h1 className="text-black text-md line-clamp-2 font-medium">
           {product.name}
         </h1>
         {product.discount ? (
@@ -80,16 +89,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </Link>
         </Button>
       </div>
-      {product.discount && (
-        <div className="absolute rounded-md left-2 top-2 bg-red text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
-          -{product.discount}%
-        </div>
-      )}
-      {isNewProduct(product.createdAt) && !product.discount && (
-        <div className="absolute rounded-md left-2 top-2 bg-emerald-400 text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
-          New
-        </div>
-      )}
+      <div className="flex items-start flex-col gap-2 absolute left-2 top-2">
+        {product.discount && (
+          <div className=" rounded-md bg-red text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
+            -{product.discount}%
+          </div>
+        )}
+        {isNewProduct(product.createdAt) && (
+          <div className="rounded-md bg-[#00FF66] text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
+            New
+          </div>
+        )}
+      </div>
     </Card>
   );
 };

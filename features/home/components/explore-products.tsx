@@ -21,7 +21,7 @@ const ExploreProducts = () => {
     <CarouselProducts
       products={products}
       topHeaderTitle="Our Products"
-      headingTitle="Explore Ou Products"
+      headingTitle="Explore Our Products"
     />
   );
 };

@@ -7,11 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  USER
-  ADMIN
-}
-
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
@@ -19,7 +14,6 @@ model User {
   password      String?
   image         String?
   emailVerified DateTime?
-  role          String
 
   accounts Account[]
   Review   Review[]
@@ -60,29 +54,6 @@ model Category {
   products Products[]
 }
 
-model Products {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  name        String
-  price       Float
-  description String
-  brand       String
-  inStock     Boolean
-  sizes       String[]
-  discount    Float?
-
-  categoryId String   @db.ObjectId
-  category   Category @relation(fields: [categoryId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  images   Image[]
-  reviews  Review[]
-  Cart     Cart[]
-  Wishlist Wishlist[]
-}
-
 model Review {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   userId    String @db.ObjectId
@@ -101,18 +72,51 @@ model Review {
 }
 
 model Cart {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String @db.ObjectId
-  productId String @db.ObjectId
-  quantity  Int
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId @unique
+  cartItems CartItem[]
+  total     Float
 
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  quantity  Int
+  total     Float
+  productId String     @db.ObjectId
+  product   Products   @relation(fields: [productId], references: [id]) 
+
+  cartId    String     @db.ObjectId
+  cart      Cart       @relation(fields: [cartId], references: [id]) // Properly relate to Cart
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Products {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  price       Float
+  description String
+  brand       String
+  inStock     Boolean
+  sizes       String[]
+  discount    Float?
+
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, productId])
+  images    Image[]
+  reviews   Review[]
+  cartItems CartItem[]
+  wishlists Wishlist[]
 }
 
 model Wishlist {

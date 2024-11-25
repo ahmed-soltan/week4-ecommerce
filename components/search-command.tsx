@@ -61,9 +61,16 @@ const SearchCommand = () => {
             {categories?.map((category) => (
               <CommandItem key={category.id}>
                 <Link
-                  className="text-black font-medium text-md"
+                  className="text-black font-medium text-md flex items-start gap-2"
                   href={`/products?categoryId=${category.id}`}
                 >
+                  <Image
+                    className="w-6 h-6 object-cover"
+                    src={category.image}
+                    alt={category.name}
+                    width={20}
+                    height={20}
+                  />
                   {category.name}
                 </Link>
               </CommandItem>
