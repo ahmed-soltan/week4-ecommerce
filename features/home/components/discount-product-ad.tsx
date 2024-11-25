@@ -29,23 +29,32 @@ const DiscountProductAd = () => {
           Enhance Your <br /> Music Experience
         </h1>
         <div className="flex items-center gap-5 flex-wrap">
-          <div className="bg-white rounded-full w-20 h-20 flex flex-col items-center justify-center text-black text-center text-sm">
-            <span className="font-bold">05</span>Days
+          <div className="bg-white rounded-full w-14 h-14 md:w-20 md:h-20 flex flex-col items-center justify-center text-black text-center text-sm">
+            <span className="font-bold">05</span>
+            <span className="hidden md:block">Days</span>
+            <span className="md:hidden block">D</span>
+
           </div>
           :
-          <div className="bg-white rounded-full w-20 h-20 flex flex-col items-center justify-center text-black text-center text-sm">
+          <div className="bg-white rounded-full w-14 h-14 md:w-20 md:h-20 flex flex-col items-center justify-center text-black text-center text-sm">
             <span className="font-bold">23</span>
-            Hours
+            <span className="hidden md:block">Hours</span>
+            <span className="md:hidden block">H</span>
+
           </div>
           :
-          <div className="bg-white rounded-full w-20 h-20 flex flex-col items-center justify-center text-black text-center text-sm">
+          <div className="bg-white rounded-full w-14 h-14 md:w-20 md:h-20 flex flex-col items-center justify-center text-black text-center text-sm">
             <span className="font-bold">59</span>
-            Minutes
+            <span className="hidden md:block">Minutes</span>
+            <span className="md:hidden block">M</span>
+
           </div>
           :
-          <div className="bg-white rounded-full w-20 h-20 flex flex-col items-center justify-center text-black text-center text-sm">
+          <div className="bg-white rounded-full w-14 h-14 md:w-20 md:h-20 flex flex-col items-center justify-center text-black text-center text-sm">
             <span className="font-bold">35</span>
-            Seconds
+            <span className="hidden md:block">Seconds</span>
+            <span className="md:hidden block">S</span>
+
           </div>
         </div>
         <Button

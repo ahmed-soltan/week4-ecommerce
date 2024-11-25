@@ -12,3 +12,7 @@ export const appleImage =
   "https://s3-alpha-sig.figma.com/img/1126/a357/e5011a6f245df4c38eae015c7c9ccbe7?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oZXce7dBIpYHqHGCyZeB9AE5zRhRfOsL2-U35vga2NV6Ww~zKGhVRP7IFS1nMUPpGe2xZDmPTUubC7p~m5JrPMqjZCupqHFqm-n62yEgaKWHIPSzK2VcQ8Jl4mmJDoa37P0myXh~Dln1FDEdBnI1SAZC2DVn1tT5tIOxAEhaql3XZ2K5GhE~qpKpDDQNsNdmNcJ0T1CIl1kO7hrFaI5vNj0-zsAH3dLKHM6~BEzisfXl7Zsu8KNW7DZFk0HFbABzjfA5lR8~kalklRl8SK~4Q6cWY~Jic9UxG27tjkP3z6tnKWNmg0K5RyuH2qelGxSBobkUeeEGf-XwxBy90jPPrg__";
 export const PlaystationImage =
   "https://s3-alpha-sig.figma.com/img/1c36/0f79/0c1817d3afa266b3c9f8c81ff0ed4428?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FmZNaPemvNtRgounshEPB0sodtwJ1o6ib7Dh-kMJNzTJ4Bf~EiynANbJg1MDdKNleRuGMoB3wwpEr6I7hw~KqRYn6UXkn4721NzdZsNBF0PNl6wYXtoVdzrYc-9WyiknzvCj2ZrLqX3fAhSqD-p6IYoqtCTRWk6h9jNw3zj53qBjePxJmcifRCdqQn90WS5PDJKiAkB40CBDUiCWz~Q5JdIua-DLFN9nzZMfqIzfDIjALt20IDCvEyuqweMH0AGqChFbHd2PtkYZ~EHNwPH~iewZZ1BQm7MqkVhGTuvEWlPQECh84EreKkYl4ZIcaGhVjFNgybAs4x48xwhYHCsxaA__";
+export const PhoneImage =
+  "https://utfs.io/f/wIFmjS7Mu2JtKujjOLTny1sGkQrLfpjhB8Sl5xWetMXZcFq6";
+export const CameraImage =
+  "https://utfs.io/f/wIFmjS7Mu2Jt8Xyd0ApPFXY7CDhujmV8ZPUEpnyMeQbdc4IN";

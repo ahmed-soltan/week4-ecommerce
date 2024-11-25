@@ -1,3 +1,5 @@
+import { FaShippingFast } from "react-icons/fa";
+
 import ContainerWrapper from "@/components/container-wrapper";
 import { Separator } from "@/components/ui/separator";
 
@@ -7,6 +9,7 @@ import CarouselCategories from "@/features/home/components/carousel-categories";
 import DiscountProductAd from "@/features/home/components/discount-product-ad";
 import DiscountProducts from "@/features/home/components/discount-products";
 import ExploreProducts from "@/features/home/components/explore-products";
+import NewArrival from "@/features/home/components/new-arrival";
 import SideCategories from "@/features/home/components/side-categories";
 
 const Home = () => {
@@ -29,6 +32,42 @@ const Home = () => {
       <BestSellingProducts />
       <DiscountProductAd />
       <ExploreProducts />
+      <NewArrival />
+      <div className="flex items-center justify-center lg:justify-evenly flex-wrap gap-10 w-full">
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="w-16 h-16 bg-black border-[7px] border-gray-400 rounded-full flex items-center justify-center">
+            <FaShippingFast className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-lg font-semibold text-black">
+            FREE AND FAST DELIVERY
+          </h1>
+          <p className="text-sm text-black">
+            Free delivery for all orders over $140
+          </p>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="w-16 h-16 bg-black border-[7px] border-gray-400 rounded-full flex items-center justify-center">
+            <FaShippingFast className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-lg font-semibold text-black">
+            FREE AND FAST DELIVERY
+          </h1>
+          <p className="text-sm text-black">
+            Free delivery for all orders over $140
+          </p>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="w-16 h-16 bg-black border-[7px] border-gray-400 rounded-full flex items-center justify-center">
+            <FaShippingFast className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-lg font-semibold text-black">
+            FREE AND FAST DELIVERY
+          </h1>
+          <p className="text-sm text-black">
+            Free delivery for all orders over $140
+          </p>
+        </div>
+      </div>
     </ContainerWrapper>
   );
 };

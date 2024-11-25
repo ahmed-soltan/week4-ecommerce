@@ -20,7 +20,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { addToCart, isPending } = useCart();
+  const { addToCart, isAddingToCart } = useCart();
 
   const isNewProduct = (createdAt: string | Date): boolean => {
     const createdDate = new Date(createdAt);
@@ -40,17 +40,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
           alt={product.name}
           width={270}
           height={250}
-          className="w-full max-h-[200px]"
+          className="w-full min-h-[200px] max-h-[200px]"
         />
         <div className="translate-y-10 group-hover:-translate-y-0 transition-all rounded-none">
           <Button
             className="w-full text-md bg-black rounded-t-none"
             size={"lg"}
             onClick={addProductToCart}
-            disabled={isPending}
+            disabled={isAddingToCart}
           >
-            {isPending && <LuLoader2 className="w-5 h-5 animate-spin" />}
-            {!isPending && "Add to Cart"}
+            {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
+            {!isAddingToCart && "Add to Cart"}
           </Button>
         </div>
       </CardHeader>
