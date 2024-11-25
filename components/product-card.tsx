@@ -14,6 +14,8 @@ import { formatPrice } from "@/lib/format-price";
 import { Product } from "@/types";
 
 import { useCart } from "@/hooks/use-cart";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +23,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart, isAddingToCart } = useCart();
+  const [currentImage, setCurrentImage] = useState(product.images[0]);
 
   const isNewProduct = (createdAt: string | Date): boolean => {
     const createdDate = new Date(createdAt);
@@ -32,11 +35,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
     addToCart({ productId: product.id, quantity: 1 });
   };
 
+  const hasOneImage = product.images.length === 1;
+
+  console.log(hasOneImage);
+
   return (
     <Card className="w-full max-w-[270px] min-w-[200px] h-[350px] relative p-0 border-0 shadow-none cursor-pointer">
       <CardHeader className="p-0 group overflow-hidden space-y-0 bg-[#F5F5F5] mb-2">
         <Image
-          src={product.images[0].image}
+          src={currentImage.image}
           alt={product.name}
           width={270}
           height={250}
@@ -73,6 +80,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </p>
         )}
         <Rating rating={product.rating} reviewCount={product.reviewCount} />
+        {!hasOneImage && (
+          <div className="flex items-center gap-2">
+            {product.images.map((image, index) => {
+              console.log(image.colorCode);
+              return (
+                <div
+                  onClick={() => setCurrentImage(image)}
+                  className={cn(
+                    " rounded-full",
+                    currentImage.colorCode === image.colorCode &&
+                      "border-2 border-black",
+                    image.colorCode === "#FFFFFF" &&
+                      currentImage.colorCode !== image.colorCode &&
+                      "border"
+                  )}
+                >
+                  <div
+                    key={index}
+                    className={cn("h-4 w-4 rounded-full m-1")}
+                    style={{ backgroundColor: image.colorCode }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </CardContent>
       <div className="flex flex-col items-center gap-2 absolute top-2 right-2">
         <Button variant={"outline"} size={"icon"} className="rounded-full">
