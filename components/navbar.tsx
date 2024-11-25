@@ -30,7 +30,7 @@ const Navbar = () => {
   const user = useCurrentUser();
   const pathname = usePathname();
   const { cartItemsLength } = useCart();
-  const { wishlistItemsLength } = useWishlist();
+  const { wishlistProductsLength } = useWishlist();
 
   return (
     <div className=" border-b">
@@ -82,7 +82,7 @@ const Navbar = () => {
           <div className="relative">
             <GoHeart className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
-              {wishlistItemsLength === 0 ? 0 : wishlistItemsLength}
+              {wishlistProductsLength === 0 ? 0 : wishlistProductsLength}
             </span>
           </div>
           <div className="relative">

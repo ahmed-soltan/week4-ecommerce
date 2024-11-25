@@ -16,6 +16,7 @@ import { Product } from "@/types";
 import { useCart } from "@/hooks/use-cart";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useWishlist } from "@/hooks/use-wishlist";
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +24,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart, isAddingToCart } = useCart();
+  const { addToWishlist, isAddingToWishlist } = useWishlist();
   const [currentImage, setCurrentImage] = useState(product.images[0]);
 
   const isNewProduct = (createdAt: string | Date): boolean => {
@@ -108,7 +110,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
         )}
       </CardContent>
       <div className="flex flex-col items-center gap-2 absolute top-2 right-2">
-        <Button variant={"outline"} size={"icon"} className="rounded-full">
+        <Button
+          variant={"outline"}
+          size={"icon"}
+          className="rounded-full"
+          onClick={() => addToWishlist({ productId: product.id })}
+          disabled={isAddingToWishlist}
+        >
           <FiHeart className="w-4 h-4" />
         </Button>
         <Button
