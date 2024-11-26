@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "./use-toast";
-import { Cart, CartItem } from "@prisma/client";
+import { Cart, CartItem, Image } from "@prisma/client";
 
 type CartType = {
   cart: Cart & {
@@ -15,13 +15,19 @@ type CartType = {
 const addToCartApi = async ({
   productId,
   quantity,
+  selectedImage,
+  sizes,
 }: {
   productId: string;
   quantity: number;
+  selectedImage: Image;
+  sizes?: string[];
 }) => {
   const response = await axios.post("/api/cart", {
     productId,
     quantity,
+    selectedImage,
+    sizes,
   });
 
   return response.data;
@@ -57,7 +63,7 @@ export const useCart = () => {
   const { data: cartData, refetch: refetchCart } = useQuery<CartType>({
     queryKey: ["cart"],
     queryFn: fetchCart,
-    staleTime: Infinity, 
+    staleTime: Infinity,
   });
 
   const {
@@ -83,31 +89,26 @@ export const useCart = () => {
     },
   });
 
-  const {
-    mutate: updateCartItemQuantity,
-    isPending: isUpdatingQuantity,
-  } = useMutation({
-    mutationFn: updateCartItemQuantityApi,
-    onSuccess: () => {
-      refetchCart();
-      toast({
-        title: "Quantity updated successfully",
-        description: "Your cart has been updated with the new quantity.",
-        variant: "success",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Failed to update quantity",
-        variant: "destructive",
-      });
-    },
-  });
+  const { mutate: updateCartItemQuantity, isPending: isUpdatingQuantity } =
+    useMutation({
+      mutationFn: updateCartItemQuantityApi,
+      onSuccess: () => {
+        refetchCart();
+        toast({
+          title: "Quantity updated successfully",
+          description: "Your cart has been updated with the new quantity.",
+          variant: "success",
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Failed to update quantity",
+          variant: "destructive",
+        });
+      },
+    });
 
-  const {
-    mutate: deleteCartItem,
-    isPending: isDeletingItem,
-  } = useMutation({
+  const { mutate: deleteCartItem, isPending: isDeletingItem } = useMutation({
     mutationFn: deleteCartItemApi,
     onSuccess: () => {
       refetchCart();
@@ -126,7 +127,8 @@ export const useCart = () => {
   });
 
   const cartItemsLength =
-    cartData?.cart.cartItems.reduce((sum, item) => sum + item.quantity, 0) || 0;
+    cartData?.cart?.cartItems?.reduce((sum, item) => sum + item.quantity, 0) ||
+    0;
 
   return {
     addToCart,

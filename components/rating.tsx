@@ -24,7 +24,7 @@ export default function Rating({ rating, reviewCount, showWord }: RatingProps) {
       )}
 
       <span className="text-xs font-semibold ml-2 text-gray-600">
-        ({reviewCount} {showWord && "Reviews"})
+        ({reviewCount}{showWord && " Reviews"})
       </span>
     </div>
   );

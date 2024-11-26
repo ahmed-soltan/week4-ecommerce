@@ -27,6 +27,8 @@ const BestSellingProducts = () => {
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 5);
 
+    console.log(products)
+
   return (
     <div className="flex flex-col items-start gap-8 w-full">
       <div className="flex items-center justify-between w-full">

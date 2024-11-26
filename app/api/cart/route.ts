@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { productId, quantity } = await req.json();
+    const { productId, quantity, sizes, selectedImage } = await req.json();
 
     if (!productId || quantity === undefined) {
       return NextResponse.json(
@@ -64,6 +64,8 @@ export const POST = async (req: NextRequest) => {
             productId,
             quantity,
             total: itemTotal,
+            sizes: sizes || [],
+            selectedImage,
           },
         });
       }
@@ -90,6 +92,8 @@ export const POST = async (req: NextRequest) => {
                 productId,
                 quantity,
                 total: itemTotal,
+                sizes: sizes || [],
+                selectedImage,
               },
             ],
           },

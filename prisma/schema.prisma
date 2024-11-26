@@ -84,9 +84,11 @@ model Cart {
 }
 
 model CartItem {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  quantity  Int
-  total     Float
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity      Int
+  total         Float
+  sizes         String[]
+  selectedImage Image
 
   productId String   @db.ObjectId
   product   Products @relation(fields: [productId], references: [id])
@@ -114,12 +116,12 @@ model Products {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  images     Image[]
-  reviews    Review[]
-  cartItems  CartItem[]
+  images    Image[]
+  reviews   Review[]
+  cartItems CartItem[]
 
-  Wishlist   Wishlist?  @relation(fields: [wishlistId], references: [id])
-  wishlistId String?  @db.ObjectId
+  Wishlist   Wishlist? @relation(fields: [wishlistId], references: [id])
+  wishlistId String?   @db.ObjectId
 }
 
 model Wishlist {

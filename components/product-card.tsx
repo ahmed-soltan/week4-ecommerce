@@ -34,22 +34,34 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const addProductToCart = () => {
-    addToCart({ productId: product.id, quantity: 1 });
+    addToCart({
+      productId: product.id,
+      quantity: 1,
+      selectedImage: currentImage,
+      sizes: product.sizes || [],
+    });
   };
 
   const hasOneImage = product.images.length === 1;
 
+  const hasMultipleSizes = product.sizes && product.sizes.length > 1;
+
   return (
-    <Card className="w-full max-w-[270px] min-w-[200px] h-[350px] relative p-0 border-0 shadow-none cursor-pointer">
+    <Card className="w-full max-w-[270px] min-w-[200px] h-full relative p-0 border-0 shadow-none cursor-pointer">
       <CardHeader className="p-0 group overflow-hidden space-y-0 bg-[#F5F5F5] mb-2">
         <Image
           src={currentImage.image}
           alt={product.name}
           width={270}
           height={250}
-          className="w-full min-h-[200px] max-h-[200px]"
+          className="w-full h-[200px]"
         />
-        <div className="translate-y-10 group-hover:-translate-y-0 transition-all rounded-none">
+        <div
+          className={cn(
+            "translate-y-10 transition-all rounded-none",
+            !hasMultipleSizes && "group-hover:-translate-y-0"
+          )}
+        >
           <Button
             className="w-full text-md bg-black rounded-t-none"
             size={"lg"}
@@ -83,9 +95,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {!hasOneImage && (
           <div className="flex items-center gap-2">
             {product.images.map((image, index) => {
-              console.log(image.colorCode);
               return (
                 <div
+                  key={index}
                   onClick={() => setCurrentImage(image)}
                   className={cn(
                     "cursor-pointer rounded-full",
@@ -97,7 +109,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
                   )}
                 >
                   <div
-                    key={index}
                     className={cn("h-4 w-4 rounded-full m-1")}
                     style={{ backgroundColor: image.colorCode }}
                   />

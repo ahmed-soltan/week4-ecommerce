@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   FaAngleDown,
   FaAngleUp,
@@ -12,7 +12,7 @@ import {
   FaShippingFast,
 } from "react-icons/fa";
 import { GrCycle } from "react-icons/gr";
-import { FiTruck } from "react-icons/fi";
+import { FiLoader, FiTruck } from "react-icons/fi";
 
 import Rating from "@/components/rating";
 import { Button } from "@/components/ui/button";
@@ -23,23 +23,23 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
 
 import { useFetchProductById } from "@/features/product/hooks/use-fetch-product-by-id";
+import { useWishlist } from "@/hooks/use-wishlist";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type CartProductType = {
   productId: string;
-  name: string;
   quantity: number;
   selectedImage: {
     image: string;
     color: string;
     colorCode: string;
-  } | null;
-  category: string;
-  priceAfterDiscount: number;
+  };
   sizes: string[];
 };
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const { product, isLoading } = useFetchProductById({ productId });
+  const { addToWishlist, isAddingToWishlist } = useWishlist();
   const [cartProduct, setCartProduct] = useState<CartProductType | null>(null);
   const [chars, setChars] = useState(235);
 
@@ -47,20 +47,33 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
     if (product) {
       setCartProduct({
         productId: product.id,
-        name: product.name,
         selectedImage: { ...product.images[0] },
         quantity: 1,
-        category: product.category.name,
-        priceAfterDiscount:
-          product.price -
-          (product.price * (product?.discount || 0 * 100)) / 100,
         sizes: [],
       });
     }
   }, [product]);
 
   if (isLoading) {
-    return <div className="w-full h-full grid "></div>;
+    return (
+      <div className="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 h-full gap-6 col-span-1 lg:col-span-2">
+          <div className="flex flex-col items-center gap-6 h-full">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton className="w-full h-[120px]" key={index} />
+            ))}
+          </div>
+          <div className="cols-span-1 md:col-span-4">
+            <div className="w-full h-[600px] relative">
+              <Skeleton className="w-full h-full" />
+            </div>
+          </div>
+        </div>
+        <div className="h-[600px] col-span-1">
+          <Skeleton className="w-full h-full" />
+        </div>
+      </div>
+    );
   }
 
   if (!product) return null;
@@ -100,6 +113,19 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
         return { ...prev, sizes: updatedSizes };
       }
     });
+  };
+
+  const handleIncreaseQuantity = () => {
+    setCartProduct((prev: any) => ({ ...prev, quantity: prev.quantity + 1 }));
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (cartProduct?.quantity! > 1) {
+      return setCartProduct((prev: any) => ({
+        ...prev,
+        quantity: prev.quantity - 1,
+      }));
+    }
   };
 
   return (
@@ -240,6 +266,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               variant={"outline"}
               size={"sm"}
               className="rounded-r-none h-10"
+              onClick={handleDecreaseQuantity}
             >
               <FaMinus className="w-4 h-4" />
             </Button>
@@ -253,6 +280,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               variant={"destructive"}
               size={"sm"}
               className="rounded-l-none h-10"
+              onClick={handleIncreaseQuantity}
             >
               <FaPlus className="w-4 h-4" />
             </Button>
@@ -264,8 +292,16 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
           >
             Buy Now
           </Button>
-          <Button variant={"outline"} size={"sm"} className="rounded-sm h-10">
-            <FaRegHeart className="w-6 h-6" />
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="rounded-sm h-10"
+            onClick={() => addToWishlist({ productId })}
+          >
+            {isAddingToWishlist && (
+              <FiLoader className="w-5 h-5 animate-spin" />
+            )}
+            {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
           </Button>
         </div>
         <div className="flex flex-col items-start w-full my-5">
@@ -282,9 +318,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
             <GrCycle className="w-7 h-7" />
             <div className="flex flex-col items-start gap-1">
               <h1 className="text-lg">Return Delivery</h1>
-              <p className="text-sm">
-                Free 30 Days Delivery Returns. Details
-              </p>
+              <p className="text-sm">Free 30 Days Delivery Returns. Details</p>
             </div>
           </div>
         </div>
