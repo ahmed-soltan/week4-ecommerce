@@ -17,6 +17,7 @@ import { Product } from "@/types";
 
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
+import Hint from "./hint";
 
 interface ProductCardProps {
   product: Product;
@@ -108,10 +109,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
                       "border"
                   )}
                 >
-                  <div
-                    className={cn("h-4 w-4 rounded-full m-1")}
-                    style={{ backgroundColor: image.colorCode }}
-                  />
+                  <Hint label={image.color} side="bottom" align="center">
+                    <div
+                      className={cn("h-4 w-4 rounded-full m-1")}
+                      style={{ backgroundColor: image.colorCode }}
+                    />
+                  </Hint>
                 </div>
               );
             })}
@@ -119,26 +122,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
         )}
       </CardContent>
       <div className="flex flex-col items-center gap-2 absolute top-2 right-2">
-        <Button
-          variant={"outline"}
-          size={"icon"}
-          className="rounded-full"
-          onClick={() => addToWishlist({ productId: product.id })}
-          disabled={isAddingToWishlist}
-        >
-          {isAddingToWishlist && <LuLoader2 className="w-5 h-5 animate-spin" />}
-          {!isAddingToWishlist && <FiHeart className="w-4 h-4" />}
-        </Button>
-        <Button
-          variant={"outline"}
-          size={"icon"}
-          className="rounded-full"
-          asChild
-        >
-          <Link href={`/product/${product.id}`}>
-            <FiEye className="w-4 h-4" />
-          </Link>
-        </Button>
+        <Hint label="Add To Wishlist" side="right" align="start">
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="rounded-full"
+            onClick={() => addToWishlist({ productId: product.id })}
+            disabled={isAddingToWishlist}
+          >
+            {isAddingToWishlist && (
+              <LuLoader2 className="w-5 h-5 animate-spin" />
+            )}
+            {!isAddingToWishlist && <FiHeart className="w-4 h-4" />}
+          </Button>
+        </Hint>
+        <Hint label="View Product" side="right" align="start">
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="rounded-full"
+            asChild
+          >
+            <Link href={`/product/${product.id}`}>
+              <FiEye className="w-4 h-4" />
+            </Link>
+          </Button>
+        </Hint>
       </div>
       <div className="flex items-start flex-col gap-2 absolute left-2 top-2">
         {product.discount && (

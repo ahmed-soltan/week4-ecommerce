@@ -25,6 +25,7 @@ import { useWishlist } from "@/hooks/use-wishlist";
 import { useCart } from "@/hooks/use-cart";
 import { useFetchProductById } from "../hooks/use-fetch-product-by-id";
 import { useProductAction } from "../hooks/use-product-actions";
+import Hint from "@/components/hint";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const { product, isLoading } = useFetchProductById({ productId });
@@ -132,6 +133,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
           {product.images.map((image, index) => {
             return (
               <div
+                key={index}
                 onClick={() => handleColor(image)}
                 className={cn(
                   "cursor-pointer rounded-full",
@@ -142,11 +144,13 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
                     "border"
                 )}
               >
-                <div
-                  key={index}
-                  className={cn("h-4 w-4 rounded-full m-1")}
-                  style={{ backgroundColor: image.colorCode }}
-                />
+                <Hint label={image.color} side="top" align="center">
+                  <div
+                    key={index}
+                    className={cn("h-4 w-4 rounded-full m-1")}
+                    style={{ backgroundColor: image.colorCode }}
+                  />
+                </Hint>
               </div>
             );
           })}
@@ -190,6 +194,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               value={cartProduct?.quantity || 1}
               min={1}
               className="w-full max-w-20 h-10 text-center font-bold rounded-none p-0"
+              readOnly
             />
             <Button
               variant={"destructive"}
@@ -218,18 +223,20 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
               {!isAddingToCart && "Add to Cart"}
             </Button>
-            <Button
-              variant={"outline"}
-              size={"sm"}
-              className="rounded-sm h-10"
-              onClick={() => addToWishlist({ productId })}
-              disabled={isAddingToWishlist}
-            >
-              {isAddingToWishlist && (
-                <LuLoader2 className="w-5 h-5 animate-spin" />
-              )}
-              {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
-            </Button>
+            <Hint label="Add To Wishlist" side="top" align="center">
+              <Button
+                variant={"outline"}
+                size={"sm"}
+                className="rounded-sm h-10"
+                onClick={() => addToWishlist({ productId })}
+                disabled={isAddingToWishlist}
+              >
+                {isAddingToWishlist && (
+                  <LuLoader2 className="w-5 h-5 animate-spin" />
+                )}
+                {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
+              </Button>
+            </Hint>
           </div>
         </div>
         <div className="flex flex-col items-start w-full my-5">

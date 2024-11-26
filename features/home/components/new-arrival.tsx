@@ -46,7 +46,7 @@ const NewArrival = () => {
               size={"lg"}
               asChild
             >
-              <Link href={`/product/6744566645b081c0868f1d6b`}>Shop Now</Link>
+              <Link href={`/product/6744566645b081c0868f1d6a`}>Shop Now</Link>
             </Button>
           </div>
         </div>

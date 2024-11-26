@@ -20,3 +20,8 @@ export const NewPasswordSchema= z.object({
 export const ResetSchema = z.object({
     email: z.string().email()
 })
+
+export const reviewSchema = z.object({
+    rating: z.number().min(1).max(5),
+    comment: z.string().min(10).max(500),
+})

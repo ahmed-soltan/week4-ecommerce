@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchRelatedProducts = async (productId: string) => {
-  const res = await axios.get(`/api/related-products/${productId}`);
+  const res = await axios.get(`/api/product/${productId}/related-products`);
   return res.data;
 };
 

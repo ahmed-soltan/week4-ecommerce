@@ -2,7 +2,7 @@ import { IoIosStarOutline, IoMdStar } from "react-icons/io";
 
 export type RatingProps = {
   rating: number;
-  reviewCount: number;
+  reviewCount?: number;
   showWord?: boolean;
 };
 
@@ -22,10 +22,12 @@ export default function Rating({ rating, reviewCount, showWord }: RatingProps) {
           <Star key={index + filledStars} />
         )
       )}
-
-      <span className="text-xs font-semibold ml-2 text-gray-600">
-        ({reviewCount}{showWord && " Reviews"})
-      </span>
+      {reviewCount && (
+        <span className="text-xs font-semibold ml-2 text-gray-600">
+          ({reviewCount}
+          {showWord && " Reviews"})
+        </span>
+      )}
     </div>
   );
 }

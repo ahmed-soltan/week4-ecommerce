@@ -21,6 +21,7 @@ const ProductDetailsImage = ({
   cartProduct,
   handleColor,
 }: ProductDetailsImageProps) => {
+  if (!cartProduct) return null;
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 h-full gap-6 col-span-1 lg:col-span-2">
       <div className="flex lg:flex-col items-center gap-6 h-full overflow-x-auto">
@@ -34,7 +35,7 @@ const ProductDetailsImage = ({
             onClick={() => handleColor(image)}
           >
             <Image
-              src={image.image}
+              src={image.image || ""}
               alt={product.name}
               width={100}
               height={100}
