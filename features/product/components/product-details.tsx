@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   FaAngleDown,
   FaAngleUp,
@@ -13,6 +12,7 @@ import { FiTruck } from "react-icons/fi";
 import { LuLoader2 } from "react-icons/lu";
 
 import Rating from "@/components/rating";
+import ProductDetailsImage from "./product-details-image";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
@@ -21,11 +21,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
 
-import { useFetchProductById } from "@/features/product/hooks/use-fetch-product-by-id";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { useCart } from "@/hooks/use-cart";
+import { useFetchProductById } from "../hooks/use-fetch-product-by-id";
 import { useProductAction } from "../hooks/use-product-actions";
-import ProductDetailsImage from "./product-details-image";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const { product, isLoading } = useFetchProductById({ productId });
@@ -67,12 +66,21 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
 
   if (!product) return null;
 
+  const couldNotAddToCart =
+    product.sizes &&
+    product.sizes.length > 0 &&
+    cartProduct?.sizes.length === 0;
+
   return (
     <div className="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <ProductDetailsImage product={product} cartProduct={cartProduct} handleColor={handleColor}/>
+      <ProductDetailsImage
+        product={product}
+        cartProduct={cartProduct}
+        handleColor={handleColor}
+      />
       <div className="flex flex-col items-start gap-5">
         <h1 className="text-xl font-semibold text-black">{product.name}</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Rating
             rating={product.rating}
             reviewCount={product.reviewCount}
@@ -144,7 +152,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
           })}
         </div>
         {product.sizes && product.sizes.length > 0 && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <p className="text-md font-semibold">Sizes: </p>
             <div className="flex items-center gap-2">
               {product.sizes.map((size, i) => (
@@ -162,6 +170,9 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
                 </Button>
               ))}
             </div>
+            {couldNotAddToCart && (
+              <p className="text-red text-xs">Please Select a Size*</p>
+            )}
           </div>
         )}
         <div className="flex items-center gap-2 w-full flex-wrap">
@@ -189,35 +200,37 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               <FaPlus className="w-4 h-4" />
             </Button>
           </div>
-          <Button
-            variant={"destructive"}
-            size={"lg"}
-            className="rounded-sm w-full max-w-40"
-            onClick={() =>
-              addToCart({
-                productId,
-                quantity: cartProduct?.quantity || 1,
-                selectedImage: cartProduct?.selectedImage!,
-                sizes: cartProduct?.sizes || [],
-              })
-            }
-            disabled={isAddingToCart}
-          >
-            {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
-            {!isAddingToCart && "Add to Cart"}
-          </Button>
-          <Button
-            variant={"outline"}
-            size={"sm"}
-            className="rounded-sm h-10"
-            onClick={() => addToWishlist({ productId })}
-            disabled={isAddingToWishlist}
-          >
-            {isAddingToWishlist && (
-              <LuLoader2 className="w-5 h-5 animate-spin" />
-            )}
-            {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant={"destructive"}
+              size={"lg"}
+              className="rounded-sm w-full md:max-w-40"
+              onClick={() =>
+                addToCart({
+                  productId,
+                  quantity: cartProduct?.quantity || 1,
+                  selectedImage: cartProduct?.selectedImage!,
+                  sizes: cartProduct?.sizes || [],
+                })
+              }
+              disabled={isAddingToCart || couldNotAddToCart}
+            >
+              {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
+              {!isAddingToCart && "Add to Cart"}
+            </Button>
+            <Button
+              variant={"outline"}
+              size={"sm"}
+              className="rounded-sm h-10"
+              onClick={() => addToWishlist({ productId })}
+              disabled={isAddingToWishlist}
+            >
+              {isAddingToWishlist && (
+                <LuLoader2 className="w-5 h-5 animate-spin" />
+              )}
+              {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
+            </Button>
+          </div>
         </div>
         <div className="flex flex-col items-start w-full my-5">
           <div className="rounded-sm border border-slate-300 p-5 flex items-center w-full gap-5">

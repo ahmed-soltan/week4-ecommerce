@@ -7,12 +7,12 @@ import { Separator } from "@/components/ui/separator";
 
 import Banner from "@/features/home/components/banner";
 import BestSellingProducts from "@/features/home/components/best-selling-products";
-import CarouselCategories from "@/features/home/components/carousel-categories";
 import DiscountProductAd from "@/features/home/components/discount-product-ad";
 import DiscountProducts from "@/features/home/components/discount-products";
 import ExploreProducts from "@/features/home/components/explore-products";
 import NewArrival from "@/features/home/components/new-arrival";
 import SideCategories from "@/components/side-categories";
+import CarouselCategories from "@/features/home/components/carousel-categories";
 
 const Home = () => {
   return (
@@ -35,7 +35,7 @@ const Home = () => {
       <DiscountProductAd />
       <ExploreProducts />
       <NewArrival />
-      <div className="flex items-center justify-between flex-wrap gap-10 w-full max-w-[1000px] mx-auto mb-10">
+      <div className="flex items-center justify-center lg:justify-between flex-wrap gap-10 w-full max-w-[1000px] mx-auto mb-10">
         <div className="flex flex-col items-center justify-center gap-3">
           <div className="w-16 h-16 bg-black border-[7px] border-gray-400 rounded-full flex items-center justify-center">
             <FaShippingFast className="w-7 h-7 text-white" />

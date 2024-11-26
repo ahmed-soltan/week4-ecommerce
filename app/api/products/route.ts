@@ -11,8 +11,8 @@ const buildFilter = (params: URLSearchParams) => {
   if (params.has("hasDiscount")) {
     const hasDiscount = params.get("hasDiscount") === "true";
     filter.discount = hasDiscount
-      ? { gt: 0 } // Match discounts greater than 0
-      : { equals: null }; // Match null discounts
+      ? { gt: 0 }
+      : { equals: null }; 
   }
 
   if (params.has("minPrice")) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import CarouselProducts from "./carousel-products";
+import CarouselProducts from "../../../components/carousel-products";
 import { useFetchProducts } from "@/hooks/use-fetch-products";
 
 const ExploreProducts = () => {

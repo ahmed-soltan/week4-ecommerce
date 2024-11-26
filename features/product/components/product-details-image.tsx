@@ -23,11 +23,11 @@ const ProductDetailsImage = ({
 }: ProductDetailsImageProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 h-full gap-6 col-span-1 lg:col-span-2">
-      <div className="flex flex-col items-center gap-6 h-full">
+      <div className="flex lg:flex-col items-center gap-6 h-full overflow-x-auto">
         {product.images.map((image, index) => (
           <div
             className={cn(
-              "w-full h-[120px] relative bg-[#F5F5F5] p-2 rounded-md border-2",
+              "min-w-[170px] lg:w-full h-[120px] relative bg-[#F5F5F5] p-2 rounded-md border-2",
               cartProduct?.selectedImage?.image === image.image && "border-red"
             )}
             key={index}
@@ -44,7 +44,7 @@ const ProductDetailsImage = ({
         ))}
       </div>
       <div className="cols-span-1 md:col-span-4">
-        <div className="w-full h-[550px] relative">
+        <div className="w-full h-[450px] sm:h-[550px] relative">
           <Image
             src={cartProduct?.selectedImage?.image || ""}
             alt={product.name}

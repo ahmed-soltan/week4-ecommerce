@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import TopHeaderSection from "./top-header-section";
-import Heading from "./heading";
+import TopHeaderSection from "../features/home/components/top-header-section";
+import Heading from "../features/home/components/heading";
 import ProductCard from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,12 +16,11 @@ import {
 } from "@/components/ui/carousel";
 
 import { Product } from "@/types";
-import { useRouter } from "next/navigation";
 
 interface CarouselProductsProps {
   products: Product[];
   topHeaderTitle: string;
-  headingTitle: string;
+  headingTitle?: string;
 }
 
 const CarouselProducts = ({
@@ -37,8 +37,8 @@ const CarouselProducts = ({
       </div>
       <Carousel className="w-full">
         <div className="flex items-center justify-between flex-wrap w-full">
-          <Heading title={headingTitle} />
-          <div className="hidden sm:flex items-center gap-5 ">
+          {headingTitle && <Heading title={headingTitle} />}
+          <div className="hidden sm:flex items-center gap-5 ml-auto">
             <CarouselPrevious className="w-10 h-10 bg-[#F5F5F5]" />
             <CarouselNext className="w-10 h-10 bg-[#F5F5F5]" />
           </div>
