@@ -12,7 +12,7 @@ import DiscountProductAd from "@/features/home/components/discount-product-ad";
 import DiscountProducts from "@/features/home/components/discount-products";
 import ExploreProducts from "@/features/home/components/explore-products";
 import NewArrival from "@/features/home/components/new-arrival";
-import SideCategories from "@/features/home/components/side-categories";
+import SideCategories from "@/components/side-categories";
 
 const Home = () => {
   return (

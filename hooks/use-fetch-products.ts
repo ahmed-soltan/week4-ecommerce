@@ -13,6 +13,7 @@ export const useFetchProducts = () => {
     queryKey: ["products"],
     queryFn: fetchProducts,
     initialData: [],
+    staleTime: 1000 * 60 * 20
   });
 
   return { products: data, isLoading };

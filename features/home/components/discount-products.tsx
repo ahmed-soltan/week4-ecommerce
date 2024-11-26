@@ -3,7 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import CarouselProducts from "./carousel-products";
 
-import { useFetchDiscountProducts } from "@/hooks/use-fetch-discount-products";
+import { useFetchDiscountProducts } from "@/features/home/hooks/use-fetch-discount-products";
 
 const DiscountProducts = () => {
   const { discountProducts, isLoading } = useFetchDiscountProducts();

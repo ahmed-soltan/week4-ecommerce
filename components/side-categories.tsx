@@ -8,7 +8,7 @@ import { useCategories } from "@/hooks/use-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SideCategories = () => {
-  const { categories, isLoading , isFetching , isPending } = useCategories();
+  const { categories, isPending } = useCategories();
 
   if (isPending) {
     return (
@@ -25,7 +25,7 @@ const SideCategories = () => {
       {categories?.map((category) => (
         <Link
           href={`/products?categoryId=${category.id}`}
-          className="text-black font-medium text-md"
+          className="text-black font-medium text-md hover:underline"
           key={category.id}
         >
           {category.name}

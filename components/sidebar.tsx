@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import SearchCommand from "./search-command";
 import LanguageConverter from "./language-converter";
-import SideCategories from "@/features/home/components/side-categories";
+import SideCategories from "@/components/side-categories";
 import { Separator } from "./ui/separator";
 
 const Sidebar = () => {

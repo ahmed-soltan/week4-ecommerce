@@ -14,6 +14,7 @@ export const useCategories = () => {
   const { data, isLoading , isFetching , isPending} = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: fetchCategories,
+    staleTime: 1000 * 60 * 20
   });
 
   return { categories: data, isLoading , isFetching , isPending};

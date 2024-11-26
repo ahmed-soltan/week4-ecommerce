@@ -79,18 +79,18 @@ const Navbar = () => {
         </ul>
         <div className="hidden md:flex items-center gap-5">
           <SearchCommand />
-          <div className="relative">
+          <Link href={"/wishlist"} className="relative">
             <GoHeart className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
               {wishlistProductsLength === 0 ? 0 : wishlistProductsLength}
             </span>
-          </div>
-          <div className="relative">
+          </Link>
+          <Link href={"/cart"} className="relative">
             <IoCartOutline className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
               {cartItemsLength === 0 ? 0 : cartItemsLength}
             </span>
-          </div>
+          </Link>
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger>

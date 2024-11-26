@@ -35,7 +35,7 @@ const CarouselCategories = () => {
           {categories?.map((category) => (
             <CarouselItem
               key={category.id}
-              className="w-full max-w-[240px] h-[170px] border-2 rounded-md"
+              className="w-full max-w-[240px] h-[170px] border-2 rounded-md hover:bg-red hover:text-white"
             >
               <Link
                 href={`/products?categoryId=${category.id}`}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FiEye, FiHeart } from "react-icons/fi";
 import { differenceInDays } from "date-fns";
 import { LuLoader2 } from "react-icons/lu";
@@ -11,11 +12,10 @@ import { Button } from "./ui/button";
 import Rating from "./rating";
 
 import { formatPrice } from "@/lib/format-price";
+import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 
 import { useCart } from "@/hooks/use-cart";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { useWishlist } from "@/hooks/use-wishlist";
 
 interface ProductCardProps {
@@ -38,8 +38,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const hasOneImage = product.images.length === 1;
-
-  console.log(hasOneImage);
 
   return (
     <Card className="w-full max-w-[270px] min-w-[200px] h-[350px] relative p-0 border-0 shadow-none cursor-pointer">
@@ -90,7 +88,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 <div
                   onClick={() => setCurrentImage(image)}
                   className={cn(
-                    " rounded-full",
+                    "cursor-pointer rounded-full",
                     currentImage.colorCode === image.colorCode &&
                       "border-2 border-black",
                     image.colorCode === "#FFFFFF" &&
@@ -117,7 +115,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           onClick={() => addToWishlist({ productId: product.id })}
           disabled={isAddingToWishlist}
         >
-          <FiHeart className="w-4 h-4" />
+          {isAddingToWishlist && <LuLoader2 className="w-5 h-5 animate-spin" />}
+          {!isAddingToWishlist && <FiHeart className="w-4 h-4" />}
         </Button>
         <Button
           variant={"outline"}
@@ -132,12 +131,18 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
       <div className="flex items-start flex-col gap-2 absolute left-2 top-2">
         {product.discount && (
-          <div className=" rounded-md bg-red text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
+          <div
+            className=" rounded-md bg-red text-white w-12 h-5 flex
+           items-center justify-center text-xs font-thin"
+          >
             -{product.discount}%
           </div>
         )}
         {isNewProduct(product.createdAt) && (
-          <div className="rounded-md bg-[#00FF66] text-white w-12 h-5 flex items-center justify-center text-xs font-thin">
+          <div
+            className="rounded-md bg-[#00FF66] text-white w-12 h-5 
+          flex items-center justify-center text-xs font-thin"
+          >
             New
           </div>
         )}

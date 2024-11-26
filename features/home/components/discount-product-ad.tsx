@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useFetchDiscountProducts } from "@/hooks/use-fetch-discount-products";
+import { useFetchDiscountProducts } from "@/features/home/hooks/use-fetch-discount-products";
 import Image from "next/image";
 import Link from "next/link";
 

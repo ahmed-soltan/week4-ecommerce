@@ -9,9 +9,9 @@ import { auth } from "@/auth";
 import TopHeader from "@/components/top-header";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 
 import { TanstackProvider } from "@/providers/tanstack-provider";
-import { Toaster } from "@/components/ui/toaster";
 
 const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 

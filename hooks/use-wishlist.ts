@@ -1,8 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { toast } from "./use-toast";
+
 import { Products, Wishlist } from "@prisma/client";
 
 type WishlistType = {
@@ -33,9 +35,8 @@ const deleteWishlistProductApi = async ({
   return response.data;
 };
 
-export const useWishlist = () => {
-  const queryClient = useQueryClient();
 
+export const useWishlist = () => {
   const { data: wishlistData, refetch: refetchWishlist } =
     useQuery<WishlistType>({
       queryKey: ["wishlist"],

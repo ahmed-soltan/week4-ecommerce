@@ -3,9 +3,10 @@ import { IoIosStarOutline, IoMdStar } from "react-icons/io";
 export type RatingProps = {
   rating: number;
   reviewCount: number;
+  showWord?: boolean;
 };
 
-export default function Rating({ rating, reviewCount }: RatingProps) {
+export default function Rating({ rating, reviewCount, showWord }: RatingProps) {
   const maxRating = 5;
   const filledStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
@@ -22,7 +23,9 @@ export default function Rating({ rating, reviewCount }: RatingProps) {
         )
       )}
 
-      <span className="text-xs font-semibold ml-2 text-gray-600">({reviewCount})</span>
+      <span className="text-xs font-semibold ml-2 text-gray-600">
+        ({reviewCount} {showWord && "Reviews"})
+      </span>
     </div>
   );
 }
@@ -33,8 +36,8 @@ type StarProps = {
 
 const Star = ({ filled }: StarProps) => {
   if (filled) {
-    return <IoMdStar className="w-4 h-4 text-yellow-600" />;
+    return <IoMdStar className="w-5 h-5 text-yellow-600" />;
   }
 
-  return <IoIosStarOutline className="w-4 h-4 text-yellow-600" />;
+  return <IoMdStar className="w-5 h-5 text-gray-400" />;
 };
