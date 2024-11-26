@@ -1,58 +1,47 @@
 "use client";
 
 import Image from "next/image";
-import { ChangeEvent, useEffect, useState } from "react";
 import {
   FaAngleDown,
   FaAngleUp,
-  FaHeart,
   FaMinus,
   FaPlus,
   FaRegHeart,
-  FaShippingFast,
 } from "react-icons/fa";
 import { GrCycle } from "react-icons/gr";
-import { FiLoader, FiTruck } from "react-icons/fi";
+import { FiTruck } from "react-icons/fi";
+import { LuLoader2 } from "react-icons/lu";
 
 import Rating from "@/components/rating";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format-price";
 
 import { useFetchProductById } from "@/features/product/hooks/use-fetch-product-by-id";
 import { useWishlist } from "@/hooks/use-wishlist";
-import { Skeleton } from "@/components/ui/skeleton";
-
-export type CartProductType = {
-  productId: string;
-  quantity: number;
-  selectedImage: {
-    image: string;
-    color: string;
-    colorCode: string;
-  };
-  sizes: string[];
-};
+import { useCart } from "@/hooks/use-cart";
+import { useProductAction } from "../hooks/use-product-actions";
+import ProductDetailsImage from "./product-details-image";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const { product, isLoading } = useFetchProductById({ productId });
+  const { addToCart, isAddingToCart } = useCart();
   const { addToWishlist, isAddingToWishlist } = useWishlist();
-  const [cartProduct, setCartProduct] = useState<CartProductType | null>(null);
-  const [chars, setChars] = useState(235);
-
-  useEffect(() => {
-    if (product) {
-      setCartProduct({
-        productId: product.id,
-        selectedImage: { ...product.images[0] },
-        quantity: 1,
-        sizes: [],
-      });
-    }
-  }, [product]);
+  const {
+    cartProduct,
+    chars,
+    decreaseLength,
+    handleColor,
+    handleDecreaseQuantity,
+    handleIncreaseQuantity,
+    handleSelectSizes,
+    hasMultipleColor,
+    increaseLength,
+  } = useProductAction(product!);
 
   if (isLoading) {
     return (
@@ -78,90 +67,9 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
 
   if (!product) return null;
 
-  const handleColor = (image: {
-    color: string;
-    image: string;
-    colorCode: string;
-  }) => {
-    setCartProduct((prev: any) => {
-      return { ...prev, selectedImage: image };
-    });
-  };
-
-  const increaseLength = () => {
-    setChars(product.description.length);
-  };
-
-  const decreaseLength = () => {
-    setChars(200);
-  };
-
-  const hasMultipleColor = () => {
-    const colors = new Set(product.images.map((image) => image.color));
-    return colors.size >= 2;
-  };
-
-  const handleSelectSizes = (size: string) => {
-    setCartProduct((prev: any) => {
-      const index = prev?.sizes?.indexOf(size);
-
-      if (index !== -1) {
-        const updatedSizes = prev?.sizes?.filter((s: any) => s !== size);
-        return { ...prev, sizes: updatedSizes };
-      } else {
-        const updatedSizes = [...(prev?.sizes || []), size];
-        return { ...prev, sizes: updatedSizes };
-      }
-    });
-  };
-
-  const handleIncreaseQuantity = () => {
-    setCartProduct((prev: any) => ({ ...prev, quantity: prev.quantity + 1 }));
-  };
-
-  const handleDecreaseQuantity = () => {
-    if (cartProduct?.quantity! > 1) {
-      return setCartProduct((prev: any) => ({
-        ...prev,
-        quantity: prev.quantity - 1,
-      }));
-    }
-  };
-
   return (
     <div className="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <div className="grid grid-cols-1 md:grid-cols-5 h-full gap-6 col-span-1 lg:col-span-2">
-        <div className="flex flex-col items-center gap-6 h-full">
-          {product.images.map((image, index) => (
-            <div
-              className={cn(
-                "w-full h-[120px] relative bg-[#F5F5F5] p-2 rounded-md border-2",
-                cartProduct?.selectedImage?.image === image.image &&
-                  "border-red"
-              )}
-              key={index}
-              onClick={() => handleColor(image)}
-            >
-              <Image
-                src={image.image}
-                alt={product.name}
-                width={100}
-                height={100}
-                className="w-full h-full"
-              />
-            </div>
-          ))}
-        </div>
-        <div className="cols-span-1 md:col-span-4">
-          <div className="w-full h-[550px] relative">
-            <Image
-              src={cartProduct?.selectedImage?.image || ""}
-              alt={product.name}
-              fill
-            />
-          </div>
-        </div>
-      </div>
+      <ProductDetailsImage product={product} cartProduct={cartProduct} handleColor={handleColor}/>
       <div className="flex flex-col items-start gap-5">
         <h1 className="text-xl font-semibold text-black">{product.name}</h1>
         <div className="flex items-center gap-2">
@@ -209,36 +117,32 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
           )}
         </p>
         <Separator className="h-1 bg-gray-200" />
-        {hasMultipleColor() && (
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl text-black font-medium mr-4">Colors: </h1>
-            {product.images.map((image, index) => {
-              return (
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl text-black font-medium mr-4">
+            Color{hasMultipleColor() && "s"}:{" "}
+          </h1>
+          {product.images.map((image, index) => {
+            return (
+              <div
+                onClick={() => handleColor(image)}
+                className={cn(
+                  "cursor-pointer rounded-full",
+                  cartProduct?.selectedImage?.colorCode === image.colorCode &&
+                    "border-2 border-black",
+                  image.colorCode === "#FFFFFF" &&
+                    cartProduct?.selectedImage?.colorCode !== image.colorCode &&
+                    "border"
+                )}
+              >
                 <div
-                  onClick={() => handleColor(image)}
-                  className={cn(
-                    "cursor-pointer rounded-full",
-                    cartProduct?.selectedImage?.colorCode === image.colorCode &&
-                      "border-2 border-black",
-                    image.colorCode === "#FFFFFF" &&
-                      cartProduct?.selectedImage?.colorCode !==
-                        image.colorCode &&
-                      "border"
-                  )}
-                >
-                  <div
-                    key={index}
-                    className={cn("h-4 w-4 rounded-full m-1")}
-                    style={{ backgroundColor: image.colorCode }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {!hasMultipleColor && (
-          <p className="text-sm ">Color: {cartProduct?.selectedImage?.color}</p>
-        )}
+                  key={index}
+                  className={cn("h-4 w-4 rounded-full m-1")}
+                  style={{ backgroundColor: image.colorCode }}
+                />
+              </div>
+            );
+          })}
+        </div>
         {product.sizes && product.sizes.length > 0 && (
           <div className="flex items-center gap-2">
             <p className="text-md font-semibold">Sizes: </p>
@@ -289,17 +193,28 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
             variant={"destructive"}
             size={"lg"}
             className="rounded-sm w-full max-w-40"
+            onClick={() =>
+              addToCart({
+                productId,
+                quantity: cartProduct?.quantity || 1,
+                selectedImage: cartProduct?.selectedImage!,
+                sizes: cartProduct?.sizes || [],
+              })
+            }
+            disabled={isAddingToCart}
           >
-            Buy Now
+            {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
+            {!isAddingToCart && "Add to Cart"}
           </Button>
           <Button
             variant={"outline"}
             size={"sm"}
             className="rounded-sm h-10"
             onClick={() => addToWishlist({ productId })}
+            disabled={isAddingToWishlist}
           >
             {isAddingToWishlist && (
-              <FiLoader className="w-5 h-5 animate-spin" />
+              <LuLoader2 className="w-5 h-5 animate-spin" />
             )}
             {!isAddingToWishlist && <FaRegHeart className="w-6 h-6" />}
           </Button>
