@@ -2,7 +2,7 @@ import ContainerWrapper from "@/components/container-wrapper";
 import { Separator } from "@/components/ui/separator";
 import { ProductDetails } from "@/features/product/components/product-details";
 import RelatedProducts from "@/features/product/components/related-products";
-import Reviews from "@/features/product/components/reviews";
+import Reviews from "@/features/product/components/reviews/reviews";
 import React from "react";
 
 interface ProductPageIdProps {

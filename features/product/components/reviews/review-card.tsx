@@ -5,7 +5,7 @@ import Rating from "@/components/rating";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
-import { ReviewType, useReviews } from "../hooks/use-reviews";
+import { ReviewType, useReviews } from "../../hooks/use-reviews";
 import { Button } from "@/components/ui/button";
 import Hint from "@/components/hint";
 import { LuTrash2 } from "react-icons/lu";
@@ -19,12 +19,16 @@ import ReviewInputs from "./review-inputs";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 import ConfirmModal from "@/components/confirm-modal";
+import dynamic from "next/dynamic";
 
 interface ReviewCardProps {
   review: ReviewType;
 }
 
-const ReviewCard = ({ review }: ReviewCardProps) => { 
+const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
+const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
+
+const ReviewCard = ({ review }: ReviewCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const form = useForm<z.infer<typeof reviewSchema>>({
@@ -34,7 +38,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
       rating: review.rating,
     },
   });
-  
+
   const user = useCurrentUser();
   const { deleteReview, isDeletingReview, isUpdatingReview, updateReview } =
     useReviews({ productId: review.productId });
@@ -106,28 +110,23 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             </div>
             <Rating rating={review.rating} />
 
-            <p className="flex text-slate-800 font-medium">{review.comment}</p>
+            <Renderer value={review.comment} />
             <Separator className="my-2" />
           </div>
         )}
         {isEditing && (
-          <Form {...form}>
-            <form
-              className="space-y-6 w-full max-w-[500px]"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
-              <ReviewInputs form={form} disabled={isUpdatingReview} />
-              <Button
-                type="submit"
-                variant={"destructive"}
-                size={"lg"}
-                className="w-full h-10"
-                disabled={isUpdatingReview || isDeletingReview}
-              >
-                Edit Review
-              </Button>
-            </form>
-          </Form>
+          <div className="w-full h-full flex flex-col items-start gap-5">
+            <h1 className="text-2xl font-semibold">Edit Your Review</h1>
+            <Editor
+              onSubmit={onSubmit}
+              disabled={isUpdatingReview}
+              defaultValues={JSON.parse(review.comment)}
+              rating={review.rating}
+              onCancel={() => setIsEditing(false)}
+              variant="update"
+              placeHolder="Update"
+            />
+          </div>
         )}
         {user && user.id === review.userId && (
           <div className="absolute right-2 top-5 flex items-center gap-2 opacity-0 group-hover:opacity-100">

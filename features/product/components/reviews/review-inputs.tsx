@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import StarRating from "./StarRating";
+import StarRating from "./star-rating";
 import { Textarea } from "@/components/ui/textarea";
 
 interface ReviewInputsProps {

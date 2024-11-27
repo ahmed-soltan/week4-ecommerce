@@ -95,7 +95,8 @@ export const useReviews = ({ productId }: { productId: string }) => {
     },
     onError: () => {
       toast({
-        title: "Something went wrong while creating the review.",
+        title: "You Already Have Submitted a Review before",
+        description:"Find your Review and Edit it",
         variant: "destructive",
       });
     },

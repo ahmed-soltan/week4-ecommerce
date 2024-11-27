@@ -22,7 +22,7 @@ export default function Rating({ rating, reviewCount, showWord }: RatingProps) {
           <Star key={index + filledStars} />
         )
       )}
-      {reviewCount && (
+      {reviewCount!>=0 && (
         <span className="text-xs font-semibold ml-2 text-gray-600">
           ({reviewCount}
           {showWord && " Reviews"})

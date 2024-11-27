@@ -9,13 +9,25 @@ import {
 
 export const { auth } = NextAuth(authConfig);
 
+import pathToRegexp from "path-to-regexp"; // Install with `npm install path-to-regexp`
+
 export default auth((req): any => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+
+  const isPublicRoute = publicRoutes.some((route) =>
+    typeof route === "string"
+      ? route === nextUrl.pathname
+      : route instanceof RegExp
+      ? route.test(nextUrl.pathname)
+      : false
+  );
+  
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+  const isAddToCartRoute = nextUrl.pathname.startsWith("/api/cart");
 
   if (isApiAuthRoute) {
     return null;
@@ -28,7 +40,11 @@ export default auth((req): any => {
     return null;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  // if (isAddToCartRoute && !isLoggedIn) {
+  //   throw new Error("Unauthenticated")
+  // }
+
+  if (!isLoggedIn && !isPublicRoute ) {
     let callbackUrl = nextUrl.pathname;
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
@@ -44,9 +60,13 @@ export default auth((req): any => {
   return null;
 });
 
+
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
+    // Apply to dynamic product routes
+    "/api/product/:productId/related-products",
+    "/product/:productId",
+    // Skip Next.js internals and static files
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
     // Always run for API routes
     "/(api|trpc)(.*)",

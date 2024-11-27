@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import ReviewInputs from "./review-inputs";
 
 import { reviewSchema } from "@/schemas";
-import { useReviews } from "../hooks/use-reviews";
+
+import { useReviews } from "../../hooks/use-reviews";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 

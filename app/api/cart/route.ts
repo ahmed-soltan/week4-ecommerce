@@ -7,8 +7,10 @@ export const POST = async (req: NextRequest) => {
   try {
     const user = await currentUser();
 
+    console.log(user)
+
     if (!user || !user.id) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      throw new Error("You Not Unauthorized, Please Login First")
     }
 
     const { productId, quantity, sizes, selectedImage } = await req.json();
@@ -109,7 +111,7 @@ export const POST = async (req: NextRequest) => {
   } catch (error) {
     console.error("Error adding to cart:", error);
     return NextResponse.json(
-      { message: "Failed to add product to cart", error: error },
+      { message: error,  error },
       { status: 500 }
     );
   }

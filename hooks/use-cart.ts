@@ -2,8 +2,12 @@
 
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { toast } from "./use-toast";
+
 import { Cart, CartItem, Image } from "@prisma/client";
+import { useCurrentUser } from "./use-current-user";
+import { useEffect, useState } from "react";
 
 type CartType = {
   cart: Cart & {
@@ -11,7 +15,6 @@ type CartType = {
   };
 };
 
-// API functions
 const addToCartApi = async ({
   productId,
   quantity,
@@ -58,20 +61,16 @@ const deleteCartItemApi = async ({ cartItemId }: { cartItemId: string }) => {
 };
 
 export const useCart = () => {
-  const queryClient = useQueryClient();
+  const user = useCurrentUser();
 
   const { data: cartData, refetch: refetchCart } = useQuery<CartType>({
     queryKey: ["cart"],
     queryFn: fetchCart,
     staleTime: Infinity,
+    enabled:!!user
   });
 
-  const {
-    mutate: addToCart,
-    isPending: isAddingToCart,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate: addToCart, isPending: isAddingToCart } = useMutation({
     mutationFn: addToCartApi,
     onSuccess: () => {
       refetchCart();
@@ -135,8 +134,6 @@ export const useCart = () => {
     updateCartItemQuantity,
     isAddingToCart,
     isUpdatingQuantity,
-    isError,
-    error,
     cartItemsLength,
     cartData,
     deleteCartItem,

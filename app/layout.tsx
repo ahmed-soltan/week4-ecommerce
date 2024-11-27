@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
+import dynamic from "next/dynamic";
 
 import "./globals.css";
 
 import { auth } from "@/auth";
 
 import TopHeader from "@/components/top-header";
-import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "@/components/ui/toaster";
 
 import { TanstackProvider } from "@/providers/tanstack-provider";
+import { CartProvider } from "@/providers/cart-provider";
+
+const Navbar = dynamic(() => import("@/components/navbar"), { ssr: false });
 
 const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
@@ -30,12 +33,14 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={poppins.className}>
-          <Toaster/>
+          <Toaster />
           <TanstackProvider>
-            <TopHeader />
-            <Navbar />
-            <div className="flex-1">{children}</div>
-            <Footer />
+            <CartProvider>
+              <TopHeader />
+              <Navbar />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </CartProvider>
           </TanstackProvider>
         </body>
       </html>

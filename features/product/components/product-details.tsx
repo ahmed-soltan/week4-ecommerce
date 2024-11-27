@@ -13,6 +13,7 @@ import { LuLoader2 } from "react-icons/lu";
 
 import Rating from "@/components/rating";
 import ProductDetailsImage from "./product-details-image";
+import Hint from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
@@ -25,9 +26,13 @@ import { useWishlist } from "@/hooks/use-wishlist";
 import { useCart } from "@/hooks/use-cart";
 import { useFetchProductById } from "../hooks/use-fetch-product-by-id";
 import { useProductAction } from "../hooks/use-product-actions";
-import Hint from "@/components/hint";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import Link from "next/link";
+import useCartStore from "@/app/store/cart-store";
+import { toast } from "@/hooks/use-toast";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
+  const user = useCurrentUser();
   const { product, isLoading } = useFetchProductById({ productId });
   const { addToCart, isAddingToCart } = useCart();
   const { addToWishlist, isAddingToWishlist } = useWishlist();
@@ -42,6 +47,36 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
     hasMultipleColor,
     increaseLength,
   } = useProductAction(product!);
+  const { addToCart: addToLocalStorageCart } = useCartStore();
+
+  const addProductToCart = () => {
+    if (user) {
+      addToCart({
+        productId: productId,
+        quantity: 1,
+        selectedImage: cartProduct?.selectedImage!,
+        sizes: product?.sizes || [],
+      });
+    } else {
+      const productData = {
+        id: product?.id,
+        name: product?.name,
+        discount: product?.discount,
+        price: product?.price,
+      };
+      addToLocalStorageCart({
+        product: productData,
+        quantity: cartProduct?.quantity,
+        selectedImage: cartProduct?.selectedImage!,
+        sizes: product?.sizes || [],
+      });
+      toast({
+        title: "Product added successfully",
+        description: "Check your cart to see the updated item.",
+        variant: "success",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -107,8 +142,8 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
           </p>
         )}
         <p className="text-sm text-gray-800">
-          {product.description.slice(0, chars)}{" "}
-          {chars < product.description.split(" ").join("").length && (
+          {product.description?.slice(0, chars)}{" "}
+          {chars < product.description?.split(" ").join("").length && (
             <span
               className="text-red hover:underline cursor-pointer"
               onClick={increaseLength}
@@ -116,7 +151,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               ...Read More <FaAngleDown className="inline" />
             </span>
           )}
-          {chars === product.description.length && (
+          {chars === product.description?.length && (
             <span
               className="text-red hover:underline cursor-pointer ml-1"
               onClick={decreaseLength}
@@ -210,14 +245,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               variant={"destructive"}
               size={"lg"}
               className="rounded-sm w-full md:max-w-40"
-              onClick={() =>
-                addToCart({
-                  productId,
-                  quantity: cartProduct?.quantity || 1,
-                  selectedImage: cartProduct?.selectedImage!,
-                  sizes: cartProduct?.sizes || [],
-                })
-              }
+              onClick={addProductToCart}
               disabled={isAddingToCart || couldNotAddToCart}
             >
               {isAddingToCart && <LuLoader2 className="w-5 h-5 animate-spin" />}
@@ -229,7 +257,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
                 size={"sm"}
                 className="rounded-sm h-10"
                 onClick={() => addToWishlist({ productId })}
-                disabled={isAddingToWishlist}
+                disabled={isAddingToWishlist || !user}
               >
                 {isAddingToWishlist && (
                   <LuLoader2 className="w-5 h-5 animate-spin" />

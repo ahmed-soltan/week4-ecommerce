@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import TopHeaderSection from "../features/home/components/top-header-section";
 import Heading from "../features/home/components/heading";
@@ -28,8 +27,6 @@ const CarouselProducts = ({
   topHeaderTitle,
   headingTitle,
 }: CarouselProductsProps) => {
-  const router = useRouter();
-
   return (
     <div className="flex flex-col items-start gap-8 w-full">
       <div className="flex items-center justify-between w-full">

@@ -7,19 +7,23 @@ import { usePathname } from "next/navigation";
 
 import Sidebar from "./sidebar";
 import SearchCommand from "./search-command";
+import AccountMenu from "./account-menu";
 
 import { cn } from "@/lib/utils";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
-import AccountMenu from "./account-menu";
+
+import useCartStore from "@/app/store/cart-store";
 
 const Navbar = () => {
   const user = useCurrentUser();
   const pathname = usePathname();
   const { cartItemsLength } = useCart();
   const { wishlistProductsLength } = useWishlist();
+  const { cartLength } = useCartStore();
+  
 
   return (
     <div className=" border-b">
@@ -77,10 +81,10 @@ const Navbar = () => {
           <Link href={"/cart"} className="relative">
             <IoCartOutline className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
-              {cartItemsLength === 0 ? 0 : cartItemsLength}
+              {user ? cartItemsLength : cartLength()}
             </span>
           </Link>
-            <AccountMenu />
+          <AccountMenu />
         </div>
       </div>
     </div>

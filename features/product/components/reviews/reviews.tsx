@@ -1,9 +1,12 @@
 "use client";
 
 import TopHeaderSection from "@/features/home/components/top-header-section";
-import { useReviews } from "../hooks/use-reviews";
-import AddReview from "./add-review";
 import ReviewCard from "./review-card";
+import ReviewInput from "./review-input";
+
+import { useReviews } from "../../hooks/use-reviews";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import Link from "next/link";
 
 interface ReviewsProps {
   productId: string;
@@ -11,17 +14,34 @@ interface ReviewsProps {
 
 const Reviews = ({ productId }: ReviewsProps) => {
   const { reviews, isFetchingReviews } = useReviews({ productId });
+  const user = useCurrentUser();
 
   if (isFetchingReviews) {
     return <div>Loading...</div>;
   }
 
+  const userHasReview = () => {
+    return user && reviews?.some((review) => review.userId === user?.id);
+  };
+
   return (
     <div className="flex flex-col items-start gap-10 w-full">
       <TopHeaderSection title="Reviews" />
       <div className="grid grid-cols-1 lg:grid-cols-4 w-full">
-        
-        <AddReview productId={productId} />
+        {!user && (
+          <div className="text-center border-b w-full lg:border-r p-4 text-slate-600 italic">
+            Please sign in to leave a review*.{" "}
+            <Link href={"/auth/login"} className="underline text-red">
+              Sign in
+            </Link>
+          </div>
+        )}
+        {userHasReview() && (
+          <div className="text-center border-b w-full lg:border-r p-4 text-slate-500 italic">
+            You have already submitted a review for this product.
+          </div>
+        )}
+        {user && !userHasReview() && <ReviewInput productId={productId} />}
         <div className="col-span-1 lg:col-span-3">
           <div className="flex flex-col gap-4">
             {reviews && reviews?.length > 0 ? (

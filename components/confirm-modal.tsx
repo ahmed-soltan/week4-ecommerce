@@ -51,7 +51,7 @@ const ConfirmModal = ({
               Cancel
             </Button>
             <Button onClick={callbackFn} disabled={isLoading}>
-              {isLoading && <LuLoader2 className="w-4 h-4" />}
+              {isLoading && <LuLoader2 className="w-4 h-4 animate-spin" />}
               {!isLoading && "Confirm"}
             </Button>
           </div>

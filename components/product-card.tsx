@@ -10,6 +10,7 @@ import { LuLoader2 } from "react-icons/lu";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import Rating from "./rating";
+import Hint from "./hint";
 
 import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
@@ -17,16 +18,20 @@ import { Product } from "@/types";
 
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
-import Hint from "./hint";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import useCartStore from "@/app/store/cart-store";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const [currentImage, setCurrentImage] = useState(product.images[0]);
+  const user = useCurrentUser();
   const { addToCart, isAddingToCart } = useCart();
   const { addToWishlist, isAddingToWishlist } = useWishlist();
-  const [currentImage, setCurrentImage] = useState(product.images[0]);
+  const { addToCart: addToLocalStorageCart } = useCartStore();
 
   const isNewProduct = (createdAt: string | Date): boolean => {
     const createdDate = new Date(createdAt);
@@ -35,12 +40,32 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   const addProductToCart = () => {
-    addToCart({
-      productId: product.id,
-      quantity: 1,
-      selectedImage: currentImage,
-      sizes: product.sizes || [],
-    });
+    if (user) {
+      addToCart({
+        productId: product.id,
+        quantity: 1,
+        selectedImage: currentImage,
+        sizes: product.sizes || [],
+      });
+    } else {
+      const productData = {
+        id: product.id,
+        name: product.name,
+        discount: product.discount,
+        price: product.price,
+      };
+      addToLocalStorageCart({
+        product: productData,
+        quantity: 1,
+        selectedImage: currentImage,
+        sizes: product.sizes || [],
+      });
+      toast({
+        title: "Product added successfully",
+        description: "Check your cart to see the updated item.",
+        variant: "success",
+      });
+    }
   };
 
   const hasOneImage = product.images.length === 1;
@@ -128,7 +153,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             size={"icon"}
             className="rounded-full"
             onClick={() => addToWishlist({ productId: product.id })}
-            disabled={isAddingToWishlist}
+            disabled={isAddingToWishlist || !user}
           >
             {isAddingToWishlist && (
               <LuLoader2 className="w-5 h-5 animate-spin" />

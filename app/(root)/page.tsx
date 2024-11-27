@@ -1,3 +1,4 @@
+
 import { FaShippingFast } from "react-icons/fa";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { GoShieldCheck } from "react-icons/go";
@@ -19,11 +20,11 @@ const Home = () => {
     <ContainerWrapper
       className={"pt-0 flex flex-col items-start gap-y-28 w-full"}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5 w-full">
         <div className="hidden md:block border-r">
           <SideCategories />
         </div>
-        <div className="lg:col-span-4">
+        <div className="md:col-span-2 lg:col-span-4">
           <Banner />
         </div>
       </div>
