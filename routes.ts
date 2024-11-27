@@ -12,6 +12,7 @@ export const publicRoutes = [
   /^\/api\/product\/\w+\/reviews$/,
   /^\/product\/\w+$/,
   /^\/api\/product\/\w+$/,
+  "/cart",
 ];
 
 /**

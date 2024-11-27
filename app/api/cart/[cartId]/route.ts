@@ -1,14 +1,22 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
 
-export const DELETE = async ({ params }: { params: { cartId: string } }) => {
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: { cartId: string } }
+) => {
   try {
     const user = await currentUser();
     if (!user || !user.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    await db.cartItem.deleteMany({
+      where: {
+        cartId: params.cartId,
+      },
+    });
 
     await db.cart.delete({
       where: {

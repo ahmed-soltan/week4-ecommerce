@@ -5,13 +5,31 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "./use-toast";
 
-import { Cart, CartItem, Image } from "@prisma/client";
+import { Cart, Image } from "@prisma/client";
 import { useCurrentUser } from "./use-current-user";
-import { useEffect, useState } from "react";
+
+import { Product } from "@/types";
+
+type CartItemType = {
+  id: string;
+  quantity: number;
+  total: number;
+  sizes: string[];
+  productId: string;
+  cartId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  selectedImage: {
+    color: string;
+    image: string;
+    colorCode: string;
+  };
+  product: Product;
+};
 
 type CartType = {
   cart: Cart & {
-    cartItems: CartItem[];
+    cartItems: CartItemType[];
   };
 };
 
@@ -44,11 +62,13 @@ const fetchCart = async (): Promise<CartType> => {
 const updateCartItemQuantityApi = async ({
   cartItemId,
   quantity,
+  cartId,
 }: {
   cartItemId: string;
   quantity: number;
+  cartId: string;
 }) => {
-  const response = await axios.patch(`/api/cart/${cartItemId}`, {
+  const response = await axios.patch(`/api/cart/${cartId}/${cartItemId}`, {
     quantity,
   });
 
@@ -60,6 +80,11 @@ const deleteCartItemApi = async ({ cartItemId }: { cartItemId: string }) => {
   return response.data;
 };
 
+const flashCart = async ({ cartId }: { cartId: string }) => {
+  const response = await axios.delete(`/api/cart/${cartId}`);
+  return response.data;
+};
+
 export const useCart = () => {
   const user = useCurrentUser();
 
@@ -67,7 +92,7 @@ export const useCart = () => {
     queryKey: ["cart"],
     queryFn: fetchCart,
     staleTime: Infinity,
-    enabled:!!user
+    enabled: !!user,
   });
 
   const { mutate: addToCart, isPending: isAddingToCart } = useMutation({
@@ -125,6 +150,23 @@ export const useCart = () => {
     },
   });
 
+  const { mutate: deleteCart, isPending: isDeletingCart } = useMutation({
+    mutationFn: flashCart,
+    onSuccess: () => {
+      refetchCart();
+      toast({
+        title: "Cart deleted",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to delete cart",
+        variant: "destructive",
+      });
+    },
+  });
+
   const cartItemsLength =
     cartData?.cart?.cartItems?.reduce((sum, item) => sum + item.quantity, 0) ||
     0;
@@ -138,5 +180,7 @@ export const useCart = () => {
     cartData,
     deleteCartItem,
     isDeletingItem,
+    deleteCart,
+    isDeletingCart
   };
 };

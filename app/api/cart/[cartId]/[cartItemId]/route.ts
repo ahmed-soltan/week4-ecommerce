@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
@@ -60,20 +60,17 @@ export const DELETE = async ({
   }
 };
 
-export const PATCH = async ({
-  params,
-  request,
-}: {
-  params: { cartId: string; cartItemId: string };
-  request: Request;
-}) => {
+export const PATCH = async (
+  req: NextRequest,
+  { params }: { params: { cartId: string; cartItemId: string } }
+) => {
   try {
     const user = await currentUser();
     if (!user || !user.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { quantity } = await request.json();
+    const { quantity } = await req.json();
     if (quantity === undefined || quantity <= 0) {
       return NextResponse.json(
         { message: "Invalid quantity" },

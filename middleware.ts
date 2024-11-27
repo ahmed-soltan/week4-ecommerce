@@ -27,7 +27,6 @@ export default auth((req): any => {
   
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  const isAddToCartRoute = nextUrl.pathname.startsWith("/api/cart");
 
   if (isApiAuthRoute) {
     return null;
@@ -39,10 +38,6 @@ export default auth((req): any => {
     }
     return null;
   }
-
-  // if (isAddToCartRoute && !isLoggedIn) {
-  //   throw new Error("Unauthenticated")
-  // }
 
   if (!isLoggedIn && !isPublicRoute ) {
     let callbackUrl = nextUrl.pathname;

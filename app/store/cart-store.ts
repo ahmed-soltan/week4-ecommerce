@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Image } from "@prisma/client";
 
-// Define the structure of the CartItemType, which includes the product as an object
 type CartItemType = {
   id: string;
   quantity: number;
@@ -24,6 +23,7 @@ interface CartState {
   clearCart: () => void;
   cartLength: () => number;
   initializeCartFromLocalStorage: () => void;
+  updateQuantity: (id: string, newQuantity: number) => void;
 }
 
 type ProductType = {
@@ -61,11 +61,11 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
   addToCart: ({ product, quantity, selectedImage, sizes }: any) => {
     const currentItems: CartItemType[] = get().cartItems;
 
-    const total = (product.price - (product.price * (product.discount/100))) * quantity;
+    const total =
+      (product.price - product.price * (product.discount / 100)) * quantity;
 
     const existingItem = currentItems.find(
-      (cartItem) =>
-        cartItem.product.id === product.id 
+      (cartItem) => cartItem.product.id === product.id
     );
 
     let updatedItems;
@@ -116,6 +116,35 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
     const currentItems: CartItemType[] = get().cartItems;
 
     const updatedItems = currentItems.filter((cartItem) => cartItem.id !== id);
+
+    const updatedTotal = updatedItems.reduce(
+      (sum, cartItem) => sum + cartItem.total,
+      0
+    );
+
+    set({ cartItems: updatedItems, total: updatedTotal });
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(updatedItems));
+      localStorage.setItem("total", JSON.stringify(updatedTotal));
+    }
+  },
+
+  updateQuantity: (id: string, newQuantity: number) => {
+    const currentItems: CartItemType[] = get().cartItems;
+
+    const updatedItems = currentItems.map((cartItem) =>
+      cartItem.id === id
+        ? {
+            ...cartItem,
+            quantity: newQuantity,
+            total:
+              (cartItem.product.price -
+                cartItem.product.price * (cartItem.product.discount / 100)) *
+              newQuantity,
+          }
+        : cartItem
+    );
 
     const updatedTotal = updatedItems.reduce(
       (sum, cartItem) => sum + cartItem.total,

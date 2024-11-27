@@ -27,9 +27,9 @@ import { useCart } from "@/hooks/use-cart";
 import { useFetchProductById } from "../hooks/use-fetch-product-by-id";
 import { useProductAction } from "../hooks/use-product-actions";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import Link from "next/link";
-import useCartStore from "@/app/store/cart-store";
 import { toast } from "@/hooks/use-toast";
+
+import useCartStore from "@/app/store/cart-store";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const user = useCurrentUser();
