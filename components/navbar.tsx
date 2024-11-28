@@ -16,6 +16,7 @@ import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
 
 import useCartStore from "@/app/store/cart-store";
+import useWishlistStore from "@/app/store/wishlist-store";
 
 const Navbar = () => {
   const user = useCurrentUser();
@@ -23,7 +24,8 @@ const Navbar = () => {
   const { cartItemsLength } = useCart();
   const { wishlistProductsLength } = useWishlist();
   const { cartLength } = useCartStore();
-  
+
+  const { WishlistLength } = useWishlistStore();
 
   return (
     <div className=" border-b">
@@ -75,7 +77,7 @@ const Navbar = () => {
           <Link href={"/wishlist"} className="relative">
             <GoHeart className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
-              {wishlistProductsLength === 0 ? 0 : wishlistProductsLength}
+              {user ? wishlistProductsLength : WishlistLength()}
             </span>
           </Link>
           <Link href={"/cart"} className="relative">

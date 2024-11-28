@@ -100,6 +100,7 @@ const CartTable = () => {
               alt={item.product?.name || "Product"}
               width={50}
               height={50}
+              className="max-h-[50px]"
             />
             <p className="text-sm line-clamp-2 font-normal">
               {item.product?.name || "Unknown Product"}

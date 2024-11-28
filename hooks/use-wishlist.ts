@@ -5,12 +5,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { toast } from "./use-toast";
 
-import { Products, Wishlist } from "@prisma/client";
+import { Wishlist } from "@prisma/client";
+import { Product } from "@/types";
 
-type WishlistType = {
-  wishlist: Wishlist & {
-    products: Products[];
-  };
+type WishlistType = Wishlist & {
+  products: Product[];
 };
 
 const addToWishlistApi = async ({ productId }: { productId: string }) => {
@@ -27,14 +26,22 @@ const fetchWishlist = async (): Promise<WishlistType> => {
 };
 
 const deleteWishlistProductApi = async ({
-  productId,
+  wishlistProductId,
+  wishlistId,
 }: {
-  productId: string;
+  wishlistProductId: string;
+  wishlistId: string;
 }) => {
-  const response = await axios.delete(`/api/wishlist/${productId}`);
+  const response = await axios.delete(
+    `/api/wishlist/${wishlistId}/${wishlistProductId}`
+  );
   return response.data;
 };
 
+const flashWishlistApi = async ({ wishlistId }: { wishlistId: string }) => {
+  const response = await axios.delete(`/api/wishlist/${wishlistId}`);
+  return response.data;
+};
 
 export const useWishlist = () => {
   const { data: wishlistData, refetch: refetchWishlist } =
@@ -86,7 +93,25 @@ export const useWishlist = () => {
       },
     });
 
-  const wishlistProductsLength = wishlistData?.wishlist?.products.length || 0;
+  const { mutate: flashWishlist, isPending: isFlashingWishlist } = useMutation({
+    mutationFn: flashWishlistApi,
+    onSuccess: () => {
+      refetchWishlist();
+      toast({
+        title: "Wishlist  flashed",
+        description: "The  has been removed from your wishlist.",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to flash ",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const wishlistProductsLength = wishlistData?.products.length || 0;
 
   return {
     addToWishlist,
@@ -97,5 +122,7 @@ export const useWishlist = () => {
     wishlistData,
     deleteWishlistProduct,
     isDeletingItem,
+    flashWishlist,
+    isFlashingWishlist,
   };
 };

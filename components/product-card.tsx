@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiEye, FiHeart } from "react-icons/fi";
 import { differenceInDays } from "date-fns";
-import { LuLoader2 } from "react-icons/lu";
+import { LuLoader2, LuTrash2 } from "react-icons/lu";
 
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
@@ -21,16 +21,26 @@ import { useWishlist } from "@/hooks/use-wishlist";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import useCartStore from "@/app/store/cart-store";
 import { toast } from "@/hooks/use-toast";
+import useWishlistStore from "@/app/store/wishlist-store";
 
 interface ProductCardProps {
   product: Product;
+  inWishlist?: boolean;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, inWishlist }: ProductCardProps) => {
   const [currentImage, setCurrentImage] = useState(product.images[0]);
   const user = useCurrentUser();
   const { addToCart, isAddingToCart } = useCart();
-  const { addToWishlist, isAddingToWishlist } = useWishlist();
+  const {
+    addToWishlist: addToWishlistDB,
+    isAddingToWishlist,
+    deleteWishlistProduct,
+    isDeletingItem,
+    wishlistData,
+  } = useWishlist();
+  const { addToWishlist: addToWishlistLocalStorage, removeFromWishlist } =
+    useWishlistStore();
   const { addToCart: addToLocalStorageCart } = useCartStore();
 
   const isNewProduct = (createdAt: string | Date): boolean => {
@@ -65,6 +75,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
         description: "Check your cart to see the updated item.",
         variant: "success",
       });
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    if (user) {
+      addToWishlistDB({ productId: product.id });
+    } else {
+      addToWishlistLocalStorage({ product: product });
+    }
+    toast({
+      title: "Product added to wishlist",
+      description: "Check your wishlist to see the updated item.",
+      variant: "success",
+    });
+  };
+
+  const handleDeleteFromWishlist = () => {
+    if (user) {
+      deleteWishlistProduct({
+        wishlistProductId: product.id,
+        wishlistId: wishlistData?.id!,
+      });
+    } else {
+      removeFromWishlist(product.id);
     }
   };
 
@@ -147,20 +181,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
         )}
       </CardContent>
       <div className="flex flex-col items-center gap-2 absolute top-2 right-2">
-        <Hint label="Add To Wishlist" side="right" align="start">
-          <Button
-            variant={"outline"}
-            size={"icon"}
-            className="rounded-full"
-            onClick={() => addToWishlist({ productId: product.id })}
-            disabled={isAddingToWishlist || !user}
-          >
-            {isAddingToWishlist && (
-              <LuLoader2 className="w-5 h-5 animate-spin" />
-            )}
-            {!isAddingToWishlist && <FiHeart className="w-4 h-4" />}
-          </Button>
-        </Hint>
+        {!inWishlist && (
+          <Hint label="Add To Wishlist" side="right" align="start">
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              className="rounded-full"
+              onClick={handleAddToWishlist}
+              disabled={isAddingToWishlist}
+            >
+              {isAddingToWishlist && (
+                <LuLoader2 className="w-5 h-5 animate-spin" />
+              )}
+              {!isAddingToWishlist && <FiHeart className="w-4 h-4" />}
+            </Button>
+          </Hint>
+        )}
+        {inWishlist && (
+          <Hint label="Remove From Wishlist" side="right" align="start">
+            <Button
+              variant={"destructive"}
+              size={"icon"}
+              className="rounded-full"
+              onClick={handleDeleteFromWishlist}
+              disabled={isDeletingItem}
+            >
+              {isDeletingItem && <LuLoader2 className="w-5 h-5 animate-spin" />}
+              {!isDeletingItem && <LuTrash2 className="w-4 h-4" />}
+            </Button>
+          </Hint>
+        )}
         <Hint label="View Product" side="right" align="start">
           <Button
             variant={"outline"}

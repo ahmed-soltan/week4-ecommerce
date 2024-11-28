@@ -20,14 +20,12 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    // Find the user's wishlist
     const existingWishlist = await db.wishlist.findFirst({
       where: { userId: user.id },
       include: { products: true },
     });
 
     if (existingWishlist) {
-      // Check if the product is already in the wishlist
       const isProductInWishlist = existingWishlist.products.some(
         (product) => product.id === productId
       );
@@ -39,12 +37,11 @@ export const POST = async (req: NextRequest) => {
         });
       }
 
-      // Add the product to the wishlist
       const updatedWishlist = await db.wishlist.update({
         where: { id: existingWishlist.id },
         data: {
           products: {
-            connect: { id: productId }, // Connect the product
+            connect: { id: productId },
           },
         },
         include: {
@@ -57,12 +54,11 @@ export const POST = async (req: NextRequest) => {
         wishlist: updatedWishlist,
       });
     } else {
-      // Create a new wishlist and add the product
       const newWishlist = await db.wishlist.create({
         data: {
           userId: user.id,
           products: {
-            connect: { id: productId }, // Connect the product
+            connect: { id: productId },
           },
         },
         include: { products: true },
@@ -92,11 +88,42 @@ export const GET = async () => {
     const wishlist = await db.wishlist.findFirst({
       where: { userId: user.id },
       include: {
-        products: true,
+        products: {
+          include: {
+            category: {
+              select: {
+                name: true,
+              },
+            },
+            reviews: {
+              select: {
+                rating: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return NextResponse.json({ wishlist });
+    const productsWithRating = wishlist?.products.map((product) => {
+      const { reviews, ...rest } = product;
+      const rating =
+        reviews.reduce((acc, review) => acc + review.rating, 0) /
+        reviews.length;
+
+      return {
+        ...rest,
+        reviewCount: reviews.length,
+        rating: rating || 0,
+      };
+    });
+
+    const wishlistData = {
+      ...wishlist,
+      products:productsWithRating,
+    };
+
+    return NextResponse.json(wishlistData);
   } catch (error) {
     console.error("Error getting user:", error);
     return NextResponse.json(
