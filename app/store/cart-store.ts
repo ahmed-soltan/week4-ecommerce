@@ -60,14 +60,17 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
 
   addToCart: ({ product, quantity, selectedImage, sizes }: any) => {
     const currentItems: CartItemType[] = get().cartItems;
-
+  
     const total =
       (product.price - product.price * (product.discount / 100)) * quantity;
-
+  
     const existingItem = currentItems.find(
-      (cartItem) => cartItem.product.id === product.id
+      (cartItem) =>
+        cartItem.product.id === product.id &&
+        cartItem.selectedImage.image === selectedImage.image &&
+        JSON.stringify(cartItem.sizes) === JSON.stringify(sizes)
     );
-
+  
     let updatedItems;
     if (existingItem) {
       updatedItems = currentItems.map((cartItem) =>
@@ -93,24 +96,24 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
             discount: product.discount,
           },
           selectedImage,
+          sizes,
         },
       ];
     }
-
-    // Calculate the total price of all cart items
+  
     const updatedTotal = updatedItems.reduce(
       (sum, cartItem) => sum + cartItem.total,
       0
     );
-
+  
     set({ cartItems: updatedItems, total: updatedTotal });
-
-    // Save to localStorage
+  
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(updatedItems));
       localStorage.setItem("total", JSON.stringify(updatedTotal));
     }
   },
+  
 
   removeFromCart: (id: string) => {
     const currentItems: CartItemType[] = get().cartItems;

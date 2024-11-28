@@ -18,12 +18,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-
 import { login } from "@/actions/login";
 
 import { LoginSchema } from "@/schemas";
 import FormSuccess from "@/components/form-success";
 import FormError from "@/components/form-error";
+import { syncCartWithDb } from "@/lib/sync-cart-with-db";
+import { useCart } from "@/hooks/use-cart";
 
 type StateType = {
   error: string | undefined;
@@ -37,6 +38,7 @@ export const LoginForm = () => {
   });
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
+  const { addToCart } = useCart();
 
   const callbackUrl = searchParams.get("callbackUrl");
 

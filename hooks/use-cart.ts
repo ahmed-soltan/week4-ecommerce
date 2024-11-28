@@ -75,8 +75,8 @@ const updateCartItemQuantityApi = async ({
   return response.data;
 };
 
-const deleteCartItemApi = async ({ cartItemId }: { cartItemId: string }) => {
-  const response = await axios.delete(`/api/cart/${cartItemId}`);
+const deleteCartItemApi = async ({ cartItemId , cartId }: { cartItemId: string , cartId:string }) => {
+  const response = await axios.delete(`/api/cart/${cartId}/${cartItemId}`);
   return response.data;
 };
 
@@ -99,11 +99,6 @@ export const useCart = () => {
     mutationFn: addToCartApi,
     onSuccess: () => {
       refetchCart();
-      toast({
-        title: "Product added successfully",
-        description: "Check your cart to see the updated item.",
-        variant: "success",
-      });
     },
     onError: () => {
       toast({

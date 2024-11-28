@@ -1,7 +1,10 @@
+"use client"
 
 import { FaShippingFast } from "react-icons/fa";
 import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { GoShieldCheck } from "react-icons/go";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import ContainerWrapper from "@/components/container-wrapper";
 import { Separator } from "@/components/ui/separator";
@@ -15,7 +18,13 @@ import NewArrival from "@/features/home/components/new-arrival";
 import SideCategories from "@/components/side-categories";
 import CarouselCategories from "@/features/home/components/carousel-categories";
 
+import { useCart } from "@/hooks/use-cart";
+
+import { syncCartWithDb } from "@/lib/sync-cart-with-db";
+
 const Home = () => {
+
+  
   return (
     <ContainerWrapper
       className={"pt-0 flex flex-col items-start gap-y-28 w-full"}

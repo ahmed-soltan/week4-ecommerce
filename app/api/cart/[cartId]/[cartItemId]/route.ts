@@ -3,11 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
 
-export const DELETE = async ({
-  params,
-}: {
-  params: { cartId: string; cartItemId: string };
-}) => {
+export const DELETE = async (
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { cartId: string; cartItemId: string };
+  }
+) => {
   try {
     const user = await currentUser();
     if (!user || !user.id) {
@@ -69,6 +72,8 @@ export const PATCH = async (
     if (!user || !user.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
+    console.log({ params });
 
     const { quantity } = await req.json();
     if (quantity === undefined || quantity <= 0) {

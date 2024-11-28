@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentUser } from "@/lib/current-user";
 import { db } from "@/lib/db";
+import { areArraysEqual } from "@/lib/are-arrays-equal";
 
 export const POST = async (req: NextRequest) => {
   try {
     const user = await currentUser();
 
-    console.log(user)
+    console.log(user);
 
     if (!user || !user.id) {
-      throw new Error("You Not Unauthorized, Please Login First")
+      throw new Error("You Not Unauthorized, Please Login First");
     }
 
     const { productId, quantity, sizes, selectedImage } = await req.json();
@@ -47,18 +48,36 @@ export const POST = async (req: NextRequest) => {
           cartId: existingCart.id,
         },
       });
+
       const existingCartItem = cartItems.find(
         (item) => item.productId === productId
       );
 
       if (existingCartItem) {
-        await db.cartItem.update({
-          where: { id: existingCartItem.id },
-          data: {
-            quantity: existingCartItem.quantity + quantity,
-            total: existingCartItem.total + itemTotal,
-          },
-        });
+        if (
+          existingCartItem?.selectedImage?.image === selectedImage?.image &&
+          areArraysEqual(existingCartItem?.sizes || [], sizes || [])
+        ) {
+          await db.cartItem.update({
+            where: { id: existingCartItem.id },
+            data: {
+              quantity: existingCartItem.quantity + quantity,
+              total: existingCartItem.total + itemTotal,
+            },
+          });
+        } else {
+          await db.cartItem.create({
+            data: {
+              cartId: existingCart.id,
+              productId,
+              quantity,
+              total: itemTotal,
+              sizes: sizes || [],
+              selectedImage,
+            },
+          });
+        }
+        
       } else {
         await db.cartItem.create({
           data: {
@@ -110,10 +129,7 @@ export const POST = async (req: NextRequest) => {
     }
   } catch (error) {
     console.error("Error adding to cart:", error);
-    return NextResponse.json(
-      { message: error,  error },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error, error }, { status: 500 });
   }
 };
 

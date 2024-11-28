@@ -9,19 +9,20 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const Social = () => {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
+
+  const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
 
   const onClick = (provider: "google") => {
     signIn(provider, {
-      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      callbackUrl,
     });
   };
 
   return (
     <div className="flex items-center w-full gap-x-2">
       <Button
-        variant={"outline"}
-        size={"lg"}
+        variant="outline"
+        size="lg"
         className="w-full flex items-center justify-center gap-3 h-[56px]"
         onClick={() => onClick("google")}
       >

@@ -77,7 +77,7 @@ const AccountMenu = () => {
           className="focus:bg-gray-400"
         >
           <Link
-            href={"/"}
+            href={"#"}
             className="flex items-center gap-2 text-white font-normal"
           >
             <RiLogoutBoxLine className="w-5 h-5" />

@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { LuTrash2 } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -29,8 +29,11 @@ const CartTable = () => {
     isUpdatingQuantity,
     deleteCart,
     isDeletingCart,
+    deleteCartItem,
+    isDeletingItem,
   } = useCart();
-  const { cartItems, updateQuantity, clearCart } = useCartStore();
+  const { cartItems, updateQuantity, clearCart, removeFromCart } =
+    useCartStore();
   const user = useCurrentUser();
 
   const increaseQuantity = (itemId: string, quantity: number) => {
@@ -67,6 +70,14 @@ const CartTable = () => {
     }
   };
 
+  const removeItemFromCart = (itemId: string) => {
+    if (user) {
+      deleteCartItem({ cartItemId: itemId, cartId: cartData?.cart.id! });
+    } else {
+      removeFromCart(itemId);
+    }
+  };
+
   const renderCartRows = () => {
     const items = user ? cartData?.cart?.cartItems : cartItems;
 
@@ -83,7 +94,7 @@ const CartTable = () => {
     return items.map((item) => (
       <TableRow key={item.id}>
         <TableCell>
-          <div className="flex items-center gap-2 max-w-[300px]">
+          <div className="flex items-center gap-2 w-[300px]">
             <Image
               src={item.selectedImage?.image || "/placeholder.png"}
               alt={item.product?.name || "Product"}
@@ -95,10 +106,10 @@ const CartTable = () => {
             </p>
           </div>
         </TableCell>
-        <TableCell className="text-center">
+        <TableCell className="text-center w-[150px]">
           {formatPrice(item.product?.price || 0)}
         </TableCell>
-        <TableCell className="flex items-center justify-center">
+        <TableCell className="flex items-start justify-center ">
           <div
             className={cn(
               "rounded-sm w-16 h-11 border border-slate-400 p-1 flex items-center justify-center gap-3",
@@ -123,13 +134,21 @@ const CartTable = () => {
         <TableCell className="text-right">
           {formatPrice(item.total || 0)}
         </TableCell>
+        <TableCell className="text-right">
+          <Button
+            variant={"ghost"}
+            disabled={isDeletingItem}
+            onClick={() => removeItemFromCart(item.id)}
+          >
+            <LuTrash2 className="text-red w-4 h-4" />
+          </Button>
+        </TableCell>
       </TableRow>
     ));
   };
 
   return (
     <div className="flex flex-col items-start gap-10 w-full">
-      {/* Table Wrapper */}
       <Table>
         <TableHeader>
           <TableRow>
@@ -137,24 +156,11 @@ const CartTable = () => {
             <TableHead className="w-[400px] text-center">Price</TableHead>
             <TableHead className="w-[400px] text-center">Quantity</TableHead>
             <TableHead className="text-right w-[400px]">Subtotal</TableHead>
+            <TableHead className="text-right w-[400px]">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>{renderCartRows()}</TableBody>
-        {/* <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">
-              {formatPrice(
-                (user
-                  ? cartData?.cart?.cartItems || []
-                  : cartItems || []
-                ).reduce((sum, item) => sum + (item.total || 0), 0)
-              )}
-            </TableCell>
-          </TableRow>
-        </TableFooter> */}
       </Table>
-      {/* Buttons */}
       <div className="flex items-center justify-between flex-wrap w-full">
         <Button
           variant="outline"

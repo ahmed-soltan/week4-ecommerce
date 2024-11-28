@@ -68,7 +68,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
         product: productData,
         quantity: cartProduct?.quantity,
         selectedImage: cartProduct?.selectedImage!,
-        sizes: product?.sizes || [],
+        sizes: cartProduct?.sizes || [],
       });
       toast({
         title: "Product added successfully",
