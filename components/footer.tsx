@@ -13,7 +13,7 @@ import { AppleStoreImage, GooglePlayImage, QrCodeImage } from "@/data/images";
 const Footer = () => {
   return (
     <div className="border-b bg-black">
-      <div className="p-5  flex items-center justify-between w-full max-w-[1550px] mx-auto min-h-[400px] flex-wrap gap-5">
+      <div className="p-5 pt-20 flex items-start justify-between w-full max-w-[1550px] mx-auto min-h-[400px] flex-wrap gap-5">
         <div className="flex flex-col items-start gap-5 text-white">
           <h1 className="text-2xl font-bold">
             <Link href={"/"}>Exclusive</Link>
