@@ -1,6 +1,6 @@
 "use client";
 
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 import { PropsWithChildren, useEffect } from "react";
 
 export const CartProvider = ({ children }: PropsWithChildren) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import useWishlistStore from "@/app/store/wishlist-store";
+import useWishlistStore from "@/store/wishlist-store";
 import ProductCard from "@/components/product-card";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useWishlist } from "@/hooks/use-wishlist";

@@ -29,7 +29,7 @@ import { useProductAction } from "../hooks/use-product-actions";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 
 export const ProductDetails = ({ productId }: { productId: string }) => {
   const user = useCurrentUser();

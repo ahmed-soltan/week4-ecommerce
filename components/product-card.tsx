@@ -19,9 +19,9 @@ import { Product } from "@/types";
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 import { toast } from "@/hooks/use-toast";
-import useWishlistStore from "@/app/store/wishlist-store";
+import useWishlistStore from "@/store/wishlist-store";
 
 interface ProductCardProps {
   product: Product;

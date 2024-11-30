@@ -32,3 +32,10 @@ export const ContactFormSchema = z.object({
     phone: z.string().min(10),
     message: z.string().min(5).max(500),
 })
+
+export const ProfileSchema = z.object({
+    firstName: z.string().min(2).max(50),
+    lastName: z.string().min(2).max(50),
+    email: z.string().email(),
+    phoneNumber: z.string().min(10),
+})

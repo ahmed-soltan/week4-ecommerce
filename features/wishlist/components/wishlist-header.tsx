@@ -3,13 +3,13 @@
 import React from "react";
 import { LuLoader2 } from "react-icons/lu";
 
-import useWishlistStore from "@/app/store/wishlist-store";
+import useWishlistStore from "@/store/wishlist-store";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 import Link from "next/link";
 
 const WishlistHeader = () => {

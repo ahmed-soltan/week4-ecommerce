@@ -14,7 +14,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 
 import { useCart } from "@/hooks/use-cart";
 import { useCurrentUser } from "@/hooks/use-current-user";

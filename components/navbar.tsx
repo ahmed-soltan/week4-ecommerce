@@ -15,8 +15,8 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
 
-import useCartStore from "@/app/store/cart-store";
-import useWishlistStore from "@/app/store/wishlist-store";
+import useCartStore from "@/store/cart-store";
+import useWishlistStore from "@/store/wishlist-store";
 
 const Navbar = () => {
   const user = useCurrentUser();

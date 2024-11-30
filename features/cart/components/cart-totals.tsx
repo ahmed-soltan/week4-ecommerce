@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/use-cart";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
-import useCartStore from "@/app/store/cart-store";
+import useCartStore from "@/store/cart-store";
 
 import { formatPrice } from "@/lib/format-price";
 
