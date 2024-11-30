@@ -41,6 +41,7 @@ const SearchCommand = () => {
                 <Link
                   className="flex items-start gap-2"
                   href={`/product/${product.id}`}
+                  onClick={() => setOpen(false)}
                 >
                   <Image
                     className="w-6 h-6 object-cover"
@@ -63,6 +64,7 @@ const SearchCommand = () => {
                 <Link
                   className="text-black font-medium text-md flex items-start gap-2"
                   href={`/products?categoryId=${category.id}`}
+                  onClick={() => setOpen(false)}
                 >
                   <Image
                     className="w-6 h-6 object-cover"

@@ -16,3 +16,11 @@ export const PhoneImage =
   "https://utfs.io/f/wIFmjS7Mu2JtKujjOLTny1sGkQrLfpjhB8Sl5xWetMXZcFq6";
 export const CameraImage =
   "https://utfs.io/f/wIFmjS7Mu2Jt8Xyd0ApPFXY7CDhujmV8ZPUEpnyMeQbdc4IN";
+export const aboutImage =
+  "https://utfs.io/f/wIFmjS7Mu2JtvxaMKQvHrt8dfbKZoaTJ6VsjzNgnX7UG2Cmc";
+export const person1 =
+  "https://s3-alpha-sig.figma.com/img/0881/49fd/5afc043392ee3cbb529f429b3e2098d3?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qfkE-xjD2rB3Yuarl9kJ0L5NgJJrxEDL0lRsldNkDSRAZtag5TNu-k84iQVeaqO6OcxKT9StNxgrPF40bvJE9edZcTYdfuvRR8zJeZuLnuYq2BAAGSjDSBmoD9mGiVTTgNaS4NGp6YQSW8v4yXDUzUK2niK3RrzqNTOaH02ktZjNDKSV1JuR9QYiEXSfH6cDLrifZBy~9nvFTWkXVVRPSbKH4pbpUgySAsDHpdp7Q8-yelJGmqxiO8xK9apWrJC3QesQnEbivFbU~s7e19dCZjrr9HZ5DaDUYIhSwYjPpvrJIXYfipIASmB8Y3E9n5BhsmDQAtqKNvJAq3CFppqi2A__";
+export const person2 =
+  "https://s3-alpha-sig.figma.com/img/8438/eab9/a2fe88af0272adecd83422d0cb7e20d7?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=hnDHgjkpfycifg3BaKFcqYGunIQQzXj7CKKod8repLl3VGFm2Q1rnytODuSS8aobZ8UDQP-VSvawwSZpMNImdz4HfqJWYhbBlRYeSmxPWmODgkJJI4bKTGIL8FtLi9fMspqGNdX4yG4R4UQjqzbK489Cs8Se9T-VWwGB30tvtlq-5TAWUXyQXFLjGyhNc19HJhYsrXzQKdrDlYuZ-mP7VlsEYX733maY6o6TTarfNQm2Ghg4gjlEPvIJbIlyRdwx-gTt~ewUcDql26igJFqduLQHPIFTvQec9zc2wac9gqPaQPq2CtnMU69Hk-oCWlJC~6cDeC7jZW4bBwQpDj-Bmw__";
+export const person3 =
+  "https://s3-alpha-sig.figma.com/img/ede4/8f2b/5df8103b281240ce5bafe5dd7d215ab8?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GIMzrsMAXasFPeswGMdvKOynltG2EZSh926S3pDlERwjt9kM3cmmDb0O5yA5Ke-JYuN7BxU2rxKE-wNJZkpvBSWZK16EBI5KZPjDV7EiNnX9YNYvOF4fHDriQA27xQyCPfTYlr0PBQY5U-H-Apa7gIJDEW2qh5qBd52YjSr-SuIA5D70te4XAvDdP1FMZ63PX6LGYvlPS~XYe3ft5S7~hoGLhIG~~e68Jfm8ZDac33657m4PE62Q9oEzfLrOw6uoNbYXwaG3N54g0VE~bCCQ7of3q~IjmquLJdu-uyEVXCWHVvmNNeVSBhsJTsdJWg5VQBg96Ge~8VgOo0msL2dlMg__";

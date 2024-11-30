@@ -11,7 +11,7 @@ import ExploreProducts from "@/features/home/components/explore-products";
 import NewArrival from "@/features/home/components/new-arrival";
 import SideCategories from "@/components/side-categories";
 import CarouselCategories from "@/features/home/components/carousel-categories";
-import Services from "@/features/home/services";
+import Services from "@/components/services";
 
 const Home = () => {
   return (

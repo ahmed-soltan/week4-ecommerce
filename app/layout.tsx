@@ -16,7 +16,7 @@ import { CartProvider } from "@/providers/cart-provider";
 
 const Navbar = dynamic(() => import("@/components/navbar"), { ssr: false });
 
-const poppins = Poppins({ weight: "400", subsets: ["latin"] });
+const poppins = Poppins({ weight: "500", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
