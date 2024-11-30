@@ -7,6 +7,7 @@ import { toast } from "./use-toast";
 
 import { Wishlist } from "@prisma/client";
 import { Product } from "@/types";
+import { useCurrentUser } from "./use-current-user";
 
 type WishlistType = Wishlist & {
   products: Product[];
@@ -44,11 +45,14 @@ const flashWishlistApi = async ({ wishlistId }: { wishlistId: string }) => {
 };
 
 export const useWishlist = () => {
+  const user = useCurrentUser();
+  
   const { data: wishlistData, refetch: refetchWishlist } =
     useQuery<WishlistType>({
       queryKey: ["wishlist"],
       queryFn: fetchWishlist,
       staleTime: Infinity,
+      enabled: !!user,
     });
 
   const {
@@ -111,7 +115,8 @@ export const useWishlist = () => {
     },
   });
 
-  const wishlistProductsLength = wishlistData?.products.length || 0;
+  const wishlistProductsLength =
+    (wishlistData && wishlistData?.products?.length) || 0;
 
   return {
     addToWishlist,

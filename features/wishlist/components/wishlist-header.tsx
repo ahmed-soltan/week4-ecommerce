@@ -24,7 +24,7 @@ const WishlistHeader = () => {
   const { addToCart: AddToCartLocalStorage } = useCartStore();
   const user = useCurrentUser();
 
-  if (wishlistData?.products.length === 0 && wishlistItems.length === 0) {
+  if (wishlistData?.products.length === 0 || wishlistItems.length === 0) {
     return (
       <div className="flex items-center justify-center flex-col gap-5 my-10 w-full">
         <h1 className="text-md text-slate-700 text-center italic">
@@ -49,12 +49,12 @@ const WishlistHeader = () => {
         flashWishlist({ wishlistId: wishlistData?.id! });
       }
     } else {
-      for (let item of wishlistData?.products!) {
+      for (let item of wishlistItems) {
         AddToCartLocalStorage({
           product: item,
           quantity: 1,
           selectedImage: item.images[0],
-          sizes: item.sizes || [],
+          sizes: item.sizes[0] || [],
         });
       }
       clearWishlist();

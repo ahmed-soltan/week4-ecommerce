@@ -10,14 +10,14 @@ const WishlistProducts = () => {
   const { wishlistItems } = useWishlistStore();
   const user = useCurrentUser();
 
-  console.log(wishlistData)
-
   const wishlistProducts = user
     ? wishlistData?.products
     : wishlistItems;
+
+    console.log(wishlistProducts)
     
   return (
-    <div className="flex items-center flex-wrap justify-center md:justify-start gap-5 w-full">
+    <div className="flex items-start flex-wrap justify-center md:justify-start gap-5 w-full">
       {wishlistProducts?.map((product) => (
         <ProductCard key={product.id} product={product} inWishlist/>
       ))}

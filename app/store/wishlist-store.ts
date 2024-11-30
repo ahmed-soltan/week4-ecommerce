@@ -41,8 +41,7 @@ const useWishlistStore = create<WishlistState>((set: any, get: any) => ({
       updatedItems = [
         ...currentItems,
         {
-          id: `${product.id}`,
-          product,
+          ...product,
         },
       ];
     }
@@ -69,7 +68,7 @@ const useWishlistStore = create<WishlistState>((set: any, get: any) => ({
   },
 
   clearWishlist: () => {
-    set({ WishlistItems: [] });
+    set({ wishlistItems: [] });
 
     if (typeof window !== "undefined") {
       localStorage.removeItem("wishlist");
@@ -77,7 +76,7 @@ const useWishlistStore = create<WishlistState>((set: any, get: any) => ({
   },
 
   WishlistLength: () => {
-    const currentItems: Product[] = get().WishlistItems;
+    const currentItems: Product[] = get().wishlistItems;
     return currentItems.length;
   },
 }));
