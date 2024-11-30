@@ -29,13 +29,16 @@ model User {
 }
 
 model Address {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String  @db.ObjectId
-  street  String?
-  city    String?
-  state   String?
-  zipCode String?
-  User    User    @relation(fields: [userId], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  street    String?
+  city      String?
+  state     String?
+  zipCode   String?
+  isDefault Boolean?
+  country   String?
+
+  User User @relation(fields: [userId], references: [id])
 }
 
 model Account {
@@ -148,8 +151,6 @@ model Wishlist {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
 
 type Image {
   color     String

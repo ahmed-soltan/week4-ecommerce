@@ -121,11 +121,11 @@ const ProfileForm = () => {
             )}
           />
         </div>
-        <div className="ml-auto flex gap-2">
+        <div className="ml-auto flex gap-2 flex-wrap sm:flex-nowrap">
           <Button
             variant={"ghost"}
             size={"lg"}
-            className="h-12"
+            className="h-12 w-full"
             onClick={onCancel}
             type="button"
           >
@@ -135,7 +135,7 @@ const ProfileForm = () => {
             variant={"destructive"}
             size={"lg"}
             type="submit"
-            className="h-12 w-full max-w-[200px] rounded-sm"
+            className="h-12 w-full rounded-sm"
             disabled={!canSubmit || isUpdatingProfile}
           >
             {isUpdatingProfile && (

@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const AccountMenu = () => {
