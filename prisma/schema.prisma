@@ -23,6 +23,7 @@ model User {
   review    Review[]
   cart      Cart[]
   wishlist  Wishlist[]
+  orders    Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,11 +91,17 @@ model Review {
 
 model Cart {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String     @unique @db.ObjectId
   cartItems CartItem[]
-  total     Float
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  total             Float
+  priceBeforeCoupon Float?
+  priceAfterCoupon  Float?
+
+  coupon   Coupon? @relation(fields: [couponId], references: [id])
+  couponId String? @db.ObjectId
+
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -147,6 +154,57 @@ model Wishlist {
 
   user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   products Products[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+
+  User       User        @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
+
+  total       Float
+  firstName   String
+  email       String
+  phoneNumber String
+  isDelivered Boolean @default(false)
+
+  streetAddress String
+  city          String
+  apartment     String?
+  companyName   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrderItem {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  quantity      Int
+  total         Float
+  sizes         String[]
+  selectedImage Image
+  productId     String   @db.ObjectId
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @db.ObjectId
+}
+
+model Coupon {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  code String @unique
+
+  discountPercentage Float
+
+  isActive Boolean @default(true)
+
+  validFrom  DateTime
+  validUntil DateTime
+
+  cart Cart[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

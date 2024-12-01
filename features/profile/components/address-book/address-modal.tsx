@@ -1,6 +1,3 @@
-import { PropsWithChildren } from "react";
-import { FaPlusCircle } from "react-icons/fa";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,6 +14,8 @@ interface AddressModalProps {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   variant?: "add" | "edit";
   children: React.ReactNode;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
 }
 
 const AddressModal = ({
@@ -24,9 +23,11 @@ const AddressModal = ({
   title,
   icon: Icon,
   variant = "add",
+  open,
+  setOpen,
 }: AddressModalProps) => {
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <Hint
         label={variant === "add" ? "Add Address" : "Edit Address"}
         align="center"

@@ -24,6 +24,10 @@ const ProfileSidebar = () => {
       title: "My Orders",
       routes: [
         {
+          label: "My Orders",
+          path: "/profile/orders",
+        },
+        {
           label: "My Returns",
           path: "/profile/returns",
         },
@@ -46,7 +50,9 @@ const ProfileSidebar = () => {
   return (
     <div className="flex flex-col items-start gap-5">
       {sidebarRoutes.map((route, index) => {
-        return <SidebarRoute key={index} title={route.title} routes={route.routes}/>;
+        return (
+          <SidebarRoute key={index} title={route.title} routes={route.routes} />
+        );
       })}
     </div>
   );

@@ -5,7 +5,7 @@ import Hint from "@/components/hint";
 import ConfirmModal from "@/components/confirm-modal";
 import { Button } from "@/components/ui/button";
 
-import { useAddress } from "../hooks/use-address";
+import { useAddress } from "../../hooks/use-address";
 
 interface DeleteAddressButtonProps {
   addressId: string;

@@ -8,8 +8,6 @@ export const POST = async (req: NextRequest) => {
   try {
     const user = await currentUser();
 
-    console.log(user);
-
     if (!user || !user.id) {
       throw new Error("You Not Unauthorized, Please Login First");
     }
@@ -140,7 +138,7 @@ export const GET = async () => {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const cart = await db.cart.findFirst({
+    let cart = await db.cart.findFirst({
       where: { userId: user.id },
       include: {
         cartItems: {
@@ -148,8 +146,38 @@ export const GET = async () => {
             product: true,
           },
         },
+        coupon: true,
       },
     });
+
+    if (!cart) {
+      return NextResponse.json({ message: "Cart not found" }, { status: 404 });
+    }
+
+    const { coupon, total } = cart;
+
+    if (coupon && coupon.validUntil < new Date()) {
+      await db.cart.update({
+        where: { id: cart.id },
+        data: {
+          couponId: null,
+          priceBeforeCoupon: total,
+          priceAfterCoupon: total,
+        },
+      });
+
+      cart = await db.cart.findFirst({
+        where: { userId: user.id },
+        include: {
+          cartItems: {
+            include: {
+              product: true,
+            },
+          },
+          coupon:true
+        },
+      });
+    }
 
     return NextResponse.json({ cart });
   } catch (error) {

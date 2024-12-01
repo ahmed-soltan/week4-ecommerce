@@ -11,17 +11,19 @@ import AddressFormInputs from "./address-form-inputs";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
-import { useAddress } from "../hooks/use-address";
+import { useAddress } from "../../hooks/use-address";
 
 import { AddressSchema } from "@/schemas";
 
 import { Address } from "@prisma/client";
+import { useState } from "react";
 
 interface EditAddressBookFormProps {
   address: Address;
 }
 
 const EditAddressBookForm = ({ address }: EditAddressBookFormProps) => {
+  const [open, setOpen] = useState(false);
   const { updateAddress, isUpdatingAddress } = useAddress();
   const form = useForm<z.infer<typeof AddressSchema>>({
     resolver: zodResolver(AddressSchema),
@@ -37,10 +39,12 @@ const EditAddressBookForm = ({ address }: EditAddressBookFormProps) => {
 
   const onSubmit = (data: z.infer<typeof AddressSchema>) => {
     updateAddress({ data, addressId: address.id });
+    setTimeout(() => setOpen(false), 1000);
+    form.reset()
   };
 
   return (
-    <AddressModal icon={CiEdit} variant="edit">
+    <AddressModal icon={CiEdit} variant="edit" open={open} setOpen={setOpen}>
       <Form {...form}>
         <form
           className="w-full space-y-6 flex flex-col items-start"

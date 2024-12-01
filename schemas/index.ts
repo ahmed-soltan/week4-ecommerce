@@ -48,3 +48,13 @@ export const AddressSchema = z.object({
   country: z.string().min(2).max(50),
   isDefault: z.boolean(),
 });
+
+export const CheckoutFormSchema = z.object({
+  firstName: z.string().min(3).max(50),
+  companyName: z.string().optional(),
+  streetAddress: z.string().min(3).max(100),
+  apartment: z.string().optional(),
+  city: z.string().min(2).max(50),
+  phoneNumber: z.string().min(10),
+  email: z.string().email(),
+});

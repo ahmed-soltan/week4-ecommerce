@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import AddAddressBookForm from "@/features/profile/components/add-address-book-form";
-import AddressBook from "@/features/profile/components/address-book";
+import AddAddressBookForm from "@/features/profile/components/address-book/add-address-book-form";
+import AddressBook from "@/features/profile/components/address-book/address-book";
 
 const AddressBookPage = () => {
   return (

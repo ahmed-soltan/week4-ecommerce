@@ -2,7 +2,7 @@
 
 import AddressBookCard from "./address-book-card";
 
-import { useAddress } from "../hooks/use-address";
+import { useAddress } from "../../hooks/use-address";
 
 const AddressBook = () => {
   const { addresses, isLoading } = useAddress();

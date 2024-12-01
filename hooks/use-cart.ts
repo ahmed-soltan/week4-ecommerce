@@ -75,13 +75,32 @@ const updateCartItemQuantityApi = async ({
   return response.data;
 };
 
-const deleteCartItemApi = async ({ cartItemId , cartId }: { cartItemId: string , cartId:string }) => {
+const deleteCartItemApi = async ({
+  cartItemId,
+  cartId,
+}: {
+  cartItemId: string;
+  cartId: string;
+}) => {
   const response = await axios.delete(`/api/cart/${cartId}/${cartItemId}`);
   return response.data;
 };
 
 const flashCart = async ({ cartId }: { cartId: string }) => {
   const response = await axios.delete(`/api/cart/${cartId}`);
+  return response.data;
+};
+
+const applyingCouponApi = async ({
+  coupon,
+  cartId,
+}: {
+  coupon: string;
+  cartId: string;
+}) => {
+  const response = await axios.post(`/api/cart/${cartId}/apply-coupon`, {
+    coupon,
+  });
   return response.data;
 };
 
@@ -162,6 +181,24 @@ export const useCart = () => {
     },
   });
 
+  const { mutate: applyCoupon, isPending: isApplyingCoupon } = useMutation({
+    mutationFn: applyingCouponApi,
+    onSuccess: () => {
+      refetchCart();
+      toast({
+        title: "Coupon applied successfully",
+        description: "Your cart has been updated with the applied coupon.",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to apply coupon",
+        variant: "destructive",
+      });
+    },
+  });
+
   const cartItemsLength =
     cartData?.cart?.cartItems?.reduce((sum, item) => sum + item.quantity, 0) ||
     0;
@@ -176,6 +213,8 @@ export const useCart = () => {
     deleteCartItem,
     isDeletingItem,
     deleteCart,
-    isDeletingCart
+    isDeletingCart,
+    applyCoupon,
+    isApplyingCoupon,
   };
 };
