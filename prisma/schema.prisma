@@ -140,9 +140,10 @@ model Products {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  images    Image[]
-  reviews   Review[]
-  cartItems CartItem[]
+  images     Image[]
+  reviews    Review[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 
   Wishlist   Wishlist? @relation(fields: [wishlistId], references: [id])
   wishlistId String?   @db.ObjectId
@@ -166,12 +167,15 @@ model Order {
   User       User        @relation(fields: [userId], references: [id])
   orderItems OrderItem[]
 
-  total       Float
+  total Float
 
   firstName   String
   email       String
   phoneNumber String
+  
   isDelivered Boolean @default(false)
+  isCanceled  Boolean @default(false)
+  isRefunded Boolean @default(false)
 
   streetAddress String
   city          String
@@ -193,10 +197,12 @@ model OrderItem {
   total         Float
   sizes         String[]
   selectedImage Image
-  productId     String   @db.ObjectId
 
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String @db.ObjectId
+
+  product   Products @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
 }
 
 model Coupon {

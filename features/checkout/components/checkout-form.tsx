@@ -26,7 +26,7 @@ import useCheckoutStore from "@/store/checkout-info-store";
 import { CheckoutFormSchema } from "@/schemas";
 
 const CheckoutForm = () => {
-  const { cartData } = useCart();
+  const { cartData, deleteCart } = useCart();
   const { createOrder, isCreatingOrder } = useOrders();
   const {
     setCheckoutInfo,
@@ -42,6 +42,7 @@ const CheckoutForm = () => {
     cardNumber,
     cvv,
     expirationDate,
+    clearCheckoutInfo,
   } = useCheckoutStore();
   const router = useRouter();
 
@@ -95,7 +96,8 @@ const CheckoutForm = () => {
     };
 
     createOrder({ data: orderData! });
-    router.push("/checkout/success");
+
+    clearCheckoutInfo();
   };
 
   return (

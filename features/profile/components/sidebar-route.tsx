@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -24,6 +24,7 @@ const SidebarRoute = ({ title, routes }: SidebarRouteProps) => {
           const isActive = pathname.endsWith(route.path);
           return (
             <Link
+              key={route.path}
               href={route.path}
               className={cn(
                 "text-sm font-[300] text-gray-500",

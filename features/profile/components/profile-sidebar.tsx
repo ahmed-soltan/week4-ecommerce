@@ -14,10 +14,6 @@ const ProfileSidebar = () => {
           label: "Address Book",
           path: "/profile/address-book",
         },
-        {
-          label: "My Payment Options",
-          path: "/profile/payment-options",
-        },
       ],
     },
     {
