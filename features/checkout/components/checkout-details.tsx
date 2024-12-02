@@ -1,14 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useCart } from "@/hooks/use-cart";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { formatPrice } from "@/lib/format-price";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 import { LuLoader2 } from "react-icons/lu";
 
-const CheckoutDetails = () => {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import PaymentOptions from "./payment-options";
+
+import { useCart } from "@/hooks/use-cart";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+import { formatPrice } from "@/lib/format-price";
+
+const CheckoutDetails = ({
+  form,
+  isLoading,
+}: {
+  form: any;
+  isLoading: boolean;
+}) => {
   const [coupon, setCoupon] = useState("");
   const [error, setError] = useState("");
   const { cartData, applyCoupon, isApplyingCoupon } = useCart();
@@ -29,6 +39,7 @@ const CheckoutDetails = () => {
       return;
     }
     applyCoupon({ coupon, cartId: cartData.cart.id });
+    setCoupon("");
   };
 
   return (
@@ -87,11 +98,13 @@ const CheckoutDetails = () => {
           )}
         </div>
       </div>
+      <PaymentOptions form={form} />
       <div className="flex items-center gap-5 w-full">
         <Input
           className="w-full max-w-[400px] h-12 border-black"
           placeholder="Coupon Code"
           onChange={(e) => setCoupon(e.target.value)}
+          disabled={!!cartHasDiscount}
         />
         <Button
           variant={"destructive"}
@@ -107,6 +120,16 @@ const CheckoutDetails = () => {
       </div>
       {error && <p className="text-sm text-red">{error}</p>}
       {cartHasDiscount && <p className="text-sm text-red">Coupon Applied</p>}
+      <Button
+        className="w-full max-w-[200px] h-12 rounded-sm flex items-center gap-2"
+        size={"lg"}
+        variant={"destructive"}
+        disabled={cartData.cart.cartItems.length === 0 || isLoading}
+        type="submit"
+      >
+        {isLoading && <LuLoader2 className="w-4 h-4 animate-spin" />}
+        Place Order
+      </Button>
     </div>
   );
 };

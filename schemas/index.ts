@@ -49,12 +49,34 @@ export const AddressSchema = z.object({
   isDefault: z.boolean(),
 });
 
-export const CheckoutFormSchema = z.object({
-  firstName: z.string().min(3).max(50),
-  companyName: z.string().optional(),
-  streetAddress: z.string().min(3).max(100),
-  apartment: z.string().optional(),
-  city: z.string().min(2).max(50),
-  phoneNumber: z.string().min(10),
-  email: z.string().email(),
-});
+export const CheckoutFormSchema = z
+  .object({
+    firstName: z.string().min(3).max(50),
+    companyName: z.string().optional(),
+    streetAddress: z.string().min(3).max(100),
+    apartment: z.string().optional(),
+    city: z.string().min(2).max(50),
+    phoneNumber: z.string().min(10),
+    email: z.string().email(),
+    saveInfo: z.boolean().optional(),
+    paymentMethod: z.enum(["card", "cash"]),
+    cardNumber: z.string().optional(),
+    cvv: z.string().optional(),
+    expirationDate: z.date().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.paymentMethod === "card") {
+        return (
+          data.cardNumber !== undefined &&
+          data.cvv !== undefined &&
+          data.expirationDate !== undefined
+        );
+      }
+      return true;
+    },
+    {
+      message: "Card details are required for card payment",
+      path: ["paymentMethod"],
+    }
+  );

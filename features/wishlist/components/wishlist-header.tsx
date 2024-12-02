@@ -2,15 +2,16 @@
 
 import React from "react";
 import { LuLoader2 } from "react-icons/lu";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 
 import useWishlistStore from "@/store/wishlist-store";
+import useCartStore from "@/store/cart-store";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useWishlist } from "@/hooks/use-wishlist";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/use-cart";
-import useCartStore from "@/store/cart-store";
-import Link from "next/link";
 
 const WishlistHeader = () => {
   const {
@@ -24,7 +25,9 @@ const WishlistHeader = () => {
   const { addToCart: AddToCartLocalStorage } = useCartStore();
   const user = useCurrentUser();
 
-  if (wishlistData?.products.length === 0 || wishlistItems.length === 0) {
+  const items = user ? wishlistData?.products : wishlistItems
+
+  if (!items || items.length === 0) {
     return (
       <div className="flex items-center justify-center flex-col gap-5 my-10 w-full">
         <h1 className="text-md text-slate-700 text-center italic">

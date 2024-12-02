@@ -21,6 +21,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const CartTable = () => {
   const {
@@ -78,19 +79,21 @@ const CartTable = () => {
     }
   };
 
+  const items = user ? cartData?.cart?.cartItems : cartItems;
+  if (!items || items.length === 0) {
+    return (
+      <div className="flex items-center justify-center flex-col gap-5 my-10 w-full">
+        <h1 className="text-md text-slate-700 text-center italic">
+          You Haven't Added any Product to Your Cart!{" "}
+        </h1>
+        <Button variant={"destructive"} className="w-32 h-12" asChild>
+          <Link href={`/products`}>Start Shopping</Link>
+        </Button>
+      </div>
+    );
+  }
+
   const renderCartRows = () => {
-    const items = user ? cartData?.cart?.cartItems : cartItems;
-
-    if (!items || items.length === 0) {
-      return (
-        <TableRow>
-          <TableCell colSpan={4} className="text-center">
-            Your cart is empty.
-          </TableCell>
-        </TableRow>
-      );
-    }
-
     return items.map((item) => (
       <TableRow key={item.id}>
         <TableCell>
@@ -168,7 +171,9 @@ const CartTable = () => {
           size="lg"
           className="rounded-sm w-[200px] h-12"
           onClick={removeCart}
-          disabled={isDeletingCart || isUpdatingQuantity}
+          disabled={
+            isDeletingCart || isUpdatingQuantity || !items || items.length === 0
+          }
         >
           Clear Cart
         </Button>

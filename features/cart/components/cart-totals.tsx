@@ -20,12 +20,14 @@ const CartTotals = () => {
   const router = useRouter();
 
   const { cartData } = useCart();
-  const { total } = useCartStore();
+  const { total, cartItems } = useCartStore();
   const user = useCurrentUser();
 
   if (!cartData) {
     return null;
   }
+
+  const items = user ? cartData?.cart?.cartItems : cartItems;
 
   const cartTotal = user ? cartData?.cart.total : total;
 
@@ -33,6 +35,10 @@ const CartTotals = () => {
     setRedirectToCheckout(true);
     router.push("/checkout");
   };
+
+  if (!items || items.length === 0) {
+    return null;
+  }
 
   return (
     <div className="flex items-start justify-center md:justify-between flex-wrap md:flex-nowrap w-full gap-5">
