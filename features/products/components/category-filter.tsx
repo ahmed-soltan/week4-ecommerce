@@ -13,7 +13,6 @@ const CategoryFilter = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  // Sync selectedCategories with filters on initial render
   useEffect(() => {
     const categoryIdFilter = filters.categoryId;
 
@@ -35,10 +34,8 @@ const CategoryFilter = () => {
 
     setSelectedCategories(updatedCategories);
 
-    // Update filters in state
     updateFilter("categoryId", updatedCategories);
 
-    // Sync with URL
     const params = new URLSearchParams(searchParams.toString());
     if (updatedCategories.length > 0) {
       params.delete("categoryId");
