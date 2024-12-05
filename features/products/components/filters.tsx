@@ -8,7 +8,7 @@ const Filters = () => {
   return (
     <div className="flex flex-col items-start gap-5">
       <CategoryFilter />
-      <Separator className="w-full max-w-[200px]"/>
+      <Separator className="w-full md:max-w-[200px]"/>
       <PriceFilter />
     </div>
   );

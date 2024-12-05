@@ -47,6 +47,7 @@ const PriceFilter = () => {
 
   return (
     <div className="flex flex-col gap-2">
+      <h1 className="text-2xl font-medium">Filter By Price</h1>
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-start gap-2">
           <Label>Min</Label>

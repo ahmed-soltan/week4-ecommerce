@@ -59,6 +59,7 @@ const CategoryFilter = () => {
 
   return (
     <div className="flex flex-col items-start gap-4 p-2 w-full h-full">
+      <h1 className="text-2xl font-medium">Filter By Category</h1>
       {categories?.map((category) => (
         <div className="flex items-center space-x-2" key={category.id}>
           <Checkbox
