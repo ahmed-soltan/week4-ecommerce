@@ -15,9 +15,9 @@ type OrderType = Order & {
     orderId: string;
     productId: string;
     selectedImage: {
-        color: string;
-        image: string;
-        colorCode: string;
+      color: string;
+      image: string;
+      colorCode: string;
     };
     product: {
       name: string;
@@ -35,8 +35,28 @@ const getOrdersApi = async (): Promise<Order[]> => {
   return response.data;
 };
 
+const getRefundedOrdersApi = async (): Promise<Order[]> => {
+  const response = await axios.get("/api/orders/refunded");
+  return response.data;
+};
+
+const getCancelOrdersApi = async (): Promise<Order[]> => {
+  const response = await axios.get("/api/orders/cancelled");
+  return response.data;
+};
+
 const getOrderByIdApi = async (id: string): Promise<OrderType> => {
   const response = await axios.get(`/api/orders/${id}`);
+  return response.data;
+};
+
+const returnOrderApi = async (id: string): Promise<OrderType> => {
+  const response = await axios.post(`/api/orders/${id}/return`);
+  return response.data;
+};
+
+const cancelOrderApi = async (id: string): Promise<OrderType> => {
+  const response = await axios.post(`/api/orders/${id}/cancel`);
   return response.data;
 };
 
@@ -51,8 +71,22 @@ export const useOrders = () => {
     queryKey: ["orders"],
     queryFn: getOrdersApi,
   });
+  const { data: returns, isLoading: isLoadingReturns } = useQuery<Order[]>({
+    queryKey: ["returns"],
+    queryFn: getRefundedOrdersApi,
+  });
+  const { data: cancellations, isLoading: isLoadingCancellation } = useQuery<
+    Order[]
+  >({
+    queryKey: ["cancellations"],
+    queryFn: getCancelOrdersApi,
+  });
 
-  const { data: order, isLoading: isLoadingOrderById } = useQuery<OrderType>({
+  const {
+    data: order,
+    isLoading: isLoadingOrderById,
+    refetch,
+  } = useQuery<OrderType>({
     queryKey: [`order/${orderId}`, orderId],
     queryFn: () => getOrderByIdApi(orderId),
     enabled: !!orderId,
@@ -79,6 +113,48 @@ export const useOrders = () => {
     },
   });
 
+  const { mutate: returnOrder, isPending: isReturningOrder } = useMutation({
+    mutationFn: returnOrderApi,
+    onSuccess: () => {
+      refetch();
+      router.push("/profile/orders");
+      toast({
+        variant: "success",
+        title: "Order Returned Successfully",
+        description:
+          "We Will Return your money and get back the order withing 2 days",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error Returning Order",
+        description:
+          "An error occurred while returning your order. Please try again later.",
+      });
+    },
+  });
+
+  const { mutate: cancelOrder, isPending: isCancellingOrder } = useMutation({
+    mutationFn: cancelOrderApi,
+    onSuccess: () => {
+      refetch();
+      router.push("/profile/orders");
+      toast({
+        variant: "success",
+        title: "Order Cancel Successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Error cancelling Order",
+        description:
+          "An error occurred while cancelling your order. Please try again later.",
+      });
+    },
+  });
+
   return {
     createOrder,
     isCreatingOrder,
@@ -86,5 +162,15 @@ export const useOrders = () => {
     isLoadingOrders,
     order,
     isLoadingOrderById,
+    returnOrder,
+    isReturningOrder,
+    cancelOrder,
+    isCancellingOrder,
+    deleteCart,
+    cartData,
+    returns,
+    isLoadingReturns,
+    cancellations,
+    isLoadingCancellation,
   };
 };

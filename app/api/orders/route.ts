@@ -105,13 +105,14 @@ export const GET = async (req: NextRequest) => {
     }
 
     const orders = await db.order.findMany({
-      where: { userId: user.id },
+      where: { userId: user.id, isCanceled: false, isRefunded: false },
       include: {
         orderItems: {
           include: {
             product: {
               select: {
                 name: true,
+                price: true,
               },
             },
           },

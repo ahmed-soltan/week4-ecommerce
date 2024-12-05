@@ -44,7 +44,6 @@ const CheckoutForm = () => {
     expirationDate,
     clearCheckoutInfo,
   } = useCheckoutStore();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof CheckoutFormSchema>>({
     resolver: zodResolver(CheckoutFormSchema),
@@ -75,10 +74,7 @@ const CheckoutForm = () => {
       total: orderItem.total,
     }));
 
-    if (data.saveInfo) {
-      setCheckoutInfo(data);
-    }
-
+    
     const orderData = {
       firstName: data.firstName,
       email: data.email,
@@ -94,10 +90,13 @@ const CheckoutForm = () => {
       total: cartData?.cart.priceAfterCoupon || cartData?.cart.total,
       orderItems: dedupedOrderItems,
     };
-
+    
     createOrder({ data: orderData! });
-
-    clearCheckoutInfo();
+    if (data.saveInfo) {
+      setCheckoutInfo(data);
+    }else{
+      clearCheckoutInfo();
+    }
   };
 
   return (

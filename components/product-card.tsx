@@ -70,11 +70,6 @@ const ProductCard = ({ product, inWishlist }: ProductCardProps) => {
         selectedImage: currentImage,
         sizes: product.sizes || [],
       });
-      toast({
-        title: "Product added successfully",
-        description: "Check your cart to see the updated item.",
-        variant: "success",
-      });
     }
   };
 

@@ -8,13 +8,13 @@ import { useCategories } from "@/hooks/use-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SideCategories = () => {
-  const { categories, isPending } = useCategories();
+  const { categories, isPending , isLoading } = useCategories();
 
-  if (isPending) {
+  if (isLoading) {
     return (
-      <div className="flex flex-col items-start w-full gap-3">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <Skeleton className="w-full" key={index}/>
+      <div className="flex flex-col items-start gap-4 md:mt-10 p-2 w-full h-full">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <Skeleton className="w-full max-w-[150px] h-4" key={index}/>
         ))}
       </div>
     );

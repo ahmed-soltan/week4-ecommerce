@@ -10,10 +10,12 @@ const DiscountProducts = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-4 flex-wrap">
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
+      <div className="flex items-start gap-8 w-full flex-wrap h-full">
+        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
       </div>
     );
   }

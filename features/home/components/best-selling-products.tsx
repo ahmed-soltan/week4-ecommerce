@@ -15,7 +15,9 @@ const BestSellingProducts = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-4 flex-wrap">
+      <div className="flex items-center gap-4 flex-wrap w-full">
+        <Skeleton className="w-full max-w-[270px] h-[350px]" />
+        <Skeleton className="w-full max-w-[270px] h-[350px]" />
         <Skeleton className="w-full max-w-[270px] h-[350px]" />
         <Skeleton className="w-full max-w-[270px] h-[350px]" />
         <Skeleton className="w-full max-w-[270px] h-[350px]" />

@@ -14,9 +14,21 @@ import {
 } from "@/components/ui/carousel";
 
 import { useCategories } from "@/hooks/use-categories";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CarouselCategories = () => {
-  const { categories } = useCategories();
+  const { categories, isLoading } = useCategories();
+  if (isLoading) {
+    return (
+      <div className="flex items-start gap-8 w-full flex-wrap">
+        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-start gap-8 w-full">

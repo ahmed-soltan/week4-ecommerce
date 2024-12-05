@@ -3,13 +3,13 @@
 import React from "react";
 
 import { useOrders } from "@/hooks/use-orders";
-import OrderCard from "../order-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import OrderCard from "../order-card";
 
-const OrdersList = () => {
-  const { orders, isLoadingOrders } = useOrders();
+const CancellationsList = () => {
+  const { cancellations , isLoadingCancellation } = useOrders();
 
-  if (isLoadingOrders) {
+  if (isLoadingCancellation) {
     return (
       <div className="flex h-full items-center justify-center w-full gap-3">
         <Skeleton className="w-full h-32 rounded-sm" />
@@ -19,7 +19,7 @@ const OrdersList = () => {
     );
   }
 
-  if (!orders || orders.length === 0) {
+  if (!cancellations || cancellations.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center text-gray-500 space-y-4 w-full">
         <svg
@@ -42,11 +42,11 @@ const OrdersList = () => {
   }
   return (
     <div className="flex items-center gap-5 w-full flex-wrap justify-center md:justify-start">
-      {orders?.map((order) => (
+      {cancellations?.map((order) => (
         <OrderCard key={order.id} order={order} />
       ))}
     </div>
   );
 };
 
-export default OrdersList;
+export default CancellationsList;

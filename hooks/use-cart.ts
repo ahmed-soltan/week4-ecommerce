@@ -112,12 +112,18 @@ export const useCart = () => {
     queryFn: fetchCart,
     staleTime: Infinity,
     enabled: !!user,
+    retry:false
   });
 
   const { mutate: addToCart, isPending: isAddingToCart } = useMutation({
     mutationFn: addToCartApi,
     onSuccess: () => {
       refetchCart();
+      toast({
+        title: "Product added successfully",
+        description: "Check your cart to see the updated item.",
+        variant: "success",
+      });
     },
     onError: () => {
       toast({

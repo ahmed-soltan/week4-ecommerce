@@ -1,4 +1,4 @@
-import OrderDetails from "@/features/profile/components/orders/order-details";
+import OrderDetails from "@/features/profile/components/order-details";
 import React from "react";
 
 const OrderIdPage = () => {
