@@ -8,7 +8,7 @@ import Link from "next/link";
 const DiscountProductAd = () => {
   const { discountProducts, isLoading } = useFetchDiscountProducts();
 
-  if (isLoading) {
+  if (isLoading || !discountProducts) {
     return <p>Loading...</p>;
   }
 

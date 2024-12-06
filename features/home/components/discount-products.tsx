@@ -8,7 +8,7 @@ import { useFetchDiscountProducts } from "@/features/home/hooks/use-fetch-discou
 const DiscountProducts = () => {
   const { discountProducts, isLoading } = useFetchDiscountProducts();
 
-  if (isLoading) {
+  if (isLoading || !discountProducts) {
     return (
       <div className="flex items-start gap-8 w-full flex-wrap h-full">
         <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
