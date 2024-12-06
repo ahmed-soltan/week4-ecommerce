@@ -13,12 +13,12 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 
-import { useFetchProducts } from "@/hooks/use-fetch-products";
 import { useCategories } from "@/hooks/use-categories";
+import { useHomeProducts } from "@/features/home/hooks/use-home-products";
 
 const SearchCommand = () => {
   const [open, setOpen] = useState(false);
-  const { products } = useFetchProducts();
+  const { products } = useHomeProducts();
   const { categories } = useCategories();
 
   return (
@@ -36,7 +36,7 @@ const SearchCommand = () => {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="products">
-            {products.map((product) => (
+            {products?.map((product) => (
               <CommandItem key={product.id}>
                 <Link
                   className="flex items-start gap-2"

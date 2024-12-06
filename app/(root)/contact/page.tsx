@@ -5,10 +5,12 @@ import { FaRegEnvelope } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 import ContainerWrapper from "@/components/container-wrapper";
 import ContactForm from "@/features/contact/components/contact-form";
+import BreadCrumbs from "@/components/bread-crumbs";
 
 const ContactPage = () => {
   return (
     <ContainerWrapper className="flex flex-col item-start gap-20">
+      <BreadCrumbs />
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5">
         <div className="border shadow-md p-10 flex flex-col items-start gap-8 rounded-sm">
           <div className="flex flex-col items-start gap-3">

@@ -1,3 +1,4 @@
+import BreadCrumbs from "@/components/bread-crumbs";
 import ContainerWrapper from "@/components/container-wrapper";
 import { Button } from "@/components/ui/button";
 import React from "react";
@@ -5,7 +6,7 @@ import React from "react";
 const NotFound = () => {
   return (
     <ContainerWrapper>
-      <h1>Not Found</h1>
+      <BreadCrumbs />
       <div className="flex flex-col items-center justify-center h-full w-full gap-8">
         <h1 className="text-6xl font-bold">404 Not Found</h1>
         <p className="text-md">

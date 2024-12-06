@@ -10,12 +10,13 @@ import { RiLinkedinLine } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
 
 import Services from "@/components/services";
+import BreadCrumbs from "@/components/bread-crumbs";
 
 const AboutPage = () => {
   return (
     <div className="flex flex-col items-start gap-20">
       <ContainerWrapper>
-        <h1>About</h1>
+        <BreadCrumbs />
       </ContainerWrapper>
       <ContainerWrapper className="ml-auto md:pr-0 flex items-start lg:items-center justify-center lg:justify-between flex-wrap lg:flex-nowrap gap-5 max-w-[1730px]">
         <div className="flex flex-col items-start gap-8 w-full max-w-[600px]">

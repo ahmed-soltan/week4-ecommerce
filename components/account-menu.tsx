@@ -48,7 +48,7 @@ const AccountMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuItem className="focus:bg-gray-400">
           <Link
-            href={"/profile"}
+            href={"/profile/orders"}
             className="flex items-center gap-2 text-white font-normal"
           >
             <FiShoppingBag className="w-5 h-5" />
@@ -57,7 +57,7 @@ const AccountMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuItem className="focus:bg-gray-400">
           <Link
-            href={"/profile"}
+            href={"/profile/cancellation"}
             className="flex items-center gap-2 text-white font-normal"
           >
             <MdOutlineCancel className="w-5 h-5" />
@@ -66,7 +66,7 @@ const AccountMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuItem className="focus:bg-gray-400">
           <Link
-            href={"/profile"}
+            href={"/profile/reviews"}
             className="flex items-center gap-2 text-white font-normal"
           >
             <FaRegStar className="w-5 h-5" />
