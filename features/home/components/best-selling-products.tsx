@@ -7,13 +7,12 @@ import Heading from "./heading";
 import TopHeaderSection from "./top-header-section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-
-import { useFetchProducts } from "@/hooks/use-fetch-products";
+import { useHomeProducts } from "@/features/home/hooks/use-home-products";
 
 const BestSellingProducts = () => {
-  const { products, isLoading } = useFetchProducts();
+  const { products, isLoading } = useHomeProducts();
 
-  if (isLoading) {
+  if (isLoading || !products) {
     return (
       <div className="flex items-center gap-4 flex-wrap w-full">
         <Skeleton className="w-full max-w-[270px] h-[350px]" />

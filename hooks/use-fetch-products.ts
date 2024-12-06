@@ -2,18 +2,39 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "@/types";
 
-export const useFetchProducts = (params?: string | null) => {
-  const fetchProducts = async (): Promise<Product[]> => {
-    const res = await axios.get(`/api/products?${params}`);
+export const useFetchProducts = (params: {
+  page: number;
+  limit: number;
+  filters?: string;
+}) => {
+  const fetchProducts = async (): Promise<{
+    products: Product[];
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+  }> => {
+    const res = await axios.get(`/api/products?${params.filters}`, {
+      params: {
+        page: params.page,
+        limit: params.limit,
+      },
+    });
     return res.data;
   };
 
-  const { data, isLoading , isFetching} = useQuery<Product[]>({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ["products", params],
     queryFn: fetchProducts,
     enabled: !!params,
-    initialData: [],
+    refetchOnWindowFocus: false,
   });
 
-  return { products: data, isLoading , isFetching };
+  return {
+    products: data?.products || [],
+    totalCount: data?.totalCount || 0,
+    totalPages: data?.totalPages || 0,
+    currentPage: data?.currentPage || 1,
+    isLoading,
+    isFetching,
+  };
 };

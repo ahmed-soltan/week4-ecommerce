@@ -2,12 +2,13 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import CarouselProducts from "../../../components/carousel-products";
-import { useFetchProducts } from "@/hooks/use-fetch-products";
+import { useHomeProducts } from "@/features/home/hooks/use-home-products";
+
 
 const ExploreProducts = () => {
-  const { products, isLoading } = useFetchProducts();
+  const { products, isLoading } = useHomeProducts();
 
-  if (isLoading) {
+  if (isLoading || !products) {
     return (
       <div className="flex items-center gap-4 flex-wrap">
         <Skeleton className="w-full max-w-[270px] h-[350px]" />

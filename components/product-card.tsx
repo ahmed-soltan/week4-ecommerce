@@ -102,7 +102,7 @@ const ProductCard = ({ product, inWishlist }: ProductCardProps) => {
   const hasMultipleSizes = product.sizes && product.sizes.length > 1;
 
   return (
-    <Card className="w-full max-w-[270px] min-w-[200px] h-full relative p-0 border-0 shadow-none cursor-pointer">
+    <Card className="w-full max-w-[270px] min-w-[200px] relative p-0 border-0 shadow-none cursor-pointer">
       <CardHeader className="p-0 group overflow-hidden space-y-0 bg-[#F5F5F5] mb-2">
         <Image
           src={currentImage.image}

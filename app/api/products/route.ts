@@ -5,14 +5,12 @@ const buildFilter = (params: URLSearchParams) => {
   const filter: any = {};
 
   if (params.has("categoryId")) {
-    filter.categoryId = { in: params.getAll("categoryId") }; // Supports multiple IDs
+    filter.categoryId = { in: params.getAll("categoryId") };
   }
 
   if (params.has("hasDiscount")) {
     const hasDiscount = params.get("hasDiscount") === "true";
-    filter.discount = hasDiscount
-      ? { gt: 0 }
-      : { equals: null }; 
+    filter.discount = hasDiscount ? { gt: 0 } : { equals: null };
   }
 
   if (params.has("minPrice")) {
@@ -37,21 +35,32 @@ export const GET = async (req: NextRequest) => {
     const params = req.nextUrl.searchParams;
     const filter = buildFilter(params);
 
-    const products = await db.products.findMany({
-      where: filter,
-      include: {
-        category: {
-          select: {
-            name: true,
+    const page = parseInt(params.get("page") || "1");
+    const limit = parseInt(params.get("limit") || "10");
+    const skip = (page - 1) * limit;
+
+    const [products, totalCount] = await Promise.all([
+      db.products.findMany({
+        where: filter,
+        skip,
+        take: limit,
+        include: {
+          category: {
+            select: {
+              name: true,
+            },
+          },
+          reviews: {
+            select: {
+              rating: true,
+            },
           },
         },
-        reviews: {
-          select: {
-            rating: true,
-          },
-        },
-      },
-    });
+      }),
+      db.products.count({
+        where: filter,
+      }),
+    ]);
 
     const productsWithRating = products.map((product) => {
       const { reviews, ...rest } = product;
@@ -66,7 +75,12 @@ export const GET = async (req: NextRequest) => {
       };
     });
 
-    return NextResponse.json(productsWithRating);
+    return NextResponse.json({
+      products: productsWithRating,
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+    });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(
