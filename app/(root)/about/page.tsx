@@ -93,7 +93,7 @@ const AboutPage = () => {
                 alt="member 1"
                 width={100}
                 height={100}
-                className="h-[530px] w-full object-contain"
+                className="h-[530px] w-full object-fit"
               />
             </div>
             <div className="flex flex-col items-start gap-2">
@@ -113,7 +113,7 @@ const AboutPage = () => {
                 alt="member 1"
                 width={100}
                 height={100}
-                className="h-[530px] w-full object-contain"
+                className="h-[530px] w-full object-fit"
               />
             </div>
             <div className="flex flex-col items-start gap-2">
@@ -133,7 +133,7 @@ const AboutPage = () => {
                 alt="member 1"
                 width={100}
                 height={100}
-                className="h-[530px] w-full object-contain"
+                className="h-[530px] w-full object-fit"
               />
             </div>
             <div className="flex flex-col items-start gap-2">
