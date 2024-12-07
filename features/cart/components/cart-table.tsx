@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { LuTrash2 } from "react-icons/lu";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { formatPrice } from "@/lib/format-price";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const CartTable = () => {
   const {
@@ -111,7 +111,12 @@ const CartTable = () => {
           </div>
         </TableCell>
         <TableCell className="text-center w-[150px]">
-          {formatPrice(item.product?.price || 0)}
+          {formatPrice(
+            item?.product.discount
+              ? item.product?.price -
+                  item.product.price * (item?.product.discount / 100)
+              : item.product.price || 0
+          )}
         </TableCell>
         <TableCell className="flex items-start justify-center ">
           <div

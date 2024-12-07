@@ -21,11 +21,11 @@ const CarouselCategories = () => {
   if (isLoading) {
     return (
       <div className="flex items-start gap-8 w-full flex-wrap">
-        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-full max-w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-full max-w-[240px] h-[350px] border-2 rounded-md" />
       </div>
     );
   }
@@ -47,7 +47,7 @@ const CarouselCategories = () => {
           {categories?.map((category) => (
             <CarouselItem
               key={category.id}
-              className="w-full max-w-[240px] h-[170px] border-2 rounded-md hover:bg-red hover:text-white"
+              className="w-full max-w-[240px] h-[350px] border-2 rounded-md hover:bg-red hover:text-white"
             >
               <Link
                 href={`/products?categoryId=${category.id}`}

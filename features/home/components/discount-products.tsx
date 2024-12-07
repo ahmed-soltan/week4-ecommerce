@@ -11,11 +11,11 @@ const DiscountProducts = () => {
   if (isLoading || !discountProducts) {
     return (
       <div className="flex items-start gap-8 w-full flex-wrap h-full">
-        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
-        <Skeleton className="w-[240px] h-[170px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[350px] border-2 rounded-md" />
+        <Skeleton className="w-[240px] h-[350px] border-2 rounded-md" />
       </div>
     );
   }

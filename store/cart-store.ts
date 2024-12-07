@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Image } from "@prisma/client";
+import { toast } from "@/hooks/use-toast";
 
 type CartItemType = {
   id: string;
@@ -107,6 +108,11 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
     );
   
     set({ cartItems: updatedItems, total: updatedTotal });
+    toast({
+      title: "Item added to cart",
+      description: "You've added an item to your cart.",
+      variant: "success",
+    })
   
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(updatedItems));
@@ -126,6 +132,12 @@ const useCartStore = create<CartState>((set: any, get: any) => ({
     );
 
     set({ cartItems: updatedItems, total: updatedTotal });
+
+    toast({
+      title: "Item removed from cart",
+      description: "You've removed an item from your cart.",
+      variant: "success",
+    })
 
     if (typeof window !== "undefined") {
       localStorage.setItem("cart", JSON.stringify(updatedItems));

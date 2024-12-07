@@ -38,7 +38,7 @@ const BestSellingProducts = () => {
         <Button
           variant={"destructive"}
           size={"lg"}
-          className="text-md rounded-none w-full sm:max-w-[170px]"
+          className="text-md rounded-none w-full sm:max-w-[350px]"
           asChild
         >
           <Link href={`/products`}>View All</Link>

@@ -17,14 +17,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import FormSuccess from "@/components/form-success";
+import FormError from "@/components/form-error";
 
 import { login } from "@/actions/login";
 
 import { LoginSchema } from "@/schemas";
-import FormSuccess from "@/components/form-success";
-import FormError from "@/components/form-error";
-import { syncCartWithDb } from "@/lib/sync-cart-with-db";
-import { useCart } from "@/hooks/use-cart";
+
+import useCartStore from "@/store/cart-store";
 
 type StateType = {
   error: string | undefined;
@@ -38,7 +38,7 @@ export const LoginForm = () => {
   });
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
-  const { addToCart } = useCart();
+  const {cartItems} = useCartStore()
 
   const callbackUrl = searchParams.get("callbackUrl");
 
@@ -58,7 +58,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     startTransition(() => {
-      login(data, callbackUrl).then((data) => {
+      login(data, callbackUrl , cartItems).then((data) => {
         setState({
           success: data?.success,
           error: data?.error,

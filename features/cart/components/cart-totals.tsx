@@ -23,10 +23,6 @@ const CartTotals = () => {
   const { total, cartItems } = useCartStore();
   const user = useCurrentUser();
 
-  if (!cartData) {
-    return null;
-  }
-
   const items = user ? cartData?.cart?.cartItems : cartItems;
 
   const cartTotal = user ? cartData?.cart.total : total;
@@ -55,7 +51,7 @@ const CartTotals = () => {
         <h1 className="text-xl font-semibold text-black">Cart Total</h1>
         <div className="flex items-center justify-between w-full">
           <h1>Subtotal:</h1>
-          <p className="font-medium text-black">{formatPrice(cartTotal)}</p>
+          <p className="font-medium text-black">{formatPrice(cartTotal!)}</p>
         </div>
         <Separator />
         <div className="flex items-center justify-between w-full">
@@ -65,13 +61,13 @@ const CartTotals = () => {
         <Separator />
         <div className="flex items-center justify-between w-full">
           <h1>Total:</h1>
-          <p className="font-medium text-black">{formatPrice(cartTotal)}</p>
+          <p className="font-medium text-black">{formatPrice(cartTotal!)}</p>
         </div>
         <Button
           variant={"destructive"}
           size={"lg"}
           className="mx-auto rounded-sm w-full max-w-[300px] h-12 flex items-center gap-2"
-          disabled={redirectToCheckout || cartData.cart.cartItems.length === 0}
+          disabled={redirectToCheckout || cartData?.cart.cartItems.length === 0}
           onClick={handleRedirectToCheckout}
         >
           {redirectToCheckout && <LuLoader2 className="w-4 h-4 animate-spin" />}
