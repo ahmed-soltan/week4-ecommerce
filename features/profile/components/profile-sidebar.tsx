@@ -14,6 +14,10 @@ const ProfileSidebar = () => {
           label: "Address Book",
           path: "/profile/address-book",
         },
+        {
+          label: "My Reviews",
+          path: "/profile/reviews",
+        },
       ],
     },
     {

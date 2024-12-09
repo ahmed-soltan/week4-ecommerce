@@ -1,25 +1,24 @@
 import { format, isToday, isYesterday } from "date-fns";
 import { FiEdit, FiUser, FiX } from "react-icons/fi";
+import { LuTrash2 } from "react-icons/lu";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import dynamic from "next/dynamic";
 
 import Rating from "@/components/rating";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-
-import { ReviewType, useReviews } from "../../hooks/use-reviews";
 import { Button } from "@/components/ui/button";
 import Hint from "@/components/hint";
-import { LuTrash2 } from "react-icons/lu";
-import { useState } from "react";
-import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { reviewSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import ReviewInputs from "./review-inputs";
+import ConfirmModal from "@/components/confirm-modal";
+
+import { ReviewType, useReviews } from "../../hooks/use-reviews";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
-import ConfirmModal from "@/components/confirm-modal";
-import dynamic from "next/dynamic";
+
+import { reviewSchema } from "@/schemas";
 
 interface ReviewCardProps {
   review: ReviewType;

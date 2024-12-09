@@ -40,6 +40,7 @@ const OrdersList = () => {
       </div>
     );
   }
+  
   return (
     <div className="flex items-center gap-5 w-full flex-wrap justify-center md:justify-start">
       {orders?.map((order) => (

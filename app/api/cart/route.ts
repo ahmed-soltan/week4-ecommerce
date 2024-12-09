@@ -39,7 +39,7 @@ export const POST = async (req: NextRequest) => {
     const existingCart = await db.cart.findFirst({
       where: { userId: user.id },
     });
-
+    
     if (existingCart) {
       const cartItems = await db.cartItem.findMany({
         where: {
@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest) => {
       const existingCartItem = cartItems.find(
         (item) => item.productId === productId
       );
-
+      
       if (existingCartItem) {
         if (
           existingCartItem?.selectedImage?.image === selectedImage?.image &&
@@ -88,6 +88,8 @@ export const POST = async (req: NextRequest) => {
           },
         });
       }
+
+      console.log(existingCart.total)
 
       const updatedCart = await db.cart.update({
         where: { id: existingCart.id },

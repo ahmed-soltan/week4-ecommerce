@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import { getUserById } from "./data/user";
 import { db } from "./lib/db";
+import { ReviewType } from "./features/product/hooks/use-reviews";
 
 const prisma = new PrismaClient();
 
@@ -23,7 +24,7 @@ declare module "next-auth" {
       firstName: string | null;
       lastName: string | null;
       addresses: Address[];
-      review: Review[];
+      reviews: ReviewType[];
     };
   }
 }
@@ -56,7 +57,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const user = await db.user.findUnique({
           where: { id: token.sub },
-          include: { addresses: true, review: true },
+          include: {
+            addresses: true,
+            review: {
+              include: {
+                user: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
         });
         if (user) {
           session.user = {
@@ -71,7 +84,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             firstName: user.firstName,
             lastName: user.lastName,
             addresses: user.addresses,
-            review: user.review,
+            reviews: user.review,
           };
         }
       }

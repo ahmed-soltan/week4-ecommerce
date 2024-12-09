@@ -11,11 +11,11 @@ const getProductApi = async (productId: string) => {
 };
 
 export const useFetchProductById = ({ productId }: { productId: string }) => {
-  const { data, isLoading } = useQuery<Product>({
+  const { data, isLoading , refetch:refetchProduct } = useQuery<Product>({
     queryKey: [`/product/${productId}`],
     queryFn: () => getProductApi(productId),
     staleTime: 1000 * 60 * 20,
   });
 
-  return { product: data, isLoading };
+  return { product: data, isLoading , refetchProduct};
 };

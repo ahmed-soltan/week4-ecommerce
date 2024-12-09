@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import { toast } from "@/hooks/use-toast";
+import { useFetchProductById } from "./use-fetch-product-by-id";
 
 type ReviewProps = {
   productId: string;
@@ -18,8 +19,8 @@ export type ReviewType = {
   createdAt: Date;
   updatedAt: Date;
   user: {
-    name: string;
-    image: string;
+    name?: string | null;
+    image?: string | null;
   };
 };
 
@@ -28,6 +29,11 @@ type UpdateReviewProps = {
   comment: string;
   rating: number;
   productId: string;
+};
+
+const getUserReviewsApi = async (): Promise<ReviewType[]> => {
+  const res = await axios.get("/api/reviews");
+  return res.data;
 };
 
 const createReviewApi = async ({ productId, comment, rating }: ReviewProps) => {
@@ -70,13 +76,22 @@ const updateReviewApi = async ({
 };
 
 export const useReviews = ({ productId }: { productId: string }) => {
+  const { refetchProduct } = useFetchProductById({ productId });
+  const { data: userReviews, isLoading: isLoadingUserReviews } = useQuery<
+    ReviewType[]
+  >({
+    queryKey: ["userReviews"],
+    queryFn: getUserReviewsApi,
+    staleTime: Infinity,
+  });
+
   const {
     data: reviews,
     refetch: refetchReviews,
     isLoading: isFetchingReviews,
   } = useQuery<ReviewType[]>({
     queryKey: [`reviews/${productId}`],
-    queryFn: () => fetchReviewApi(productId),
+    queryFn: () => fetchReviewApi(productId!),
     staleTime: Infinity,
   });
 
@@ -88,6 +103,7 @@ export const useReviews = ({ productId }: { productId: string }) => {
     mutationFn: createReviewApi,
     onSuccess: () => {
       refetchReviews();
+      refetchProduct()
       toast({
         title: "Review added successfully",
         variant: "success",
@@ -96,7 +112,7 @@ export const useReviews = ({ productId }: { productId: string }) => {
     onError: () => {
       toast({
         title: "You Already Have Submitted a Review before",
-        description:"Find your Review and Edit it",
+        description: "Find your Review and Edit it",
         variant: "destructive",
       });
     },
@@ -110,6 +126,7 @@ export const useReviews = ({ productId }: { productId: string }) => {
     mutationFn: deleteReviewApi,
     onSuccess: () => {
       refetchReviews();
+      refetchProduct()
       toast({
         title: "Review deleted successfully",
         variant: "success",
@@ -131,6 +148,7 @@ export const useReviews = ({ productId }: { productId: string }) => {
     mutationFn: updateReviewApi,
     onSuccess: () => {
       refetchReviews();
+      refetchProduct()
       toast({
         title: "Review updated successfully",
         variant: "success",
@@ -153,5 +171,7 @@ export const useReviews = ({ productId }: { productId: string }) => {
     isDeletingReview,
     updateReview,
     isUpdatingReview,
+    userReviews,
+    isLoadingUserReviews,
   };
 };

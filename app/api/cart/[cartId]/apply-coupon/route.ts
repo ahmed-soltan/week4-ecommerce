@@ -59,7 +59,7 @@ export const POST = async (
 
     const priceBeforeCoupon = cart.total;
     const priceAfterCoupon =
-      cart.total - (validCoupon.discountPercentage / 100) * cart.total;
+      cart.total - ((validCoupon.discountPercentage / 100) * cart.total);
 
     await db.cart.update({
       where: { id: params.cartId },

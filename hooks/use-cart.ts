@@ -174,10 +174,6 @@ export const useCart = () => {
     mutationFn: flashCart,
     onSuccess: () => {
       refetchCart();
-      toast({
-        title: "Cart deleted",
-        variant: "success",
-      });
     },
     onError: () => {
       toast({
