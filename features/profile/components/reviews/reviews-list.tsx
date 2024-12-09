@@ -6,11 +6,22 @@ import ReviewCard from "@/features/product/components/reviews/review-card";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useUserReviews } from "../../hooks/use-user-reviews";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
 
 const ReviewsList = () => {
   const {reviews , isLoading} = useUserReviews()
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center w-full gap-3">
+        <Skeleton className="w-full h-32 rounded-sm" />
+        <Skeleton className="w-full h-32 rounded-sm" />
+        <Skeleton className="w-full h-32 rounded-sm" />
+      </div>
+    );
+  }
 
   if (!reviews || reviews.length === 0) {
     return (

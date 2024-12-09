@@ -73,8 +73,6 @@ export const PATCH = async (
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    console.log({ params });
-
     const { quantity } = await req.json();
     if (quantity === undefined || quantity <= 0) {
       return NextResponse.json(

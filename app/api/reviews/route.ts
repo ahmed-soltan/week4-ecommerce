@@ -10,8 +10,6 @@ export const GET = async (req: NextRequest) => {
     if (!user || !user.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("User ID:", user.id);
-
 
     const reviews = await db.review.findMany({
       where: { userId: user.id },

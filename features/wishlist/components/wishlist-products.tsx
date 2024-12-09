@@ -13,8 +13,6 @@ const WishlistProducts = () => {
   const wishlistProducts = user
     ? wishlistData?.products
     : wishlistItems;
-
-    console.log(wishlistProducts)
     
   return (
     <div className="flex items-start flex-wrap justify-center md:justify-start gap-5 w-full">

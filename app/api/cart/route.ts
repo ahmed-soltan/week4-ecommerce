@@ -89,8 +89,6 @@ export const POST = async (req: NextRequest) => {
         });
       }
 
-      console.log(existingCart.total)
-
       const updatedCart = await db.cart.update({
         where: { id: existingCart.id },
         data: {

@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarRoute from "./sidebar-route";
 
-const ProfileSidebar = () => {
+const ProfileSidebar = ({ setOpen }: { setOpen?: (open: boolean) => void }) => {
   const sidebarRoutes = [
     {
       title: "Manage My Account",
@@ -51,7 +51,7 @@ const ProfileSidebar = () => {
     <div className="flex flex-col items-start gap-5">
       {sidebarRoutes.map((route, index) => {
         return (
-          <SidebarRoute key={index} title={route.title} routes={route.routes} />
+          <SidebarRoute key={index} title={route.title} routes={route.routes} setOpen={setOpen}/>
         );
       })}
     </div>
