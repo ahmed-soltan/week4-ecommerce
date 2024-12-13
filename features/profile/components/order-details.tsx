@@ -143,7 +143,7 @@ const OrderDetails = () => {
             </div>
           ))}
         </div>
-        <div className="opacity-0 group-hover:opacity-100 absolute top-0 right-0 sm:top-2 sm:right-2 flex items-center gap-2">
+        <div className="absolute top-0 right-0 sm:top-2 sm:right-2 flex items-center gap-2">
           {order.isDelivered && !order.isRefunded && (
             <Hint label="Return Order" align="center" side="top">
               <Button

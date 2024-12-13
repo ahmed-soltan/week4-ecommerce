@@ -29,7 +29,7 @@ const WishlistHeader = () => {
 
   if (!items || items.length === 0) {
     return (
-      <div className="flex items-center justify-center flex-col gap-5 my-10 w-full">
+      <div className="flex items-center justify-center flex-col gap-5 my-10 w-full h-full">
         <h1 className="text-md text-slate-700 text-center italic">
           You Haven't Added any Product to Your Wishlist!{" "}
         </h1>
@@ -49,8 +49,8 @@ const WishlistHeader = () => {
           selectedImage: item.images[0],
           sizes: item.sizes || [],
         });
-        flashWishlist({ wishlistId: wishlistData?.id! });
       }
+      flashWishlist({ wishlistId: wishlistData?.id! });
     } else {
       for (let item of wishlistItems) {
         AddToCartLocalStorage({

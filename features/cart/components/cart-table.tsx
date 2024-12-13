@@ -82,7 +82,7 @@ const CartTable = () => {
   const items = user ? cartData?.cart?.cartItems : cartItems;
   if (!items || items.length === 0) {
     return (
-      <div className="flex items-center justify-center flex-col gap-5 my-10 w-full">
+      <div className="flex items-center justify-center flex-col gap-5 my-10 w-full h-full">
         <h1 className="text-md text-slate-700 text-center italic">
           You Haven't Added any Product to Your Cart!{" "}
         </h1>

@@ -3,12 +3,17 @@
 import AddressBookCard from "./address-book-card";
 
 import { useAddress } from "../../hooks/use-address";
+import { LuLoader2 } from "react-icons/lu";
 
 const AddressBook = () => {
   const { addresses, isLoading } = useAddress();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <LuLoader2 className="w-5 h-5 animate-spin" />
+      </div>
+    );
   }
 
   if (addresses?.length === 0) {

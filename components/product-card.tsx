@@ -19,8 +19,8 @@ import { Product } from "@/types";
 import { useCart } from "@/hooks/use-cart";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { useCurrentUser } from "@/hooks/use-current-user";
+
 import useCartStore from "@/store/cart-store";
-import { toast } from "@/hooks/use-toast";
 import useWishlistStore from "@/store/wishlist-store";
 
 interface ProductCardProps {
@@ -79,11 +79,6 @@ const ProductCard = ({ product, inWishlist }: ProductCardProps) => {
     } else {
       addToWishlistLocalStorage({ product: product });
     }
-    toast({
-      title: "Product added to wishlist",
-      description: "Check your wishlist to see the updated item.",
-      variant: "success",
-    });
   };
 
   const handleDeleteFromWishlist = () => {

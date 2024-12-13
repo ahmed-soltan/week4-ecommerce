@@ -19,7 +19,7 @@ const FiltersSidebar = () => {
           <TbFilterSearch className="w-4 h-4" />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side={"left"}>
         <SheetHeader>
           <SheetTitle>Filter Products</SheetTitle>
         </SheetHeader>

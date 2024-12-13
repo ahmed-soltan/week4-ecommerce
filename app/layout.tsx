@@ -38,7 +38,7 @@ export default async function RootLayout({
             <CartProvider>
               <TopHeader />
               <Navbar />
-              <div className="flex-1">{children}</div>
+              <div className="flex-1 flex-grow min-h-[50vh]">{children}</div>
               <Footer />
             </CartProvider>
           </TanstackProvider>

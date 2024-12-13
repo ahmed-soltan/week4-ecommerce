@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import { Product } from "@/types";
+import { toast } from "@/hooks/use-toast";
 
 interface WishlistState {
   wishlistItems: Product[];
@@ -47,6 +48,11 @@ const useWishlistStore = create<WishlistState>((set: any, get: any) => ({
     }
 
     set({ wishlistItems: updatedItems });
+    toast({
+      title: "Item added to Wishlist",
+      description: "You've added an item to your wishlist.",
+      variant: "success",
+    })
 
     if (typeof window !== "undefined") {
       localStorage.setItem("wishlist", JSON.stringify(updatedItems));
@@ -61,6 +67,11 @@ const useWishlistStore = create<WishlistState>((set: any, get: any) => ({
     );
 
     set({ wishlistItems: updatedItems });
+    toast({
+      title: "Item removed from Wishlist",
+      description: "You've removed an item from your wishlist.",
+      variant: "success",
+    })
 
     if (typeof window !== "undefined") {
       localStorage.setItem("wishlist", JSON.stringify(updatedItems));

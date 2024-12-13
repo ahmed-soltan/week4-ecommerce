@@ -101,11 +101,6 @@ export const useWishlist = () => {
     mutationFn: flashWishlistApi,
     onSuccess: () => {
       refetchWishlist();
-      toast({
-        title: "Wishlist  flashed",
-        description: "The  has been removed from your wishlist.",
-        variant: "success",
-      });
     },
     onError: () => {
       toast({

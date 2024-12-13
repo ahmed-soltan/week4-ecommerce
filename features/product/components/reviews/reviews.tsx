@@ -7,6 +7,7 @@ import ReviewInput from "./review-input";
 import { useReviews } from "../../hooks/use-reviews";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import Link from "next/link";
+import { LuLoader2 } from "react-icons/lu";
 
 interface ReviewsProps {
   productId: string;
@@ -17,7 +18,11 @@ const Reviews = ({ productId }: ReviewsProps) => {
   const user = useCurrentUser();
 
   if (isFetchingReviews) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <LuLoader2 className="w-5 h-5 animate-spin" />
+      </div>
+    );
   }
 
   const userHasReview = () => {

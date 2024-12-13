@@ -11,7 +11,7 @@ const ContainerWrapper = ({ children, className }: ContainerWrapperProps) => {
   return (
     <div
       className={cn(
-        "w-full max-w-[1550px] px-4 py-6",
+        "w-full max-w-[1550px] px-4 py-6 h-full",
         !hasHorizontalAlignment && "mx-auto",
         className
       )}
