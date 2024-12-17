@@ -75,8 +75,8 @@ body,
 }
 
 .blur-bg{
-  background: #0000000A;
-  backdrop-filter: blur(150px)
+  @apply bg-slate-900/50;
+  backdrop-filter: blur(250px);
 }
 
 .adDiscountProduct{

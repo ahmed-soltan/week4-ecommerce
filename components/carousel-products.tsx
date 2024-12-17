@@ -33,9 +33,9 @@ const CarouselProducts = ({
         <TopHeaderSection title={topHeaderTitle} />
       </div>
       <Carousel className="w-full">
-        <div className="flex items-center justify-between flex-wrap w-full">
+        <div className="flex items-center justify-between w-full my-5">
           {headingTitle && <Heading title={headingTitle} />}
-          <div className="hidden sm:flex items-center gap-5 ml-auto">
+          <div className="flex items-center gap-5 ml-auto">
             <CarouselPrevious className="w-10 h-10 bg-[#F5F5F5]" />
             <CarouselNext className="w-10 h-10 bg-[#F5F5F5]" />
           </div>

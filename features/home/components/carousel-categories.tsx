@@ -36,7 +36,7 @@ const CarouselCategories = () => {
         <TopHeaderSection title={"Categories"} />
       </div>
       <Carousel className="w-full">
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full my-5">
           <Heading title={"Browse By Category"} />
           <div className="flex items-center gap-5">
             <CarouselPrevious className="w-10 h-10 bg-[#F5F5F5]" />

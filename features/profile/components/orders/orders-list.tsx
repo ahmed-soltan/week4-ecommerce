@@ -2,9 +2,10 @@
 
 import React from "react";
 
-import { useOrders } from "@/hooks/use-orders";
 import OrderCard from "../order-card";
 import { Skeleton } from "@/components/ui/skeleton";
+
+import { useOrders } from "@/hooks/use-orders";
 
 const OrdersList = () => {
   const { orders, isLoadingOrders } = useOrders();

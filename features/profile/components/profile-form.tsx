@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { LuLoader2 } from "react-icons/lu";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,8 @@ import { ProfileSchema } from "@/schemas";
 
 const ProfileForm = () => {
   const user = useCurrentUser();
+  const router = useRouter();
+
   const { updateProfile, isUpdatingProfile } = useProfile();
 
   const form = useForm<z.infer<typeof ProfileSchema>>({
@@ -35,14 +38,16 @@ const ProfileForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof ProfileSchema>) => {
-   updateProfile({ data });
+    updateProfile({ data });
+    router.refresh();
   };
 
   const onCancel = () => {
     form.reset();
   };
 
-  const canSubmit = form.formState.isDirty || form.formState.isValid;
+  const canSubmit = form.formState.isDirty && form.formState.isValid;
+
   return (
     <Form {...form}>
       <form
@@ -128,6 +133,7 @@ const ProfileForm = () => {
             className="h-12 w-full"
             onClick={onCancel}
             type="button"
+            disabled={!canSubmit || isUpdatingProfile}
           >
             Cancel
           </Button>

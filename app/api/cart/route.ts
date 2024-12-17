@@ -33,7 +33,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const itemTotal = product.discount
-      ? (product.price - product.price * (product.discount / 100)) * quantity
+      ? (product.price - (product.price * (product.discount / 100))) * quantity
       : product.price * quantity;
 
     const existingCart = await db.cart.findFirst({

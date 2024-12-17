@@ -14,7 +14,7 @@ const BestSellingProducts = () => {
 
   if (isLoading || !products) {
     return (
-      <div className="flex items-center gap-4 flex-wrap w-full">
+      <div className="flex items-center justify-center md:justify-start gap-4 flex-wrap w-full">
         <Skeleton className="w-full max-w-[270px] h-[350px]" />
         <Skeleton className="w-full max-w-[270px] h-[350px]" />
         <Skeleton className="w-full max-w-[270px] h-[350px]" />
@@ -33,18 +33,18 @@ const BestSellingProducts = () => {
       <div className="flex items-center justify-between w-full">
         <TopHeaderSection title={"This Month"} />
       </div>
-      <div className="flex items-start justify-between w-full flex-wrap">
+      <div className="flex items-start justify-between w-full flex-wrap gap-5">
         <Heading title={"Best Selling Products"} />
         <Button
           variant={"destructive"}
           size={"lg"}
-          className="text-md rounded-none w-full sm:max-w-[350px]"
+          className="text-md rounded-none w-full sm:max-w-[200px]"
           asChild
         >
           <Link href={`/products`}>View All</Link>
         </Button>
       </div>
-      <div className="flex items-center flex-wrap justify-center md:justify-start gap-5 w-full">
+      <div className="flex items-center flex-wrap justify-center lg:justify-start gap-5 w-full">
         {bestSellingProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

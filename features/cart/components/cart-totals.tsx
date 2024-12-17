@@ -14,6 +14,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import useCartStore from "@/store/cart-store";
 
 import { formatPrice } from "@/lib/format-price";
+import ApplyCoupon from "@/components/apply-coupon";
 
 const CartTotals = () => {
   const [redirectToCheckout, setRedirectToCheckout] = useState(false);
@@ -38,15 +39,7 @@ const CartTotals = () => {
 
   return (
     <div className="flex items-start justify-center md:justify-between flex-wrap md:flex-nowrap w-full gap-5">
-      <div className="flex items-center justify-center md:justify-start gap-3 w-full">
-        <Input
-          placeholder="Coupon Code"
-          className="h-12 w-full max-w-[250px] border-black"
-        />
-        <Button variant={"destructive"} size={"lg"} className="rounded-sm h-12">
-          Apply Coupon
-        </Button>
-      </div>
+      <ApplyCoupon />
       <div className="rounded-sm border border-black p-4 flex flex-col items-start gap-5 w-full max-w-[470px]">
         <h1 className="text-xl font-semibold text-black">Cart Total</h1>
         <div className="flex items-center justify-between w-full">

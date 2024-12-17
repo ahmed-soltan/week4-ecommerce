@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { LuLoader2 } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import ApplyCoupon from "@/components/apply-coupon";
 import PaymentOptions from "./payment-options";
 
 import { useCart } from "@/hooks/use-cart";
-import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { formatPrice } from "@/lib/format-price";
 
@@ -19,11 +17,8 @@ const CheckoutDetails = ({
   form: any;
   isLoading: boolean;
 }) => {
-  const [coupon, setCoupon] = useState("");
-  const [error, setError] = useState("");
-  const { cartData, applyCoupon, isApplyingCoupon } = useCart();
-  const router = useRouter();
-  const user = useCurrentUser();
+  const { cartData } = useCart();
+
 
   if (!cartData) {
     return null;
@@ -33,14 +28,6 @@ const CheckoutDetails = ({
     cartData.cart.priceAfterCoupon &&
     cartData.cart.priceAfterCoupon <= cartData.cart.total;
 
-  const handleApplyingCoupon = () => {
-    if (coupon.trim().length === 0) {
-      setError("Coupon code cannot be empty");
-      return;
-    }
-    applyCoupon({ coupon, cartId: cartData.cart.id });
-    setCoupon("");
-  };
 
   return (
     <div className="gap-5 flex flex-col items-start w-full max-w-[500px] mx-auto lg:mr-auto lg:ml-0">
@@ -99,27 +86,7 @@ const CheckoutDetails = ({
         </div>
       </div>
       <PaymentOptions form={form} />
-      <div className="flex items-center gap-5 w-full">
-        <Input
-          className="w-full max-w-[400px] h-12 border-black"
-          placeholder="Coupon Code"
-          onChange={(e) => setCoupon(e.target.value)}
-          disabled={!!cartHasDiscount}
-        />
-        <Button
-          variant={"destructive"}
-          className="h-12 rounded-sm w-full max-w-[200px] flex items-center gap-2"
-          size={"lg"}
-          onClick={handleApplyingCoupon}
-          disabled={isApplyingCoupon || !!cartHasDiscount}
-          type="button"
-        >
-          {isApplyingCoupon && <LuLoader2 className="w-4 h-4 animate-spin" />}
-          Apply Coupon
-        </Button>
-      </div>
-      {error && <p className="text-sm text-red">{error}</p>}
-      {cartHasDiscount && <p className="text-sm text-red">Coupon Applied</p>}
+      <ApplyCoupon />
       <Button
         className="w-full max-w-[200px] h-12 rounded-sm flex items-center gap-2"
         size={"lg"}

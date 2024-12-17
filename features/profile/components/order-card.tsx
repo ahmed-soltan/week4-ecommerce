@@ -1,3 +1,4 @@
+import Hint from "@/components/hint";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/format-price";
@@ -15,7 +16,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
     order.isDelivered && !order.isCanceled && !order.isRefunded;
   const isCanceled = order.isCanceled;
   const isRefunded = order.isRefunded && !order.isDelivered;
-  
+
   return (
     <div className="border rounded-md pb-5 px-3 pt-2 w-full max-w-[350px] flex flex-col items-start gap-3">
       <div className="flex items-center justify-between w-full">
@@ -39,11 +40,13 @@ const OrderCard = ({ order }: OrderCardProps) => {
             ? "Refunded"
             : "Not Shipped"}
         </Badge>
-        <Button variant={"outline"} size={"icon"} asChild>
-          <Link href={`/profile/orders/${order.id}`}>
-            <FiExternalLink className="w-4 h-4" />
-          </Link>
-        </Button>
+        <Hint label="View Order" side="top" align="center">
+          <Button variant={"outline"} size={"icon"} asChild>
+            <Link href={`/profile/orders/${order.id}`}>
+              <FiExternalLink className="w-4 h-4" />
+            </Link>
+          </Button>
+        </Hint>
       </div>
       <div className="flex items-start flex-col">
         <h2 className="font-medium text-lg text-black">{order.id}</h2>

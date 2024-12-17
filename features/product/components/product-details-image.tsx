@@ -28,7 +28,7 @@ const ProductDetailsImage = ({
         {product.images.map((image, index) => (
           <div
             className={cn(
-              "max-w-[170px] min-w-[170px] lg:w-full h-[120px] relative bg-[#F5F5F5] p-2 rounded-md border-2",
+              "max-w-[170px] min-w-[170px] lg:w-full h-[120px] relative bg-[#F5F5F5] cursor-pointer p-2 rounded-md border-2",
               cartProduct?.selectedImage?.image === image.image && "border-red"
             )}
             key={index}

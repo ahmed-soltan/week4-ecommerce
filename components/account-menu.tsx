@@ -3,6 +3,7 @@ import { FaRegStar } from "react-icons/fa";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { MdOutlineCancel } from "react-icons/md";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,15 +17,20 @@ import {
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const AccountMenu = () => {
+  const [open , setOpen] = useState(false)
   const user = useCurrentUser();
 
   if (!user) {
     return null
   }
 
+  const handleCloseDropDownMenu = () => {
+    setOpen(false)
+  }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
+    <DropdownMenu open={open} onOpenChange={handleCloseDropDownMenu}>
+      <DropdownMenuTrigger onClick={()=>setOpen(true)}>
         <Avatar>
           <AvatarImage
             src={user?.image || ""}
@@ -37,7 +43,7 @@ const AccountMenu = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="blur-bg p-3">
-        <DropdownMenuItem className="focus:bg-gray-400">
+        <DropdownMenuItem className="focus:bg-gray-400" onClick={handleCloseDropDownMenu}>
           <Link
             href={"/profile"}
             className="flex items-center gap-2 text-white font-normal"
@@ -46,7 +52,7 @@ const AccountMenu = () => {
             Manage My Account
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-gray-400">
+        <DropdownMenuItem className="focus:bg-gray-400" onClick={handleCloseDropDownMenu}>
           <Link
             href={"/profile/orders"}
             className="flex items-center gap-2 text-white font-normal"
@@ -55,7 +61,7 @@ const AccountMenu = () => {
             My Orders
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-gray-400">
+        <DropdownMenuItem className="focus:bg-gray-400" onClick={handleCloseDropDownMenu}>
           <Link
             href={"/profile/cancellation"}
             className="flex items-center gap-2 text-white font-normal"
@@ -64,7 +70,7 @@ const AccountMenu = () => {
             My Cancellation
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="focus:bg-gray-400">
+        <DropdownMenuItem className="focus:bg-gray-400" onClick={handleCloseDropDownMenu}>
           <Link
             href={"/profile/reviews"}
             className="flex items-center gap-2 text-white font-normal"
