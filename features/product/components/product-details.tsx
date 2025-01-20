@@ -214,8 +214,8 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
             )}
           </div>
         )}
-        <div className="flex items-center gap-2 w-full flex-wrap">
-          <div className="flex items-center">
+        <div className="flex items-center gap-2 w-full flex-wrap md:flex-nowrap">
+          <div className="flex items-center w-full">
             <Button
               variant={"outline"}
               size={"sm"}
@@ -228,7 +228,7 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               type="number"
               value={cartProduct?.quantity || 1}
               min={1}
-              className="w-full max-w-20 h-10 text-center font-bold rounded-none p-0"
+              className="w-full h-10 text-center font-bold rounded-none p-0"
               readOnly
             />
             <Button
@@ -240,11 +240,11 @@ export const ProductDetails = ({ productId }: { productId: string }) => {
               <FaPlus className="w-4 h-4" />
             </Button>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full">
             <Button
               variant={"destructive"}
               size={"lg"}
-              className="rounded-sm w-full md:max-w-40"
+              className="rounded-sm w-full"
               onClick={addProductToCart}
               disabled={isAddingToCart || couldNotAddToCart}
             >

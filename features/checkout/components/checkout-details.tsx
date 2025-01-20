@@ -34,7 +34,7 @@ const CheckoutDetails = ({
       {cartData.cart.cartItems.map((item) => (
         <div
           key={item.id}
-          className="flex items-center justify-between gap-2 w-full"
+          className="flex items-center justify-between gap-2 w-full flex-wrap"
         >
           <div className="flex items-center gap-3 w-full max-w-[300px]">
             <Image
@@ -45,7 +45,7 @@ const CheckoutDetails = ({
             />
             <h1 className="text-sm truncate">{item.product?.name}</h1>
           </div>
-          <span className="text-sm">{formatPrice(item.total)}</span>
+          <span className="text-sm font-semibold">{formatPrice(item.total)}</span>
         </div>
       ))}
       <div className="flex flex-col items-start gap-4 w-full my-5">
@@ -88,7 +88,7 @@ const CheckoutDetails = ({
       <PaymentOptions form={form} />
       <ApplyCoupon />
       <Button
-        className="w-full max-w-[200px] h-12 rounded-sm flex items-center gap-2"
+        className="w-full md:max-w-[200px] h-12 rounded-sm flex items-center gap-2"
         size={"lg"}
         variant={"destructive"}
         disabled={cartData.cart.cartItems.length === 0 || isLoading}
