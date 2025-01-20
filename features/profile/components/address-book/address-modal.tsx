@@ -37,7 +37,7 @@ const AddressModal = ({
           <Button
             variant={variant === "add" ? "destructive" : "outline"}
             size={title ? "default" : "icon"}
-            className="flex items-center justify-center gap-3 ml-auto"
+            className="flex items-center justify-center gap-3 mr-auto md:ml-auto"
           >
             <Icon className="w-5 h-5" />
             {title}

@@ -14,7 +14,7 @@ const AddressBookCard = ({ address }: AddressBookCardProps) => {
         <h1 className="text-lg font-semibold text-black">
           {address.isDefault && "Default Address"}
         </h1>
-        <div className="hidden items-center gap-2 flex-wrap group-hover:flex absolute top-0 right-0">
+        <div className="flex md:hidden items-center gap-2 flex-wrap group-hover:flex absolute top-0 right-0">
           <EditAddressBookForm address={address} />
           <DeleteAddressButton addressId={address.id} />
         </div>

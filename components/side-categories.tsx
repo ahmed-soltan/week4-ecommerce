@@ -8,7 +8,7 @@ import { useCategories } from "@/hooks/use-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SideCategories = () => {
-  const { categories, isPending , isLoading } = useCategories();
+  const { categories , isLoading } = useCategories();
 
   if (isLoading) {
     return (

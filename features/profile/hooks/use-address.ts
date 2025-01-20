@@ -50,6 +50,7 @@ export const useAddress = () => {
   } = useQuery({
     queryKey: ["addresses"],
     queryFn: getAddressesApi,
+    staleTime: 1000 * 60 * 20,
   });
 
   const { mutate: addAddress, isPending: isAddingAddress } = useMutation({

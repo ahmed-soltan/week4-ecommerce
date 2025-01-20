@@ -1,9 +1,10 @@
 "use client";
 
+import { LuLoader2 } from "react-icons/lu";
+
 import AddressBookCard from "./address-book-card";
 
 import { useAddress } from "../../hooks/use-address";
-import { LuLoader2 } from "react-icons/lu";
 
 const AddressBook = () => {
   const { addresses, isLoading } = useAddress();
@@ -23,7 +24,7 @@ const AddressBook = () => {
   return (
     <div className="flex flex-col items-start w-full gap-5">
       {addresses?.map((address) => (
-        <AddressBookCard address={address} />
+        <AddressBookCard address={address} key={address.id}/>
       ))}
     </div>
   );

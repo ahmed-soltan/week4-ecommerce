@@ -4,32 +4,23 @@ import { FaBarsProgress } from "react-icons/fa6";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import ProfileSidebar from "./profile-sidebar";
 
 const ResponsiveProfileSidebar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
         <Button className="ml-3" variant={"outline"} size={"icon"}>
           <FaBarsProgress className="w-5 h-5" />
         </Button>
-      </SheetTrigger>
-      <SheetContent side={"left"}>
-        <SheetHeader>
-          <SheetTitle></SheetTitle>
-        </SheetHeader>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side={"bottom"} className="w-full max-w-[400px] ml-4 p-2">
         <ProfileSidebar setOpen={setOpen}/>
-      </SheetContent>
-    </Sheet>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

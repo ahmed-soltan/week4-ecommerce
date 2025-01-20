@@ -1,5 +1,3 @@
-"use client";
-
 import ContainerWrapper from "@/components/container-wrapper";
 import { Separator } from "@/components/ui/separator";
 
@@ -9,8 +7,8 @@ import DiscountProductAd from "@/features/home/components/discount-product-ad";
 import DiscountProducts from "@/features/home/components/discount-products";
 import ExploreProducts from "@/features/home/components/explore-products";
 import NewArrival from "@/features/home/components/new-arrival";
-import SideCategories from "@/components/side-categories";
 import CarouselCategories from "@/features/home/components/carousel-categories";
+import SideCategories from "@/components/side-categories";
 import Services from "@/components/services";
 
 const Home = () => {

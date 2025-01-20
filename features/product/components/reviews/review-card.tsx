@@ -19,6 +19,8 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { toast } from "@/hooks/use-toast";
 
 import { reviewSchema } from "@/schemas";
+import { FaEye } from "react-icons/fa";
+import Link from "next/link";
 
 interface ReviewCardProps {
   review: ReviewType;
@@ -83,89 +85,49 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
         isLoading={isDeletingReview}
       />
       <div className="flex items-start w-full p-5 group relative">
-        {!isEditing && (
-          <div className="flex items-start justify-start flex-col gap-2 w-full">
-            <div className="flex items-center justify-start gap-2">
-              <div className="relative w-[50px]">
-                <Avatar>
-                  <AvatarImage
-                    src={review.user?.image || ""}
-                    alt={review.user.name || "user Image"}
-                    className="bg-rose-500"
-                  />
-                  <AvatarFallback className="bg-rose-500 text-white">
-                    <FiUser />
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-              <div className=" flex flex-col items-start">
-                <h1 className="text-slate-900 font-medium ">
-                  {review.user.name || "Guest"}
-                </h1>
-                <p className="text-slate-500 text-sm">
-                  {formatDateLabel(review.createdAt)}
-                </p>
-              </div>
+        <div className="flex items-start justify-start flex-col gap-2 w-full">
+          <div className="flex items-center justify-start gap-2">
+            <div className="relative w-[50px]">
+              <Avatar>
+                <AvatarImage
+                  src={review.user?.image || ""}
+                  alt={review.user.name || "user Image"}
+                  className="bg-rose-500"
+                />
+                <AvatarFallback className="bg-rose-500 text-white">
+                  <FiUser />
+                </AvatarFallback>
+              </Avatar>
             </div>
-            <Rating rating={review.rating} />
+            <div className=" flex flex-col items-start">
+              <h1 className="text-slate-900 font-medium ">
+                {review.user.name || "Guest"}
+              </h1>
+              <p className="text-slate-500 text-sm">
+                {formatDateLabel(review.createdAt)}
+              </p>
+            </div>
+          </div>
+          <Rating rating={review.rating} />
 
-            <Renderer value={review.comment} />
-            <Separator className="my-2" />
-          </div>
-        )}
-        {isEditing && (
-          <div className="w-full h-full flex flex-col items-start gap-5">
-            <h1 className="text-2xl font-semibold">Edit Your Review</h1>
-            <Editor
-              onSubmit={onSubmit}
-              disabled={isUpdatingReview}
-              defaultValues={JSON.parse(review.comment)}
-              rating={review.rating}
-              onCancel={() => setIsEditing(false)}
-              variant="update"
-              placeHolder="Update"
-            />
-          </div>
-        )}
-        {user && user.id === review.userId && (
-          <div className="absolute right-2 top-5 flex items-center gap-2 opacity-0 group-hover:opacity-100">
-            {!isEditing && (
-              <>
-                <Hint label="Edit" side="top" align="center">
-                  <Button
-                    variant={"outline"}
-                    size={"icon"}
-                    onClick={() => setIsEditing(true)}
-                  >
-                    <FiEdit className="w-4 h-4" />
-                  </Button>
-                </Hint>
-                <Hint label="Delete" side="top" align="center">
-                  <Button
-                    variant={"outline"}
-                    size={"icon"}
-                    onClick={() => setConfirmModalOpen(true)}
-                  >
-                    <LuTrash2 className="w-4 h-4" />
-                  </Button>
-                </Hint>
-              </>
-            )}
-            {isEditing && (
-              <>
-                <Hint label="Cancel" side="top" align="center">
-                  <Button
-                    variant={"outline"}
-                    size={"icon"}
-                    onClick={() => setIsEditing(false)}
-                  >
-                    <FiX className="w-4 h-4" />
-                  </Button>
-                </Hint>
-              </>
-            )}
-          </div>
-        )}
+          <Renderer value={review.comment} />
+          <Separator className="my-2" />
+        </div>
+
+        <div className="absolute right-2 top-0 md:opacity-0 group-hover:opacity-100">
+          <Hint label="View Product" side="top" align="center">
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => setIsEditing(true)}
+              asChild
+            >
+              <Link href={`/product/${review.productId}`}>
+                <FaEye className="w-4 h-4" />
+              </Link>
+            </Button>
+          </Hint>
+        </div>
       </div>
     </>
   );

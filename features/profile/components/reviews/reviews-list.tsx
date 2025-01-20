@@ -3,12 +3,9 @@
 import dynamic from "next/dynamic";
 
 import ReviewCard from "@/features/product/components/reviews/review-card";
-
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useUserReviews } from "../../hooks/use-user-reviews";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false });
+import { useUserReviews } from "../../hooks/use-user-reviews";
 
 const ReviewsList = () => {
   const {reviews , isLoading} = useUserReviews()

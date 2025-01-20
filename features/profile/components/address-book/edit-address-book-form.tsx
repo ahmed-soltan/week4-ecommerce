@@ -39,7 +39,7 @@ const EditAddressBookForm = ({ address }: EditAddressBookFormProps) => {
 
   const onSubmit = (data: z.infer<typeof AddressSchema>) => {
     updateAddress({ data, addressId: address.id });
-    setTimeout(() => setOpen(false), 1000);
+    setTimeout(() => setOpen(false), 2000);
     form.reset()
   };
 

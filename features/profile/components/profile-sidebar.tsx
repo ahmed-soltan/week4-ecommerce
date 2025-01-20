@@ -47,8 +47,10 @@ const ProfileSidebar = ({ setOpen }: { setOpen?: (open: boolean) => void }) => {
       ],
     },
   ];
+
+  
   return (
-    <div className="flex flex-col items-start gap-5">
+    <div className="flex flex-col items-start gap-5 w-full">
       {sidebarRoutes.map((route, index) => {
         return (
           <SidebarRoute key={index} title={route.title} routes={route.routes} setOpen={setOpen}/>

@@ -23,9 +23,9 @@ const Navbar = () => {
   const pathname = usePathname();
   const { cartItemsLength } = useCart();
   const { wishlistProductsLength } = useWishlist();
+  const { WishlistLength } = useWishlistStore();
   const { cartLength } = useCartStore();
 
-  const { WishlistLength } = useWishlistStore();
 
   return (
     <div className=" border-b">
@@ -33,7 +33,13 @@ const Navbar = () => {
         <h1 className="text-2xl font-bold">
           <Link href={"/"}>Exclusive</Link>
         </h1>
-        <div className="block md:hidden">
+        <div className="flex items-center gap-5 md:hidden">
+          <Link href={"/cart"} className="relative">
+            <IoCartOutline className="w-8 h-8" />
+            <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-red text-white text-center text-xs">
+              {user ? cartItemsLength : cartLength()}
+            </span>
+          </Link>
           <Sidebar />
         </div>
         <ul className="hidden md:flex items-center gap-10">

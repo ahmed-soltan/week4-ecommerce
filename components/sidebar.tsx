@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { FaAngleRight, FaArrowRight, FaBars } from "react-icons/fa";
+import { FaAngleRight, FaBars } from "react-icons/fa";
+import { RiLogoutBoxLine } from "react-icons/ri";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 import {
@@ -15,18 +18,25 @@ import SearchCommand from "./search-command";
 import LanguageConverter from "./language-converter";
 import SideCategories from "@/components/side-categories";
 import { Separator } from "./ui/separator";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import Image from "next/image";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { FiUser } from "react-icons/fi";
 import AccountMenu from "./account-menu";
+
+import useWishlistStore from "@/store/wishlist-store";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useWishlist } from "@/hooks/use-wishlist";
+
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const user = useCurrentUser();
+  const { wishlistProductsLength } = useWishlist();
+
+  const { WishlistLength } = useWishlistStore();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -43,6 +53,7 @@ const Sidebar = () => {
                 <Link
                   href={"/profile"}
                   className="text-sm underline flex items-center text-gray-500"
+                  onClick={handleClose}
                 >
                   View Profile <FaAngleRight className="w-3 h-3" />
                 </Link>
@@ -54,6 +65,7 @@ const Sidebar = () => {
           <SearchCommand />
           <ul className="flex flex-col items-start gap-4">
             <li
+              onClick={handleClose}
               className={cn(
                 "text-black text-md",
                 pathname === "/" && "underline"
@@ -62,6 +74,7 @@ const Sidebar = () => {
               <Link href={"/"}>Home</Link>
             </li>
             <li
+              onClick={handleClose}
               className={cn(
                 "text-black text-md",
                 pathname === "/contact" && "underline"
@@ -70,6 +83,7 @@ const Sidebar = () => {
               <Link href={"/contact"}>Contact</Link>
             </li>
             <li
+              onClick={handleClose}
               className={cn(
                 "text-black text-md",
                 pathname === "/about" && "underline"
@@ -79,6 +93,7 @@ const Sidebar = () => {
             </li>
             {!user && (
               <li
+                onClick={handleClose}
                 className={cn(
                   "text-black text-md",
                   pathname === "/auth/register" && "underline"
@@ -87,12 +102,37 @@ const Sidebar = () => {
                 <Link href={"/auth/register"}>Sign up</Link>
               </li>
             )}
+            <li
+              className={cn(
+                "text-black text-md",
+                pathname === "/about" && "underline"
+              )}
+            >
+              <Link href={"/wishlist"} className="relative">
+                Wishlist{" "}
+                <span className="text-xs">
+                  ( {user ? wishlistProductsLength : WishlistLength()} )
+                </span>
+              </Link>
+            </li>
           </ul>
           <Separator />
           <h1 className="font-semibold text-lg">Shop By Category</h1>
           <SideCategories />
           <Separator />
-          <LanguageConverter isSidebar={true} />
+          <div className="flex items-center gap-2 w-full justify-between">
+            {user && (
+              <Link
+                href={"#"}
+                onClick={() => signOut()}
+                className="flex items-center gap-2 font-normal"
+              >
+                <RiLogoutBoxLine className="w-5 h-5" />
+                Logout
+              </Link>
+            )}
+            <LanguageConverter isSidebar={true} />
+          </div>
         </div>
       </SheetContent>
     </Sheet>

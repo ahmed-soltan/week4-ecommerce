@@ -126,7 +126,7 @@ const ProfileForm = () => {
             )}
           />
         </div>
-        <div className="ml-auto flex gap-2 flex-wrap sm:flex-nowrap">
+        <div className="mx-auto md:ml-auto flex gap-2 flex-wrap sm:flex-nowrap">
           <Button
             variant={"ghost"}
             size={"lg"}

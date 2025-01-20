@@ -15,7 +15,7 @@ export default function ProfileLayout({
         <div className="hidden lg:block">
           <ProfileSidebar />
         </div>
-        <div className="block lg:hidden">
+        <div className="block lg:hidden w-full">
           <ResponsiveProfileSidebar />
         </div>
         <div className="col-span-1 lg:col-span-3">{children}</div>

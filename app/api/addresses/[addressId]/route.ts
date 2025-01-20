@@ -13,14 +13,7 @@ export const PATCH = async (
     }
 
     const body = await req.json();
-
-    const updatedAddress = await db.address.update({
-      where: { id: params.addressId },
-      data: {
-        ...body,
-      },
-    });
-
+    
     if (body.isDefault) {
       const defaultAddress = await db.address.findFirst({
         where: {
@@ -36,6 +29,14 @@ export const PATCH = async (
         });
       }
     }
+
+    const updatedAddress = await db.address.update({
+      where: { id: params.addressId },
+      data: {
+        ...body,
+      },
+    });
+
 
     return NextResponse.json(updatedAddress);
   } catch (error) {

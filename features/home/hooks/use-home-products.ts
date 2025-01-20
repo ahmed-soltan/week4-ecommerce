@@ -22,6 +22,8 @@ export const useHomeProducts = () => {
     queryKey: ["products"],
     queryFn: fetchProducts,
     refetchOnWindowFocus: false,
+    staleTime:Infinity,
+    refetchInterval:Infinity,
   });
 
   return { products: data?.products, isLoading, isFetching };

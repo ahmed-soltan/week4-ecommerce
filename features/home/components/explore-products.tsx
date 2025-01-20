@@ -11,9 +11,9 @@ const ExploreProducts = () => {
   if (isLoading || !products) {
     return (
       <div className="flex items-center gap-4 flex-wrap">
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
-        <Skeleton className="w-full max-w-[270px] h-[350px]" />
+        <Skeleton className="w-full min-w-[270px] h-[350px]" />
+        <Skeleton className="w-full min-w-[270px] h-[350px]" />
+        <Skeleton className="w-full min-w-[270px] h-[350px]" />
       </div>
     );
   }
