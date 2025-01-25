@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +38,7 @@ const ContactForm = () => {
         className="space-y-4 w-full p-10 shadow-md rounded-md border-[.5px]"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="flex items-center justify-between gap-3 w-full">
+        <div className="flex items-center justify-between gap-3 w-full flex-wrap lg:flex-nowrap">
           <FormField
             name="name"
             control={form.control}
